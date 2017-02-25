@@ -1,20 +1,16 @@
 apply plugin: 'groovy'
 apply plugin: 'maven'
 
-
 dependencies {
     compile gradleApi()
     compile localGroovy()
-    compile 'com.android.tools.build:transform-api:1.5.0'
-
-
 }
 
 repositories {
     mavenCentral()
 }
 group='com.quinn.gradle.plugin'
-version='2.0.0'
+version='4.0.0'
 
 uploadArchives {
     repositories {
