@@ -31,15 +31,15 @@ dependencies {
 }
 
 
-//
-//buildscript {
-//    repositories {
-//        maven {
-//            url uri('../repo')
-//        }
-//    }
-//    dependencies {
-//        classpath 'com.quinn.gradle.plugin:groovyplug:2.0.0'
-//    }
-//}
-//apply plugin: 'plugindemo'
+
+buildscript {
+    repositories {
+        maven {
+            url uri('../repo')
+        }
+    }
+    dependencies {
+        classpath 'com.quinn.gradle.plugin:groovyplug:4.0.0'
+    }
+}
+apply plugin: 'plugindemo'
