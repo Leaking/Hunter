@@ -12,6 +12,5 @@ public class PluginImpl implements Plugin<Project> {
         project.task('testTask') << {
             println "Hello gradle plugin"
         }
-        target.android.registerTransform(new QuinnTransform())
     }
 }

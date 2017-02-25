@@ -19,6 +19,7 @@ android {
     }
 }
 
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -30,15 +31,15 @@ dependencies {
 }
 
 
-
-buildscript {
-    repositories {
-        maven {
-            url uri('../repo')
-        }
-    }
-    dependencies {
+//
+//buildscript {
+//    repositories {
+//        maven {
+//            url uri('../repo')
+//        }
+//    }
+//    dependencies {
 //        classpath 'com.quinn.gradle.plugin:groovyplug:2.0.0'
-    }
-}
+//    }
+//}
 //apply plugin: 'plugindemo'
