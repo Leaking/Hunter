@@ -37,9 +37,11 @@ buildscript {
         maven {
             url uri('../repo')
         }
+        mavenCentral()
+        jcenter()
     }
     dependencies {
-        classpath 'com.quinn.gradle.plugin:groovyplug:4.0.0'
+        classpath 'com.quinn.gradle.plugin:groovyplug:5.0.0'
     }
 }
 apply plugin: 'plugindemo'
