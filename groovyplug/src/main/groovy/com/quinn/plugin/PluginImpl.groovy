@@ -12,5 +12,6 @@ public class PluginImpl implements Plugin<Project> {
         project.task('testTask') << {
             println "Hello gradle plugin"
         }
+        project.android.registerTransform(new BlogTransform())
     }
 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TransformApi.iml" filepath="$PROJECT_DIR$/TransformApi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GradleLearn.iml" filepath="$PROJECT_DIR$/GradleLearn.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/groovyplug/groovyplug.iml" filepath="$PROJECT_DIR$/groovyplug/groovyplug.iml" />
     </modules>
