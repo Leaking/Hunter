@@ -5,10 +5,13 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
     compile 'com.android.tools.build:transform-api:1.5.0'
+    compile 'org.javassist:javassist:3.20.0-GA'
+    compile 'commons-io:commons-io:2.5'
 }
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 group='com.quinn.gradle.plugin'
 version='5.0.0'
