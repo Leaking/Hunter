@@ -10,6 +10,7 @@ public class MyInject {
     private static String injectStr = "System.out.println(\"I Love HuaChao\" ); ";
 
     public static void injectDir(String path, String packageName) {
+        println("Begin to inject packageName = " + packageName )
         pool.appendClassPath(path)
         File dir = new File(path)
         if (dir.isDirectory()) {
@@ -24,6 +25,7 @@ public class MyInject {
                     // 判断当前目录是否是在我们的应用包里面
                     int index = filePath.indexOf(packageName);
                     boolean isMyPackage = index != -1;
+                    println("Begin to inject filePath " + filePath + " isMyPackage = " + isMyPackage)
                     if (isMyPackage) {
                         int end = filePath.length() - 6 // .class = 6
                         String className = filePath.substring(index, end).replace('\\', '.').replace('/', '.')
