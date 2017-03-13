@@ -41,10 +41,14 @@ public class MyInject {
                         if (cts == null || cts.length == 0) {
                             //手动创建一个构造函数
                             CtConstructor constructor = new CtConstructor(new CtClass[0], c)
-                            constructor.insertBeforeBody(injectStr)
-                            c.addConstructor(constructor)
+                            if(constructor.getAnnotations() != null && constructor.getAnnotations().length > 0) {
+                                constructor.insertBeforeBody(injectStr)
+                                c.addConstructor(constructor)
+                            }
                         } else {
-                            cts[0].insertBeforeBody(injectStr)
+                            if(cts[0].getAnnotations() != null && cts[0].getAnnotations().length > 0) {
+                                cts[0].insertBeforeBody(injectStr)
+                            }
                         }
                         c.writeFile(path)
                         c.detach()
