@@ -1,1 +1,1 @@
-include ':app', ':groovyplug'
+include ':lolita-example', ':lolita-plugin', ':lolita-annotations'
