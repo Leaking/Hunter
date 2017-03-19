@@ -1,4 +1,4 @@
-package com.quinn.plugin
+package com.lolita.plugin
 
 import java.util.jar.JarEntry
 import java.util.jar.JarFile

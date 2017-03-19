@@ -1,4 +1,4 @@
-package com.quinn.plugin;
+package com.lolita.plugin
 
 /**
  * Created by Quinn on 26/02/2017.
@@ -16,7 +16,7 @@ import com.android.build.api.transform.TransformOutputProvider
 import org.apache.commons.io.FileUtils
 
 
-class BlogTransform extends Transform {
+class Lolita extends Transform {
 
     @Override
     String getName() {
@@ -46,7 +46,7 @@ class BlogTransform extends Transform {
             //对类型为“文件夹”的input进行遍历
             input.directoryInputs.each { DirectoryInput directoryInput ->
                 //文件夹里面包含的是我们手写的类以及R.class、BuildConfig.class以及R$XXX.class等
-                MyInject.injectDir(directoryInput.file.absolutePath,"com/example/quinn/transformapi")
+                Injecter.injectDir(directoryInput.file.absolutePath,"com/lolita/example")
                 // 获取output目录
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
