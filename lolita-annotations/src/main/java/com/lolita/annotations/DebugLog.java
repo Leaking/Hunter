@@ -1,4 +1,4 @@
-package com.lolita.example;
+package com.lolita.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,9 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by Quinn on 14/03/2017.
+ * Created by Quinn on 19/03/2017.
  */
 
-
-public @interface Data {
+@Target(ElementType.CONSTRUCTOR)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DebugLog {
 }

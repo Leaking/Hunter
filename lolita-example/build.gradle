@@ -4,12 +4,11 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.1"
     defaultConfig {
-        applicationId "com.example.quinn.transformapi"
+        applicationId "com.lolita.example"
         minSdkVersion 15
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -27,7 +26,6 @@ dependencies {
 }
 
 
-
 buildscript {
     repositories {
         maven {
@@ -37,7 +35,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.quinn.gradle.plugin:groovyplug:5.0.0'
+        classpath 'com.lolita.plugin:lolita-plugin:1.0.0'
     }
 }
-apply plugin: 'plugindemo'
+apply plugin: 'lolita'
