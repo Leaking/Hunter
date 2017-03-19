@@ -1,2 +1,2 @@
-# GradleLearn
-Note of learning gradle
+# Lolita
+
