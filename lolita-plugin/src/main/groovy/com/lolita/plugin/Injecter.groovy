@@ -15,7 +15,6 @@ public class Injecter {
         File dir = new File(path)
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
-
                 String filePath = file.absolutePath
                 //确保当前文件是class文件，并且不是系统自动生成的class文件
                 if (filePath.endsWith(".class")
