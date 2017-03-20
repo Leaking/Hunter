@@ -9,8 +9,8 @@ import org.gradle.api.Project;
 
 public class LolitaPlugin implements Plugin<Project> {
     void apply(Project project) {
-        project.task('testTask') << {
-            println "Hello gradle plugin"
+        project.dependencies {
+            compile 'com.lolita.annotations:lolita-annotations:1.0.0'
         }
         project.android.registerTransform(new Lolita())
     }

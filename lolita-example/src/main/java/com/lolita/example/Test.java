@@ -1,7 +1,6 @@
 package com.lolita.example;
 
 
-
 /**
  * Created by HuaChao on 2016/7/4.
  */

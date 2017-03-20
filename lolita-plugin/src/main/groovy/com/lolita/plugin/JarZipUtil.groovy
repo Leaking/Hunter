@@ -17,7 +17,6 @@ public class JarZipUtil {
      * @return 返回该jar包中包含的所有class的完整类名类名集合，其中一条数据如：com.aitski.hotpatch.Xxxx.class
      */
     public static List unzipJar(String jarPath, String destDirPath) {
-
         List list = new ArrayList()
         if (jarPath.endsWith('.jar')) {
 

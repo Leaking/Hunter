@@ -25,6 +25,13 @@ dependencies {
     compile 'com.android.tools.build:transform-api:1.5.0'
 }
 
+repositories {
+    jcenter()
+    mavenLocal()
+    maven {
+        url uri('../repo')
+    }
+}
 
 buildscript {
     repositories {
