@@ -9,6 +9,7 @@ import org.gradle.api.Project;
 
 public class LolitaPlugin implements Plugin<Project> {
     void apply(Project project) {
+        print "LolitaPlugin project here " + project.getName();
         project.dependencies {
             compile 'com.lolita.annotations:lolita-annotations:1.0.0'
         }
