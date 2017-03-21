@@ -6,6 +6,8 @@ dependencies {
     compile 'com.android.tools.build:transform-api:1.5.0'
     compile 'org.javassist:javassist:3.20.0-GA'
     compile 'commons-io:commons-io:2.5'
+    compile gradleApi()
+    compile localGroovy()
     compile 'com.lolita.annotations:lolita-annotations:1.0.0'
 }
 
