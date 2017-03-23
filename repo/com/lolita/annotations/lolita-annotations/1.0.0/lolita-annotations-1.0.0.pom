@@ -5,5 +5,4 @@
   <groupId>com.lolita.annotations</groupId>
   <artifactId>lolita-annotations</artifactId>
   <version>1.0.0</version>
-  <packaging>aar</packaging>
 </project>
