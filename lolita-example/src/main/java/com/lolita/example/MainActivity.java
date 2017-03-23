@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.e(TAG, "<===================");
         new Test();
+        new Test2();
         Log.e(TAG, "===================>");
     }
 }

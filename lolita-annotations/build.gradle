@@ -1,28 +1,21 @@
-apply plugin: 'com.android.library'
+apply plugin: 'java'
 apply plugin: 'maven'
 
-android {
-    compileSdkVersion 24
-    buildToolsVersion "25.0.1"
 
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
-
+buildscript {
+    repositories {
+        jcenter()
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    dependencies {
     }
 }
 
-dependencies {
-
+repositories {
+    jcenter()
 }
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 
 group='com.lolita.annotations'
