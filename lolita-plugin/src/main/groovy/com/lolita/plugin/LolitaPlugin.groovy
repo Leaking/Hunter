@@ -13,6 +13,18 @@ public class LolitaPlugin implements Plugin<Project> {
         project.dependencies {
             compile 'com.lolita.annotations:lolita-annotations:1.0.0'
         }
+
+        def rootDir = project.rootDir
+        def localProperties = new File(rootDir, "local.properties")
+        if (localProperties.exists()) {
+            Properties properties = new Properties()
+            localProperties.withInputStream { instr ->
+                properties.load(instr)
+            }
+            def sdkDir = properties.getProperty('sdk.dir')
+            print sdkDir + "\n"
+        }
+
         project.android.registerTransform(new Lolita())
     }
 }
