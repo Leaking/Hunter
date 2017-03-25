@@ -20,7 +20,7 @@ class Lolita extends Transform {
 
     @Override
     String getName() {
-        return "BlogDoNothing"
+        return "Lolita"
     }
 
     @Override
@@ -42,6 +42,7 @@ class Lolita extends Transform {
     void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println("Start to transform")
         // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
+
         inputs.each { TransformInput input ->
             //对类型为“文件夹”的input进行遍历
             input.directoryInputs.each { DirectoryInput directoryInput ->

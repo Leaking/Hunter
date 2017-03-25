@@ -3,15 +3,22 @@ package com.lolita.plugin
 import javassist.ClassPool
 import javassist.CtClass
 import javassist.CtConstructor
+import javassist.CtField
+import javassist.CtMember
+import javassist.CtMethod
+import javassist.Modifier
+import org.gradle.internal.impldep.org.apache.http.util.TextUtils
+import org.gradle.util.TextUtil
 
 public class Injecter {
 
     private static ClassPool pool = ClassPool.getDefault()
-    private static String injectStr = "System.out.println(\"I Love HuaChao\" ); ";
+    private static String injectStr = "System.out.println(\"Inserted code\" ); ";
 
     public static void injectDir(String path, String packageName) {
         println("Begin to inject packageName = " + packageName )
         pool.appendClassPath(path)
+        pool.appendClassPath("/Users/susan_sfy/Library/Android/sdk/platforms/android-24/android.jar")
         File dir = new File(path)
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
@@ -34,19 +41,21 @@ public class Injecter {
                         if (c.isFrozen()) {
                             c.defrost()
                         }
-
-                        CtConstructor[] cts = c.getDeclaredConstructors()
                         pool.importPackage("android.util.Log");
-                        if (cts == null || cts.length == 0) {
-                            //手动创建一个构造函数
-                            CtConstructor constructor = new CtConstructor(new CtClass[0], c)
-                            if(constructor.getAnnotations() != null && constructor.getAnnotations().length > 0) {
-                                constructor.insertBeforeBody(injectStr)
-                                c.addConstructor(constructor)
-                            }
-                        } else {
-                            if(cts[0].getAnnotations() != null && cts[0].getAnnotations().length > 0) {
-                                cts[0].insertBeforeBody(injectStr)
+                        pool.importPackage("android.os.Bundle");
+
+                        CtClass addFieldClass = ClassPool.getDefault().get("java.util.HashMap");
+                        CtField f = new CtField(addFieldClass, "timeMap", c);
+
+                        c.addField(f);
+
+                        CtMethod[] methods =  c.getDeclaredMethods();
+                        for(CtMethod method: methods) {
+                            boolean emptyMethod = method.isEmpty()
+                            boolean isNativeMethod = Modifier.isNative(method.getModifiers());
+                            println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
+                            if (!emptyMethod && !isNativeMethod) {
+                                method.insertAfter(injectStr)
                             }
                         }
                         c.writeFile(path)
