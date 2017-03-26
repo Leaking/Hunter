@@ -23,8 +23,10 @@ public class Test {
 
     private void sleep() {
 
-
         a = 10;
     }
+
+
+
 
 }
