@@ -15,7 +15,9 @@ import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
 import org.apache.commons.io.FileUtils
 
-
+/**
+ * Transform to modify bytecode
+ */
 class Lolita extends Transform {
 
     def androidClassPath;
