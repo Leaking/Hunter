@@ -16,84 +16,65 @@ import javassist.compiler.MemberResolver
 import org.gradle.internal.impldep.org.apache.http.util.TextUtils
 import org.gradle.util.TextUtil
 
-public class Injecter {
+public class ByteCodeWeaver {
 
     private static ClassPool pool = ClassPool.getDefault()
-    private static String ARG_METHOD = "System.out.println(\"Argument code\" ); ";
-    private static String TIME_METHOD = "System.out.println(\"Time code\" ); ";
 
-    public static void injectDir(String androidClassPath, String path) {
-        println("Begin to inject androidClassPath = " + androidClassPath)
-        println("Begin to inject path = " + path)
+    private String androidClassPath;
+
+    public ByteCodeWeaver(String androidClassPath) {
+        this.androidClassPath = androidClassPath;
+    }
+
+    public void weave(String path) {
+        println("Begin to weave androidClassPath = " + androidClassPath)
+        println("Begin to weave path = " + path)
         pool.appendClassPath(path)
         pool.appendClassPath(androidClassPath)
+        pool.importPackage("android.util.Log");
         File dir = new File(path)
         int indexOfPackage = path.length() + 1;
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
-                if (filePath.endsWith(".class")
-                        && !filePath.contains('R$')
-                        && !filePath.contains('R.class')
-                        && !filePath.contains("BuildConfig.class")) {
-
+                if (isWeavableClass(filePath)) {
                     println("Begin to inject filePath " + filePath)
                     int end = filePath.length() - 6 // .class = 6
                     String className = filePath.substring(indexOfPackage, end).replace(File.separator, '.')
-                    //开始修改class文件
-                    CtClass c = pool.getCtClass(className)
-
-                    if (c.isFrozen()) {
-                        c.defrost()
+                    CtClass clazz = pool.getCtClass(className)
+                    if (clazz.isFrozen()) {
+                        clazz.defrost()
                     }
-                    pool.importPackage("android.util.Log");
-                    pool.importPackage("android.os.Bundle");
-
-                    CtClass addFieldClass = ClassPool.getDefault().get("java.util.HashMap");
-                    CtField f = new CtField(addFieldClass, "timeMap", c);
-                    c.addField(f);
-
-                    CtMethod[] methods = c.getDeclaredMethods();
+                    CtMethod[] methods = clazz.getDeclaredMethods();
                     for (CtMethod method : methods) {
                         boolean emptyMethod = method.isEmpty()
                         boolean isNativeMethod = Modifier.isNative(method.getModifiers());
                         println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
                         if (!emptyMethod && !isNativeMethod) {
                             if (method.hasAnnotation(ArgumentDebug.class)) {
-                                String[] params = getMethodParameterNames(method)
-                                StringBuilder parameterDetail = new StringBuilder("\"");
-                                parameterDetail.append(method.getName()).append("[");
-                                for (int i = 0; i < params.length; i++) {
-                                    if (i != 0) {
-                                        parameterDetail.append("\"");
-                                        parameterDetail.append(", ")
-                                    }
-                                    parameterDetail.append(params[i] + " = \" + " + "\$" + (i + 1));
-                                    parameterDetail.append(" + ");
-                                }
-                                parameterDetail.append("\"]\"");
-
-                                println "params = " + Arrays.toString(params)
-                                ARG_METHOD = "Log.i(\"" + c.simpleName + "\"," +
-                                        parameterDetail.toString() +
-                                        ");"
-                                print "ARG_METHOD = " + ARG_METHOD
-                                method.insertAfter(ARG_METHOD)
+                                weaveParameterDebugMethod(clazz, method)
                             }
                             if (method.hasAnnotation(TimingDebug.class)) {
-                                method.insertAfter(TIME_METHOD)
+                                weaveTimingDebugMethod(method)
                             }
                         }
                     }
-                    c.writeFile(path)
-                    c.detach()
-
+                    clazz.writeFile(path)
+                    clazz.detach()
                 }
             }
         }
     }
 
-    public static String[] getMethodParameterNames(CtMethod method) throws Exception {
+
+
+    /**
+     * Get Parmeter Names Of Certain Method
+     * @param method
+     * @return
+     * @throws Exception
+     */
+    public String[] getMethodParameterNames(CtMethod method) throws Exception {
         CtClass cc = method.getDeclaringClass();
         CtClass[] parameterCtClasses = new CtClass[method.getParameterTypes().length];
         for (int i = 0; i < parameterCtClasses.length; i++)
@@ -109,6 +90,36 @@ public class Injecter {
         for (int i = 0; i < parameterNames.length; i++)
             parameterNames[i] = attr.variableName(i + pos);
         return parameterNames;
+    }
+
+    public boolean isWeavableClass(String filePath){
+        return filePath.endsWith(".class") && !filePath.contains('R$') && !filePath.contains('R.class') && !filePath.contains("BuildConfig.class");
+    }
+
+    public void weaveParameterDebugMethod(CtClass clazz, CtMember method) {
+        String[] params = getMethodParameterNames(method)
+        StringBuilder parameterDetail = new StringBuilder("\"");
+        parameterDetail.append(method.getName()).append("[");
+        for (int i = 0; i < params.length; i++) {
+            if (i != 0) {
+                parameterDetail.append("\"");
+                parameterDetail.append(", ")
+            }
+            parameterDetail.append(params[i] + " = \" + " + "\$" + (i + 1));
+            parameterDetail.append(" + ");
+        }
+        parameterDetail.append("\"]\"");
+        println "params = " + Arrays.toString(params)
+        String newCodes = "Log.i(\"" + clazz.simpleName + "\"," +
+                parameterDetail.toString() +
+                ");"
+        print "ARG_METHOD = " + newCodes
+        method.insertAfter(newCodes)
+    }
+
+    public void weaveTimingDebugMethod(CtMethod method) {
+        String timeingCodes = "System.out.println(\"Time code\" ); ";
+        method.insertAfter(timeingCodes)
     }
 
 

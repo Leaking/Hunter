@@ -53,7 +53,8 @@ class Lolita extends Transform {
 
         inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                Injecter.injectDir(androidClassPath, directoryInput.file.absolutePath)
+                ByteCodeWeaver byteCodeWeaver = new ByteCodeWeaver(androidClassPath);
+                byteCodeWeaver.weave(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
