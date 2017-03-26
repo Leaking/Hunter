@@ -16,17 +16,9 @@ public class LolitaPlugin implements Plugin<Project> {
         project.dependencies {
             compile 'com.lolita.annotations:lolita-annotations:1.0.0'
         }
-//        PluginContainer pluginContainer = project.getPlugins()
-//        Plugin androidPlugin = pluginContainer.getPlugin("com.android.application")
-//        println("property = " + androidPlugin.getProperties())
-//        List<PropertyValue> pvs = androidPlugin.getMetaPropertyValues();
-//        for(PropertyValue pv : pvs) {
-//            println("pv = " + pv.getName() + " value = " + pv.getValue())
-//        }
 
         def rootDir = project.rootDir
         def localProperties = new File(rootDir, "local.properties")
-        println "localProperties " + localProperties
         if (localProperties.exists()) {
             Properties properties = new Properties()
             localProperties.withInputStream { instr ->
@@ -49,17 +41,13 @@ public class LolitaPlugin implements Plugin<Project> {
                     }
                 }
             })
-            println "sdkFolder = " + sdkFolder
             availableSdkPaths = availableSdkPaths.sort().reverse()
-            for(File fileItem : availableSdkPaths){
-                println "sdk filename = " + fileItem.getPath()
-            }
+            //Get android.jar which is the max version.
             def androidClassPath = availableSdkPaths[0].getPath() + File.separator + "android.jar";
             project.android.registerTransform(new Lolita(androidClassPath))
         } else {
             throw new RuntimeException(
                     "No local.properties file.")
         }
-
     }
 }
