@@ -22,76 +22,72 @@ public class Injecter {
     private static String ARG_METHOD = "System.out.println(\"Argument code\" ); ";
     private static String TIME_METHOD = "System.out.println(\"Time code\" ); ";
 
-    public static void injectDir(String androidClassPath, String path, String packageName) {
-        println("Begin to inject packageName = " + packageName)
+    public static void injectDir(String androidClassPath, String path) {
         println("Begin to inject androidClassPath = " + androidClassPath)
+        println("Begin to inject path = " + path)
         pool.appendClassPath(path)
         pool.appendClassPath(androidClassPath)
         File dir = new File(path)
+        int indexOfPackage = path.length() + 1;
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
-                //确保当前文件是class文件，并且不是系统自动生成的class文件
                 if (filePath.endsWith(".class")
                         && !filePath.contains('R$')
                         && !filePath.contains('R.class')
                         && !filePath.contains("BuildConfig.class")) {
-                    // 判断当前目录是否是在我们的应用包里面
-                    int index = filePath.indexOf(packageName);
-                    boolean isMyPackage = index != -1;
-                    println("Begin to inject filePath " + filePath + " isMyPackage = " + isMyPackage)
-                    if (isMyPackage) {
-                        int end = filePath.length() - 6 // .class = 6
-                        String className = filePath.substring(index, end).replace('\\', '.').replace('/', '.')
-                        //开始修改class文件
-                        CtClass c = pool.getCtClass(className)
 
-                        if (c.isFrozen()) {
-                            c.defrost()
-                        }
-                        pool.importPackage("android.util.Log");
-                        pool.importPackage("android.os.Bundle");
+                    println("Begin to inject filePath " + filePath)
+                    int end = filePath.length() - 6 // .class = 6
+                    String className = filePath.substring(indexOfPackage, end).replace(File.separator, '.')
+                    //开始修改class文件
+                    CtClass c = pool.getCtClass(className)
 
-                        CtClass addFieldClass = ClassPool.getDefault().get("java.util.HashMap");
-                        CtField f = new CtField(addFieldClass, "timeMap", c);
-                        c.addField(f);
+                    if (c.isFrozen()) {
+                        c.defrost()
+                    }
+                    pool.importPackage("android.util.Log");
+                    pool.importPackage("android.os.Bundle");
 
-                        CtMethod[] methods = c.getDeclaredMethods();
-                        for (CtMethod method : methods) {
-                            boolean emptyMethod = method.isEmpty()
-                            boolean isNativeMethod = Modifier.isNative(method.getModifiers());
-                            println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
-                            if (!emptyMethod && !isNativeMethod) {
-                                if (method.hasAnnotation(ArgumentDebug.class)) {
-                                    String[] params = getMethodParameterNames(method)
-                                    StringBuilder parameterDetail = new StringBuilder("\"");
-                                    parameterDetail.append(method.getName()).append("[");
-                                    for (int i = 0; i < params.length; i++) {
-                                        if(i != 0) {
-                                            parameterDetail.append("\"");
-                                            parameterDetail.append(", ")
-                                        }
-                                        parameterDetail.append(params[i] + " = \" + "  + "\$" + (i + 1));
-                                        parameterDetail.append(" + ");
+                    CtClass addFieldClass = ClassPool.getDefault().get("java.util.HashMap");
+                    CtField f = new CtField(addFieldClass, "timeMap", c);
+                    c.addField(f);
+
+                    CtMethod[] methods = c.getDeclaredMethods();
+                    for (CtMethod method : methods) {
+                        boolean emptyMethod = method.isEmpty()
+                        boolean isNativeMethod = Modifier.isNative(method.getModifiers());
+                        println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
+                        if (!emptyMethod && !isNativeMethod) {
+                            if (method.hasAnnotation(ArgumentDebug.class)) {
+                                String[] params = getMethodParameterNames(method)
+                                StringBuilder parameterDetail = new StringBuilder("\"");
+                                parameterDetail.append(method.getName()).append("[");
+                                for (int i = 0; i < params.length; i++) {
+                                    if (i != 0) {
+                                        parameterDetail.append("\"");
+                                        parameterDetail.append(", ")
                                     }
-                                    parameterDetail.append("\"]\"");
-
-
-                                    println "params = " + Arrays.toString(params)
-                                    ARG_METHOD = "Log.i(\"" + c.simpleName + "\"," +
-                                            parameterDetail.toString() +
-                                            ");"
-                                    print "ARG_METHOD = " + ARG_METHOD
-                                    method.insertAfter(ARG_METHOD)
+                                    parameterDetail.append(params[i] + " = \" + " + "\$" + (i + 1));
+                                    parameterDetail.append(" + ");
                                 }
-                                if (method.hasAnnotation(TimingDebug.class)) {
-                                    method.insertAfter(TIME_METHOD)
-                                }
+                                parameterDetail.append("\"]\"");
+
+                                println "params = " + Arrays.toString(params)
+                                ARG_METHOD = "Log.i(\"" + c.simpleName + "\"," +
+                                        parameterDetail.toString() +
+                                        ");"
+                                print "ARG_METHOD = " + ARG_METHOD
+                                method.insertAfter(ARG_METHOD)
+                            }
+                            if (method.hasAnnotation(TimingDebug.class)) {
+                                method.insertAfter(TIME_METHOD)
                             }
                         }
-                        c.writeFile(path)
-                        c.detach()
                     }
+                    c.writeFile(path)
+                    c.detach()
+
                 }
             }
         }
