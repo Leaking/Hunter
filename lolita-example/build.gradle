@@ -46,4 +46,3 @@ buildscript {
     }
 }
 apply plugin: 'lolita'
-

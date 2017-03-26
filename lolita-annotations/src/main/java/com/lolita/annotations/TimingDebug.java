@@ -5,12 +5,13 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.CLASS;
 
 /**
- * Created by susan_sfy on 3/26/17.
+ * Created by Quinn on 3/26/17.
  */
 
-@Target({METHOD, CONSTRUCTOR}) @Retention(CLASS)
+@Target({TYPE, METHOD, CONSTRUCTOR}) @Retention(CLASS)
 public @interface TimingDebug {
 }

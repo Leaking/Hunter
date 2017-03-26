@@ -18,17 +18,17 @@ import org.apache.commons.io.FileUtils
 /**
  * Transform to modify bytecode
  */
-class Lolita extends Transform {
+class LolitaTransform extends Transform {
 
-    def androidClassPath;
+    private def androidClassPath;
 
-    public Lolita(def androidClassPath){
+    public LolitaTransform(def androidClassPath){
         this.androidClassPath = androidClassPath;
     }
 
     @Override
     String getName() {
-        return "Lolita"
+        return "LolitaTransform"
     }
 
     @Override
