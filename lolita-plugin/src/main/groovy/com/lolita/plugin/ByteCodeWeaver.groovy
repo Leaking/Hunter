@@ -1,6 +1,6 @@
 package com.lolita.plugin
 
-import com.lolita.annotations.ArgumentDebug
+import com.lolita.annotations.ParameterDebug
 import com.lolita.annotations.TimingDebug
 import javassist.ClassPool
 import javassist.CtClass
@@ -51,7 +51,7 @@ public class ByteCodeWeaver {
                         boolean isNativeMethod = Modifier.isNative(method.getModifiers());
                         println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
                         if (!emptyMethod && !isNativeMethod) {
-                            if (method.hasAnnotation(ArgumentDebug.class)) {
+                            if (method.hasAnnotation(ParameterDebug.class)) {
                                 weaveParameterDebugMethod(clazz, method)
                             }
                             if (method.hasAnnotation(TimingDebug.class)) {

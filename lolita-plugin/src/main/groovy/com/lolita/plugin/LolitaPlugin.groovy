@@ -2,9 +2,6 @@ package com.lolita.plugin
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.ApplicationPlugin
-import org.gradle.api.plugins.ExtensionContainer
-import org.gradle.api.plugins.PluginContainer;
 
 /**
  * Created by Quinn on 25/02/2017.
@@ -43,7 +40,7 @@ public class LolitaPlugin implements Plugin<Project> {
             availableSdkPaths = availableSdkPaths.sort().reverse()
             //Get android.jar which is the max version.
             def androidClassPath = availableSdkPaths[0].getPath() + File.separator + "android.jar";
-            project.android.registerTransform(new Lolita(androidClassPath))
+            project.android.registerTransform(new LolitaTransform(androidClassPath))
         } else {
             throw new RuntimeException(
                     "No local.properties file.")
