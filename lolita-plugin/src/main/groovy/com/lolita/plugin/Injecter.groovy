@@ -15,10 +15,11 @@ public class Injecter {
     private static ClassPool pool = ClassPool.getDefault()
     private static String injectStr = "System.out.println(\"Inserted code\" ); ";
 
-    public static void injectDir(String path, String packageName) {
+    public static void injectDir(String androidClassPath, String path, String packageName) {
         println("Begin to inject packageName = " + packageName )
+        println("Begin to inject androidClassPath = " + androidClassPath )
         pool.appendClassPath(path)
-        pool.appendClassPath("/Users/susan_sfy/Library/Android/sdk/platforms/android-24/android.jar")
+        pool.appendClassPath(androidClassPath)
         File dir = new File(path)
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
