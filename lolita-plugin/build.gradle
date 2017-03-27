@@ -18,7 +18,7 @@ repositories {
         url uri('../repo')
     }
 }
-group='com.quinn.lolita'
+group='com.github.Leaking'
 
 //version='1.0.0'
 //
