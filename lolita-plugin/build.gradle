@@ -18,13 +18,14 @@ repositories {
         url uri('../repo')
     }
 }
-group='com.lolita.plugin'
-version='1.0.0'
+group='com.quinn.lolita'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: uri('../repo'))
-        }
-    }
-}
+//version='1.0.0'
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: uri('../repo'))
+//        }
+//    }
+//}
