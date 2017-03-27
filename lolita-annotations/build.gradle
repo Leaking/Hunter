@@ -17,7 +17,7 @@ repositories {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-group='com.quinn.lolita'
+group='com.github.Leaking'
 
 //version='1.0.0'
 //
