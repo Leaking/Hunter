@@ -21,9 +21,11 @@ import org.apache.commons.io.FileUtils
 class LolitaTransform extends Transform {
 
     private def androidClassPath;
+    private ByteCodeWeaver byteCodeWeaver;
 
     public LolitaTransform(def androidClassPath){
         this.androidClassPath = androidClassPath;
+        byteCodeWeaver = new ByteCodeWeaver(androidClassPath);
     }
 
     @Override
@@ -49,11 +51,8 @@ class LolitaTransform extends Transform {
     @Override
     void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println("Start to transform")
-        // Transform的inputs有两种类型，一种是目录，一种是jar包，要分开遍历
-
         inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                ByteCodeWeaver byteCodeWeaver = new ByteCodeWeaver(androidClassPath);
                 byteCodeWeaver.weave(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
