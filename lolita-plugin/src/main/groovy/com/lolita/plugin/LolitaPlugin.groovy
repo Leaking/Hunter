@@ -10,9 +10,6 @@ import org.gradle.api.Project
 public class LolitaPlugin implements Plugin<Project> {
     void apply(Project project) {
         println "LolitaPlugin project apply " + project.getName();
-        project.dependencies {
-            compile 'com.quinn.lolita:lolita-annotations:1.0.0'
-        }
         def rootDir = project.rootDir
         def localProperties = new File(rootDir, "local.properties")
         if (localProperties.exists()) {

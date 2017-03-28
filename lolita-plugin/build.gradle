@@ -4,12 +4,12 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 
 dependencies {
+    compile gradleApi()
+    compile localGroovy()
     compile 'com.android.tools.build:transform-api:1.5.0'
     compile 'org.javassist:javassist:3.20.0-GA'
     compile 'commons-io:commons-io:2.5'
-    compile gradleApi()
-    compile localGroovy()
-    compile 'com.quinn.lolita:lolita-annotations:1.0.0'
+    compile project(':lolita-annotations')
 }
 
 repositories {
@@ -19,14 +19,14 @@ repositories {
         url uri('../repo')
     }
 }
-group='com.quinn.lolita'
+group='com.github.Leaking.Lolita'
 
 version='1.0.0'
 
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: uri('../repo'))
-//        }
-//    }
-//}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('../repo'))
+        }
+    }
+}
