@@ -42,7 +42,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.lolita.plugin:lolita-plugin:1.0.0'
+        classpath 'com.quinn.lolita:lolita-plugin:1.0.0'
     }
 }
 apply plugin: 'lolita'

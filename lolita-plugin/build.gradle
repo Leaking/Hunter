@@ -1,5 +1,6 @@
 apply plugin: 'groovy'
 apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'maven'
 
 
 dependencies {
@@ -8,7 +9,7 @@ dependencies {
     compile 'commons-io:commons-io:2.5'
     compile gradleApi()
     compile localGroovy()
-    compile 'com.lolita.annotations:lolita-annotations:1.0.0'
+    compile 'com.quinn.lolita:lolita-annotations:1.0.0'
 }
 
 repositories {
@@ -18,10 +19,10 @@ repositories {
         url uri('../repo')
     }
 }
-group='com.github.Leaking'
+group='com.quinn.lolita'
 
-//version='1.0.0'
-//
+version='1.0.0'
+
 //uploadArchives {
 //    repositories {
 //        mavenDeployer {
