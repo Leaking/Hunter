@@ -23,7 +23,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.tools.build:transform-api:1.5.0'
-    compile 'com.github.Leaking.Lolita:lolita-annotations:1.0.0'
+    compile 'com.quinn.Lolita:lolita-annotations:1.0.0'
 }
 
 repositories {
@@ -43,7 +43,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.github.Leaking.Lolita:lolita-plugin:1.0.0'
+        classpath 'com.quinn.Lolita:lolita-plugin:1.0.0'
     }
 }
 apply plugin: 'lolita'

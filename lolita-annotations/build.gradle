@@ -1,6 +1,5 @@
 apply plugin: 'java'
-apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'maven'
+apply plugin: 'maven'
 
 
 buildscript {
@@ -18,7 +17,7 @@ repositories {
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-group='com.github.Leaking.Lolita'
+group='com.quinn.Lolita'
 
 version='1.0.0'
 
