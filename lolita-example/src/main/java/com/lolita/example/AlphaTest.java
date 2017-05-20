@@ -1,7 +1,6 @@
 package com.lolita.example;
 
 
-import com.lolita.annotations.ParameterDebug;
 import com.lolita.annotations.TimingDebug;
 
 /**
@@ -26,13 +25,11 @@ public class AlphaTest {
         a = 5;
     }
 
-    @ParameterDebug
+//    @ParameterDebug
     private void sleep(int begin, double second , String hah) {
         a = 10;
     }
 
-    @ParameterDebug
-    @TimingDebug
     private void run() {
         a = 15;
     }

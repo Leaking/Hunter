@@ -2,7 +2,7 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.quinn.lolita</groupId>
+  <groupId>com.quinn.Lolita</groupId>
   <artifactId>lolita-plugin</artifactId>
   <version>1.0.0</version>
   <dependencies>
@@ -25,7 +25,7 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.Leaking</groupId>
+      <groupId>com.quinn.Lolita</groupId>
       <artifactId>lolita-annotations</artifactId>
       <version>1.0.0</version>
       <scope>compile</scope>

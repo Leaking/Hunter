@@ -1,6 +1,5 @@
 apply plugin: 'groovy'
-apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'maven'
+apply plugin: 'maven'
 
 
 dependencies {
@@ -19,7 +18,7 @@ repositories {
         url uri('../repo')
     }
 }
-group='com.github.Leaking.Lolita'
+group='com.quinn.Lolita'
 
 version='1.0.0'
 
