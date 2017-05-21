@@ -1,5 +1,6 @@
 package com.lolita.plugin
 
+import jdk.internal.org.objectweb.asm.ClassReader
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -10,6 +11,7 @@ import org.gradle.api.Project
 public class LolitaPlugin implements Plugin<Project> {
     void apply(Project project) {
         println "LolitaPlugin project apply " + project.getName();
+
         def rootDir = project.rootDir
         def localProperties = new File(rootDir, "local.properties")
         if (localProperties.exists()) {
@@ -22,21 +24,10 @@ public class LolitaPlugin implements Plugin<Project> {
                 throw new RuntimeException(
                         "No sdk.dir property defined in local.properties file.")
             }
-            sdkDir = sdkDir + File.separator + "platforms"
-            File sdkFolder = new File(sdkDir);
-            def availableSdkPaths = sdkFolder.listFiles(new FilenameFilter() {
-                @Override
-                boolean accept(File file, String filename) {
-                    if(filename != null && filename.startsWith("android")) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-            })
-            availableSdkPaths = availableSdkPaths.sort().reverse()
+            sdkDir = sdkDir + File.separator + "platforms" + File.separator
             //Get android.jar which is the max version.
-            def androidClassPath = availableSdkPaths[0].getPath() + File.separator + "android.jar";
+            def androidClassPath = sdkDir + project.android.compileSdkVersion + File.separator + "android.jar";
+            println "compile sdk dir = " + androidClassPath
             project.android.registerTransform(new LolitaTransform(androidClassPath))
         } else {
             throw new RuntimeException(

@@ -9,6 +9,7 @@ dependencies {
     compile 'org.javassist:javassist:3.20.0-GA'
     compile 'commons-io:commons-io:2.5'
     compile project(':lolita-annotations')
+    compile files('libs/asm-5.2.jar')
 }
 
 repositories {
