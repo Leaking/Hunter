@@ -6,6 +6,7 @@ import javassist.*
 import javassist.bytecode.CodeAttribute
 import javassist.bytecode.LocalVariableAttribute
 import javassist.bytecode.MethodInfo
+import org.objectweb.asm.ClassReader
 
 /**
  * ByteCodeWeaver
