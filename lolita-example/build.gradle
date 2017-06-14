@@ -24,14 +24,15 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.tools.build:transform-api:1.5.0'
     compile 'com.quinn.Lolita:lolita-annotations:1.0.0'
+    compile "moai:fragment:1.0.0.2092303@aar"
 }
 
 repositories {
-    jcenter()
-    mavenLocal()
     maven {
         url uri('../repo')
     }
+    jcenter()
+    mavenLocal()
 }
 
 buildscript {
@@ -39,11 +40,23 @@ buildscript {
         maven {
             url uri('../repo')
         }
-        mavenCentral()
-        jcenter()
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/android"
+        }
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/thirdparty/"
+        }
+        maven {
+            url "http://maven.oa.com/nexus/content/repositories/m2repository"
+        }
+        maven {
+            url 'http://maven.oa.com/nexus/content/repositories/jcenter'
+        }
     }
     dependencies {
         classpath 'com.quinn.Lolita:lolita-plugin:1.0.0'
     }
 }
+
+
 apply plugin: 'lolita'

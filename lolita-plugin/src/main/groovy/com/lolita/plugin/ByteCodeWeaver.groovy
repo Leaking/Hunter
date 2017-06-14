@@ -13,23 +13,25 @@ import org.objectweb.asm.ClassReader
  */
 public class ByteCodeWeaver {
 
-    private static ClassPool pool = ClassPool.getDefault()
+    private static ClassPool pool ;
 
-    private String androidClassPath;
 
-    public ByteCodeWeaver(String androidClassPath) {
-        this.androidClassPath = androidClassPath;
+    public ByteCodeWeaver() {
     }
 
     /**
      * Begin to weave class under certain dir
      * @param path
      */
-    public void weave(String path) {
-        println("Begin to weave androidClassPath = " + androidClassPath)
+    public void weave(ArrayList<String> androidClassPaths, String path) {
         println("Begin to weave path = " + path)
-        pool.appendClassPath(path)
-        pool.appendClassPath(androidClassPath)
+        pool = new ClassPool(true);
+        pool.insertClassPath(path)
+        for(String item: androidClassPaths){
+            println("Begin to appendClassPath = " + item)
+//            pool.appendClassPath(item)
+            pool.insertClassPath(new JarClassPath(item))
+        }
         pool.importPackage("android.util.Log");
         File dir = new File(path)
         int indexOfPackage = path.length() + 1;
@@ -38,50 +40,60 @@ public class ByteCodeWeaver {
                 String filePath = file.absolutePath
                 if (isWeavableClass(filePath)) {
                     println("Begin to inject filePath " + filePath)
+
                     int end = filePath.length() - 6 // .class = 6
                     String className = filePath.substring(indexOfPackage, end).replace(File.separator, '.')
                     CtClass clazz = pool.getCtClass(className)
+
+
                     if (clazz.isFrozen()) {
                         clazz.defrost()
                     }
                     boolean timeDebugClass = false;
                     boolean parameterDebugClass = false;
+                    boolean weaved = false;
                     if(clazz.hasAnnotation(TimingDebug.class)) {
                         timeDebugClass = true;
                     }
                     if(clazz.hasAnnotation(ParameterDebug.class)) {
                         parameterDebugClass = true;
                     }
-                    println "timeDebugClass = "+ timeDebugClass + " parameterDebugClass = " + parameterDebugClass
+//                    println "timeDebugClass = "+ timeDebugClass + " parameterDebugClass = " + parameterDebugClass
                     CtMethod[] methods = clazz.getDeclaredMethods();
                     for (CtMethod method : methods) {
                         boolean emptyMethod = method.isEmpty()
                         boolean isNativeMethod = Modifier.isNative(method.getModifiers());
-                        println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
+//                        println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
                         if (!emptyMethod && !isNativeMethod) {
                             if (method.hasAnnotation(ParameterDebug.class) || parameterDebugClass) {
                                 weaveParameterDebugMethod(clazz, method)
+                                weaved = true
                             }
                             if (method.hasAnnotation(TimingDebug.class) || timeDebugClass) {
                                 weaveTimingDebugMethod(clazz, method)
+                                weaved = true
                             }
                         }
                     }
                     CtConstructor[] constructors = clazz.getDeclaredConstructors();
                     for(CtConstructor constructor: constructors){
                         boolean emptyMethod = constructor.isEmpty()
-                        println("constructor name = " + constructor + " emptyMethod " + emptyMethod)
+//                        println("constructor name = " + constructor + " emptyMethod " + emptyMethod)
                         if (!emptyMethod) {
                             if (constructor.hasAnnotation(ParameterDebug.class) || parameterDebugClass) {
                                 weaveParameterDebugMethod(clazz, constructor)
+                                weaved = true
                             }
                             if (constructor.hasAnnotation(TimingDebug.class) || timeDebugClass) {
                                 weaveTimingDebugMethod(clazz, constructor)
+                                weaved = true
                             }
                         }
                     }
-                    clazz.writeFile(path)
-                    clazz.detach()
+                    if(weaved) {
+                        clazz.writeFile(path)
+                        clazz.detach()
+                    }
                 }
             }
         }
@@ -103,6 +115,7 @@ public class ByteCodeWeaver {
      * @param method
      */
     public void weaveParameterDebugMethod(CtClass clazz, CtBehavior method) {
+
         String[] params = getMethodParameterNames(method)
         StringBuilder parameterDetail = new StringBuilder("\"");
         parameterDetail.append("ParameaterDebug > ").append(method.getName()).append("[");
@@ -123,7 +136,6 @@ public class ByteCodeWeaver {
         String newCodes = "Log.i(\"" + tag + "\"," +
                 parameterDetail.toString() +
                 ");"
-        println "ARG_METHOD = " + newCodes
         method.insertBefore(newCodes)
     }
 
@@ -133,12 +145,17 @@ public class ByteCodeWeaver {
      * @param method
      */
     public void weaveTimingDebugMethod(CtClass clazz, CtBehavior method) {
+        println "weave timing " + method.getName()
         method.addLocalVariable("startMs", CtClass.longType);
         method.insertBefore("startMs = System.currentTimeMillis();");
         String tag = clazz.simpleName;
         def firstPart = "final long endMs = System.currentTimeMillis();";
-        def secondPart = "Log.i(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");";
-        method.insertAfter(firstPart + secondPart);
+        def secondPart = "Log.i(\""  + tag  +  "\"," + "\"TimingDgebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");";
+        try{
+            method.insertAfter(firstPart + secondPart);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -150,7 +167,11 @@ public class ByteCodeWeaver {
      * @throws Exception
      */
     public String[] getMethodParameterNames(CtBehavior method) throws Exception {
+
         CtClass cc = method.getDeclaringClass();
+        println "getDeclaringClass cc " + cc.getName();
+        pool.insertClassPath(new ClassClassPath(cc.getClass()));
+
         CtClass[] parameterCtClasses = new CtClass[method.getParameterTypes().length];
         for (int i = 0; i < parameterCtClasses.length; i++)
             parameterCtClasses[i] = method.getParameterTypes()[i];

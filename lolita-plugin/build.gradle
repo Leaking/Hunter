@@ -13,11 +13,11 @@ dependencies {
 }
 
 repositories {
-    mavenCentral()
-    jcenter()
     maven {
         url uri('../repo')
     }
+    mavenCentral()
+    jcenter()
 }
 group='com.quinn.Lolita'
 

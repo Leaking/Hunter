@@ -14,18 +14,31 @@ import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
 import org.apache.commons.io.FileUtils
+import org.gradle.api.Project
+import org.gradle.api.artifacts.Configuration
 
 /**
  * Transform to modify bytecode
  */
 class LolitaTransform extends Transform {
 
-    private def androidClassPath;
-    private ByteCodeWeaver byteCodeWeaver;
+    private static final Set<QualifiedContent.Scope> SCOPES = new HashSet<>();
+    static {
+        SCOPES.add(QualifiedContent.Scope.PROJECT);
+        SCOPES.add(QualifiedContent.Scope.PROJECT_LOCAL_DEPS);
+        SCOPES.add(QualifiedContent.Scope.SUB_PROJECTS);
+        SCOPES.add(QualifiedContent.Scope.SUB_PROJECTS_LOCAL_DEPS);
+        SCOPES.add(QualifiedContent.Scope.EXTERNAL_LIBRARIES);
+    }
 
-    public LolitaTransform(def androidClassPath){
-        this.androidClassPath = androidClassPath;
-        byteCodeWeaver = new ByteCodeWeaver(androidClassPath);
+    private ArrayList<String> androidClassPaths = new ArrayList<>();
+    private ByteCodeWeaver byteCodeWeaver;
+    private Project project;
+
+    public LolitaTransform(Project project, String androidClassPaths){
+        this.project = project;
+        this.androidClassPaths.add(androidClassPaths);
+        byteCodeWeaver = new ByteCodeWeaver();
     }
 
     @Override
@@ -51,9 +64,22 @@ class LolitaTransform extends Transform {
     @Override
     void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println("Start to transform")
+
+        for (Iterator<Configuration> iter = project.getConfigurations().iterator(); iter.hasNext(); ) {
+            Configuration element = iter.next();
+            Set<File> filesSet = element.resolve();
+            for (Iterator<File> filesIterator = filesSet.iterator(); filesIterator.hasNext();) {
+                File file = filesIterator.next();
+                System.out.println(file.getPath());
+                androidClassPaths.add(file.getPath());
+            }
+        }
+
+
         inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                byteCodeWeaver.weave(directoryInput.file.absolutePath)
+                byteCodeWeaver.weave(androidClassPaths, directoryInput.file.absolutePath)
+
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
