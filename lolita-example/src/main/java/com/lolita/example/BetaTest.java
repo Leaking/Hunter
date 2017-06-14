@@ -12,7 +12,7 @@ import com.lolita.annotations.TimingDebug;
 
 @ParameterDebug
 @TimingDebug
-public class BetaTest {
+public class BetaTest extends ParentTest{
 
     public static final String TAG = "BetaTest";
 
@@ -26,7 +26,8 @@ public class BetaTest {
         Log.i(TAG, "god constructor");
     }
 
-    private void swing(int a, int b) {
+    @Override
+    public void swing(int a, int b) {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
