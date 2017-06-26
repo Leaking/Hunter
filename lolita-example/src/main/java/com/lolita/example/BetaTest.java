@@ -1,5 +1,6 @@
 package com.lolita.example;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.lolita.annotations.ParameterDebug;
@@ -20,6 +21,7 @@ public class BetaTest extends ParentTest{
         this(5);
         swing(0,9);
         claw();
+        eat();
     }
 
     public BetaTest(int god){
@@ -30,6 +32,15 @@ public class BetaTest extends ParentTest{
     public void swing(int a, int b) {
         try {
             Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Looper.getMainLooper();
+    }
+
+    private void eat() {
+        try {
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
