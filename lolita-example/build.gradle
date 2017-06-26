@@ -59,4 +59,4 @@ buildscript {
 }
 
 
-apply plugin: 'lolita'
+//apply plugin: 'lolita'

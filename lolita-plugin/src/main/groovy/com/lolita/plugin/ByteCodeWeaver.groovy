@@ -6,8 +6,6 @@ import javassist.*
 import javassist.bytecode.CodeAttribute
 import javassist.bytecode.LocalVariableAttribute
 import javassist.bytecode.MethodInfo
-import org.objectweb.asm.ClassReader
-
 /**
  * ByteCodeWeaver
  */
@@ -33,6 +31,8 @@ public class ByteCodeWeaver {
             pool.insertClassPath(new JarClassPath(item))
         }
         pool.importPackage("android.util.Log");
+        pool.importPackage("android.os.Looper");
+
         File dir = new File(path)
         int indexOfPackage = path.length() + 1;
         if (dir.isDirectory()) {
@@ -149,10 +149,15 @@ public class ByteCodeWeaver {
         method.addLocalVariable("startMs", CtClass.longType);
         method.insertBefore("startMs = System.currentTimeMillis();");
         String tag = clazz.simpleName;
-        def firstPart = "final long endMs = System.currentTimeMillis();";
-        def secondPart = "Log.i(\""  + tag  +  "\"," + "\"TimingDgebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");";
+        String line2 = "final long endMs = System.currentTimeMillis();";
+        String line3 = "boolean mainThread = Looper.myLooper() == Looper.getMainLooper();"
+        String line4 = "final long costMs = endMs - startMs;"
+        String line5 = "if(mainThread) {" +
+                "Log.i(\""  + tag  +  "\"," + "\"TimingDgebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");";
+                "};"
+        String insertCode = line2 + line3 + line4 + line5;
         try{
-            method.insertAfter(firstPart + secondPart);
+            method.insertAfter(insertCode);
         } catch (Exception e) {
             e.printStackTrace();
         }
