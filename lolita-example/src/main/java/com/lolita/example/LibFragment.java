@@ -10,7 +10,7 @@ import moai.fragment.base.BaseFragment;
  * Created by quinn on 6/14/17.
  */
 
-@TimingDebug
+//@TimingDebug
 public class LibFragment extends BaseFragment{
 
     public LibFragment() {

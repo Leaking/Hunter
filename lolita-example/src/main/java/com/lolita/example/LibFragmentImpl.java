@@ -2,13 +2,11 @@ package com.lolita.example;
 
 import android.view.View;
 
-import com.lolita.annotations.TimingDebug;
-
 /**
  * Created by quinn on 6/14/17.
  */
 
-@TimingDebug
+//@TimingDebug
 public class LibFragmentImpl extends LibFragment{
 
     public LibFragmentImpl() {

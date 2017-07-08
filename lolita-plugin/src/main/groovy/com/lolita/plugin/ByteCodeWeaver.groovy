@@ -22,15 +22,15 @@ public class ByteCodeWeaver {
      * @param path
      */
     public void weave(LolitaExtension lolitaExtension, ArrayList<String> androidClassPaths, String path) {
-        println "lolitaExtension.on " + lolitaExtension.on;
         if(lolitaExtension.on.equalsIgnoreCase("false")) {
             return;
         }
-        global = lolitaExtension.global;
+        global = lolitaExtension.global.equalsIgnoreCase("true");
+        println "weave.global " + global;
         pool = new ClassPool(true);
         pool.insertClassPath(path)
         for(String item: androidClassPaths){
-//            println("Begin to appendClassPath = " + item)
+            println("Begin to appendClassPath = " + item)
             pool.insertClassPath(new JarClassPath(item))
         }
         pool.importPackage("android.util.Log");
@@ -147,29 +147,17 @@ public class ByteCodeWeaver {
      * @param method
      */
     public void weaveTimingDebugMethod(CtClass clazz, CtBehavior method) {
-        try{
-            method.addLocalVariable("startMs", CtClass.longType);
-            method.insertBefore("startMs = System.currentTimeMillis();");
-        } catch (Exception e) {
-            return;
-        }
-        String tag = clazz.simpleName;
+//        println "timing method " + method.getLongName()
+        method.addLocalVariable("startMs", CtClass.longType);
+        method.insertBefore("startMs = System.currentTimeMillis();");
         String line2 = "final long endMs = System.currentTimeMillis();";
         String line3 = "boolean mainThread = Looper.myLooper() == Looper.getMainLooper();"
         String line4 = "final long costMs = endMs - startMs;"
-        String line5 = "if(mainThread && costMs > 16 && costMs < 30)" +
-                "Log.i(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");"
-        String line6 = "if(mainThread && costMs >= 30 && costMs < 60)" +
-                "Log.w(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");"
-        String line7 = "if(mainThread && costMs >= 60)" +
-                "Log.e(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");"
-        String line8 = "if(mainThread && costMs >= 25) BlockManager.addMethodBlockDetail(\""+ method.getLongName() +"\", (int)costMs);"
-        String insertCode = line2 + line3 + line4 + line5 + line6 + line7 + line8;
-        try{
-            method.insertAfter(insertCode);
-        } catch (Exception e) {
-//            e.printStackTrace();
-        }
+        String line5 = "if(mainThread && costMs >= 20)" +
+                "Log.i(TimingDebug," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + costMs "+ " + \"]\");"
+        String line6 = "if(mainThread && costMs >= 20) BlockManager.addMethodBlockDetail(\""+ method.getLongName() +"\", (int)costMs);"
+        String insertCode = line2 + line3 + line4 + line5 + line6;
+        method.insertAfter(insertCode);
     }
 
 
