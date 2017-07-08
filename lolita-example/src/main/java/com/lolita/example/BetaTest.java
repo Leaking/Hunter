@@ -21,7 +21,13 @@ public class BetaTest extends ParentTest{
         this(5);
         swing(0,9);
         claw();
-        eat();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                eat();
+            }
+        }).start();
+
     }
 
     public BetaTest(int god){
