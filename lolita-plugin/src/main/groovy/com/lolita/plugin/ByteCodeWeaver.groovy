@@ -147,17 +147,24 @@ public class ByteCodeWeaver {
      * @param method
      */
     public void weaveTimingDebugMethod(CtClass clazz, CtBehavior method) {
-//        println "timing method " + method.getLongName()
         method.addLocalVariable("startMs", CtClass.longType);
-        method.insertBefore("startMs = System.currentTimeMillis();");
+        try{
+            method.insertBefore("startMs = System.currentTimeMillis();");
+        }catch (Exception e) {
+            println "insert before fail " + method.getLongName();
+        }
         String line2 = "final long endMs = System.currentTimeMillis();";
         String line3 = "boolean mainThread = Looper.myLooper() == Looper.getMainLooper();"
         String line4 = "final long costMs = endMs - startMs;"
         String line5 = "if(mainThread && costMs >= 20)" +
-                "Log.i(TimingDebug," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + costMs "+ " + \"]\");"
+                "Log.i(\"TimingDebug\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + costMs "+ " + \"]\");"
         String line6 = "if(mainThread && costMs >= 20) BlockManager.addMethodBlockDetail(\""+ method.getLongName() +"\", (int)costMs);"
         String insertCode = line2 + line3 + line4 + line5 + line6;
-        method.insertAfter(insertCode);
+        try{
+            method.insertAfter(insertCode);
+        }catch (Exception e) {
+            println "insertAfter fail"+ method.getLongName();
+        }
     }
 
 
