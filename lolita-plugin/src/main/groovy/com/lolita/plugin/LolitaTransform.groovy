@@ -34,10 +34,12 @@ class LolitaTransform extends Transform {
     private ArrayList<String> androidClassPaths = new ArrayList<>();
     private ByteCodeWeaver byteCodeWeaver;
     private Project project;
+    private LolitaExtension lolitaExtension;
 
-    public LolitaTransform(Project project, String androidClassPaths){
+    public LolitaTransform(LolitaExtension lolitaExtension, Project project, String androidSdkPath){
         this.project = project;
-        this.androidClassPaths.add(androidClassPaths);
+        this.lolitaExtension = lolitaExtension;
+        this.androidClassPaths.add(androidSdkPath);
         byteCodeWeaver = new ByteCodeWeaver();
     }
 
@@ -64,22 +66,18 @@ class LolitaTransform extends Transform {
     @Override
     void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println("Start to transform")
-
+        //获取所有dependency的路径
         for (Iterator<Configuration> iter = project.getConfigurations().iterator(); iter.hasNext(); ) {
             Configuration element = iter.next();
             Set<File> filesSet = element.resolve();
             for (Iterator<File> filesIterator = filesSet.iterator(); filesIterator.hasNext();) {
                 File file = filesIterator.next();
-                System.out.println(file.getPath());
                 androidClassPaths.add(file.getPath());
             }
         }
-
-
         inputs.each { TransformInput input ->
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                byteCodeWeaver.weave(androidClassPaths, directoryInput.file.absolutePath)
-
+                byteCodeWeaver.weave(lolitaExtension, androidClassPaths, directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)

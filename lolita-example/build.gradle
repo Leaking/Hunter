@@ -59,4 +59,9 @@ buildscript {
 }
 
 
-//apply plugin: 'lolita'
+apply plugin: 'lolita'
+
+lolitaExt {
+    on = 'true'
+    global = 'true'
+}

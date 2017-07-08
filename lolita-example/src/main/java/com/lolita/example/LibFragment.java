@@ -2,12 +2,15 @@ package com.lolita.example;
 
 import android.view.View;
 
+import com.lolita.annotations.TimingDebug;
+
 import moai.fragment.base.BaseFragment;
 
 /**
  * Created by quinn on 6/14/17.
  */
 
+@TimingDebug
 public class LibFragment extends BaseFragment{
 
     public LibFragment() {

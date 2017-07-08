@@ -12,7 +12,7 @@ import javassist.bytecode.MethodInfo
 public class ByteCodeWeaver {
 
     private static ClassPool pool ;
-
+    private boolean global = false;
 
     public ByteCodeWeaver() {
     }
@@ -21,17 +21,21 @@ public class ByteCodeWeaver {
      * Begin to weave class under certain dir
      * @param path
      */
-    public void weave(ArrayList<String> androidClassPaths, String path) {
-        println("Begin to weave path = " + path)
+    public void weave(LolitaExtension lolitaExtension, ArrayList<String> androidClassPaths, String path) {
+        println "lolitaExtension.on " + lolitaExtension.on;
+        if(lolitaExtension.on.equalsIgnoreCase("false")) {
+            return;
+        }
+        global = lolitaExtension.global;
         pool = new ClassPool(true);
         pool.insertClassPath(path)
         for(String item: androidClassPaths){
-            println("Begin to appendClassPath = " + item)
-//            pool.appendClassPath(item)
+//            println("Begin to appendClassPath = " + item)
             pool.insertClassPath(new JarClassPath(item))
         }
         pool.importPackage("android.util.Log");
         pool.importPackage("android.os.Looper");
+        pool.importPackage("com.lolita.annotations.BlockManager");
 
         File dir = new File(path)
         int indexOfPackage = path.length() + 1;
@@ -39,12 +43,10 @@ public class ByteCodeWeaver {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
                 if (isWeavableClass(filePath)) {
-                    println("Begin to inject filePath " + filePath)
 
                     int end = filePath.length() - 6 // .class = 6
                     String className = filePath.substring(indexOfPackage, end).replace(File.separator, '.')
                     CtClass clazz = pool.getCtClass(className)
-
 
                     if (clazz.isFrozen()) {
                         clazz.defrost()
@@ -58,12 +60,13 @@ public class ByteCodeWeaver {
                     if(clazz.hasAnnotation(ParameterDebug.class)) {
                         parameterDebugClass = true;
                     }
-//                    println "timeDebugClass = "+ timeDebugClass + " parameterDebugClass = " + parameterDebugClass
+                    if(global) {
+                        timeDebugClass = true;
+                    }
                     CtMethod[] methods = clazz.getDeclaredMethods();
                     for (CtMethod method : methods) {
                         boolean emptyMethod = method.isEmpty()
                         boolean isNativeMethod = Modifier.isNative(method.getModifiers());
-//                        println("method name = " + method + " emptyMethod " + emptyMethod + " isNativeMethod = " + isNativeMethod)
                         if (!emptyMethod && !isNativeMethod) {
                             if (method.hasAnnotation(ParameterDebug.class) || parameterDebugClass) {
                                 weaveParameterDebugMethod(clazz, method)
@@ -78,7 +81,6 @@ public class ByteCodeWeaver {
                     CtConstructor[] constructors = clazz.getDeclaredConstructors();
                     for(CtConstructor constructor: constructors){
                         boolean emptyMethod = constructor.isEmpty()
-//                        println("constructor name = " + constructor + " emptyMethod " + emptyMethod)
                         if (!emptyMethod) {
                             if (constructor.hasAnnotation(ParameterDebug.class) || parameterDebugClass) {
                                 weaveParameterDebugMethod(clazz, constructor)
@@ -145,21 +147,28 @@ public class ByteCodeWeaver {
      * @param method
      */
     public void weaveTimingDebugMethod(CtClass clazz, CtBehavior method) {
-        println "weave timing " + method.getName()
-        method.addLocalVariable("startMs", CtClass.longType);
-        method.insertBefore("startMs = System.currentTimeMillis();");
+        try{
+            method.addLocalVariable("startMs", CtClass.longType);
+            method.insertBefore("startMs = System.currentTimeMillis();");
+        } catch (Exception e) {
+            return;
+        }
         String tag = clazz.simpleName;
         String line2 = "final long endMs = System.currentTimeMillis();";
         String line3 = "boolean mainThread = Looper.myLooper() == Looper.getMainLooper();"
         String line4 = "final long costMs = endMs - startMs;"
-        String line5 = "if(mainThread) {" +
-                "Log.i(\""  + tag  +  "\"," + "\"TimingDgebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");";
-                "};"
-        String insertCode = line2 + line3 + line4 + line5;
+        String line5 = "if(mainThread && costMs > 16 && costMs < 30)" +
+                "Log.i(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");"
+        String line6 = "if(mainThread && costMs >= 30 && costMs < 60)" +
+                "Log.w(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");"
+        String line7 = "if(mainThread && costMs >= 60)" +
+                "Log.e(\""  + tag  +  "\"," + "\"TimingDebug > " + method.getName() + "[costed time in ms : \" + (endMs-startMs) "+ " + \"]\");"
+        String line8 = "if(mainThread && costMs >= 25) BlockManager.addMethodBlockDetail(\""+ method.getLongName() +"\", (int)costMs);"
+        String insertCode = line2 + line3 + line4 + line5 + line6 + line7 + line8;
         try{
             method.insertAfter(insertCode);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 
