@@ -4,7 +4,6 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.lolita.annotations.ParameterDebug;
-import com.lolita.annotations.TimingDebug;
 
 
 /**
@@ -12,7 +11,6 @@ import com.lolita.annotations.TimingDebug;
  */
 
 @ParameterDebug
-@TimingDebug
 public class BetaTest extends ParentTest{
 
     public static final String TAG = "BetaTest";

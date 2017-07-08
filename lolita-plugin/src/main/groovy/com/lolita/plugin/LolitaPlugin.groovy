@@ -27,7 +27,7 @@ public class LolitaPlugin implements Plugin<Project> {
             //Get android.jar which is the max version.
             def androidClassPath = sdkDir + project.android.compileSdkVersion + File.separator + "android.jar";
             println "compile sdk dir = " + androidClassPath
-            project.android.registerTransform(new LolitaTransform(project.lolitaExt, project, androidClassPath))
+            project.android.registerTransform(new LolitaTransform(project, androidClassPath))
         } else {
             throw new RuntimeException(
                     "No local.properties file.")
