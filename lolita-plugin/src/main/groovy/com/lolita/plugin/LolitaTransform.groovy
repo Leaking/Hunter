@@ -13,6 +13,7 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import jdk.internal.org.objectweb.asm.util.ASMifiable
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
@@ -84,7 +85,8 @@ class LolitaTransform extends Transform {
                 FileUtils.copyFile(jarInput.file, dest)
             }
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                byteCodeWeaver.weave(lolitaExtension, androidClassPaths, directoryInput.file.absolutePath)
+                 com.lolita.plugin.asm.ASMUtils.weaveByteCode(androidClassPaths, directoryInput.file.absolutePath)
+//                byteCodeWeaver.weave(lolitaExtension, androidClassPaths, directoryInput.file.absolutePath)
 //                println "dir " + directoryInput.name;
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
