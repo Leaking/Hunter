@@ -2,25 +2,25 @@
 
 buildscript {
     repositories {
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/android"
-        }
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/thirdparty/"
-        }
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/m2repository"
-        }
-        maven {
-            url 'http://maven.oa.com/nexus/content/repositories/jcenter'
-        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/android"
+//        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/thirdparty/"
+//        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/m2repository"
+//        }
+//        maven {
+//            url 'http://maven.oa.com/nexus/content/repositories/jcenter'
+//        }
 
         flatDir{
             dirs'libs'
         }
         // mavenLocal()
-//        mavenLocal()
-//        jcenter()
+        mavenLocal()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.0'
@@ -31,25 +31,25 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/android"
-        }
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/thirdparty/"
-        }
-        maven {
-            url "http://maven.oa.com/nexus/content/repositories/m2repository"
-        }
-        maven {
-            url 'http://maven.oa.com/nexus/content/repositories/jcenter'
-        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/android"
+//        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/thirdparty/"
+//        }
+//        maven {
+//            url "http://maven.oa.com/nexus/content/repositories/m2repository"
+//        }
+//        maven {
+//            url 'http://maven.oa.com/nexus/content/repositories/jcenter'
+//        }
 
         flatDir{
             dirs'libs'
         }
         // mavenLocal()
-//        mavenLocal()
-//        jcenter()
+        mavenLocal()
+        jcenter()
     }
 }
 

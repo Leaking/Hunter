@@ -17,8 +17,8 @@ repositories {
     maven {
         url uri('../repo')
     }
-    mavenCentral()
     jcenter()
+    mavenCentral()
 }
 group='com.quinn.Lolita'
 
