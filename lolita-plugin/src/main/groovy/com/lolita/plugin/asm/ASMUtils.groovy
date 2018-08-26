@@ -23,33 +23,33 @@ import java.util.ArrayList;
 public class ASMUtils {
 
     public static void weaveByteCode(String classDir){
-
         File dir = new File(classDir)
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
-                println "filePath = " + filePath
                 if (isWeavableClass(filePath)) {
-                    try {
-                        FileInputStream is = null;
-                        is = new FileInputStream(filePath);
-                        ClassReader cr = new ClassReader(is);
-                        ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-                        ClassAdapter classAdapter = new ClassAdapter(cw);
-                        cr.accept(classAdapter, ClassReader.EXPAND_FRAMES);
-                        FileOutputStream fos = new FileOutputStream(filePath);
-                        fos.write(cw.toByteArray());
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
+                    weaveFile(filePath)
                 }
             }
         }
     }
 
-    public static boolean isWeavableClass(String filePath){
+    private static void weaveFile(String filePath){
+        try {
+            FileInputStream fileInputStream = new FileInputStream(filePath);
+            ClassReader classReader = new ClassReader(fileInputStream);
+            ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+            ClassAdapter classAdapter = new ClassAdapter(classWriter);
+            classReader.accept(classAdapter, ClassReader.EXPAND_FRAMES);
+            FileOutputStream fos = new FileOutputStream(filePath);
+            fos.write(classWriter.toByteArray());
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static boolean isWeavableClass(String filePath){
         return filePath.endsWith(".class") && !filePath.contains('R$') && !filePath.contains('R.class') && !filePath.contains("BuildConfig.class");
     }
 
