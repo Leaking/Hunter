@@ -13,6 +13,9 @@ dependencies {
     compile 'org.ow2.asm:asm:6.2.1'
     compile 'org.ow2.asm:asm-util:6.2.1'
     compile 'org.ow2.asm:asm-commons:6.2.1'
+
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 }
 
 repositories {
@@ -22,8 +25,11 @@ repositories {
     jcenter()
     mavenCentral()
 }
-group='com.quinn.Lolita'
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+group='com.quinn.Lolita'
 version='1.0.0'
 
 uploadArchives {

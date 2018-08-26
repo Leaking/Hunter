@@ -84,7 +84,7 @@ class LolitaTransform extends Transform {
                 FileUtils.copyFile(jarInput.file, dest)
             }
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                ASMUtils.weaveByteCode(directoryInput.file.absolutePath)
+//                ASMUtils.weaveByteCode(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)

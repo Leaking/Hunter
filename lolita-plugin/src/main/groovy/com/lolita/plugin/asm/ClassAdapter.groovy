@@ -9,7 +9,7 @@ public class ClassAdapter extends ClassVisitor{
     private String className;
 
     public ClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM6, cv);
+        super(Opcodes.ASM5, cv);
     }
 
     @Override
