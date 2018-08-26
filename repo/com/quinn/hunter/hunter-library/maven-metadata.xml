@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.quinn.hunter</groupId>
+  <artifactId>hunter-library</artifactId>
+  <versioning>
+    <release>1.0.0</release>
+    <versions>
+      <version>1.0.0</version>
+    </versions>
+    <lastUpdated>20180826171747</lastUpdated>
+  </versioning>
+</metadata>

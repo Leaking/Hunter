@@ -1,1 +1,1 @@
-include ':lolita-example', ':lolita-plugin', ':lolita-annotations'
+include ':hunter-example', ':hunter-plugin', ':hunter-library'
