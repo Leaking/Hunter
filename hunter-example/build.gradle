@@ -1,15 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 24
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.lolita.example"
         minSdkVersion 15
-        targetSdkVersion 24
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -21,8 +22,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.tools.build:transform-api:1.5.0'
+    compile 'com.android.support:appcompat-v7:28.0.0-rc01'
     compile 'com.quinn.hunter:hunter-library:1.0.0'
 }
 
