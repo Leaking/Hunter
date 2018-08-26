@@ -10,9 +10,9 @@ dependencies {
     compile 'commons-io:commons-io:2.5'
     compile 'commons-codec:commons-codec:1.5'
     compile project(':lolita-annotations')
-    compile 'org.ow2.asm:asm:6.2.1'
-    compile 'org.ow2.asm:asm-util:6.2.1'
-    compile 'org.ow2.asm:asm-commons:6.2.1'
+    compile 'org.ow2.asm:asm:5.1'
+    compile 'org.ow2.asm:asm-util:5.1'
+    compile 'org.ow2.asm:asm-commons:5.1'
 
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
