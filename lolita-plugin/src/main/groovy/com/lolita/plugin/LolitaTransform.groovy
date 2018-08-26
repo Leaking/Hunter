@@ -13,6 +13,7 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
+import com.lolita.plugin.asm.ASMUtils
 import jdk.internal.org.objectweb.asm.util.ASMifiable
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
@@ -37,7 +38,6 @@ class LolitaTransform extends Transform {
     }
 
     private ArrayList<String> androidClassPaths = new ArrayList<>();
-    private ByteCodeWeaver byteCodeWeaver;
     private Project project;
     private LolitaExtension lolitaExtension;
 
@@ -45,7 +45,6 @@ class LolitaTransform extends Transform {
         this.project = project;
         this.lolitaExtension = project.lolitaExt;
         this.androidClassPaths.add(androidSdkPath);
-        byteCodeWeaver = new ByteCodeWeaver();
     }
 
     @Override
@@ -85,9 +84,7 @@ class LolitaTransform extends Transform {
                 FileUtils.copyFile(jarInput.file, dest)
             }
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                 com.lolita.plugin.asm.ASMUtils.weaveByteCode(androidClassPaths, directoryInput.file.absolutePath)
-//                byteCodeWeaver.weave(lolitaExtension, androidClassPaths, directoryInput.file.absolutePath)
-//                println "dir " + directoryInput.name;
+                ASMUtils.weaveByteCode(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)

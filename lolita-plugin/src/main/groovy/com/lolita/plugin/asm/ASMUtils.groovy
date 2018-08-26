@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class ASMUtils {
 
-    public static void weaveByteCode(ArrayList<String> dirPaths, String classDir){
+    public static void weaveByteCode(String classDir){
 
         File dir = new File(classDir)
         if (dir.isDirectory()) {
@@ -34,17 +34,12 @@ public class ASMUtils {
                         FileInputStream is = null;
                         is = new FileInputStream(filePath);
                         ClassReader cr = new ClassReader(is);
-
                         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-//                      cr.accept(cw, 0);
-
                         ClassAdapter classAdapter = new ClassAdapter(cw);
-                        cr.accept(classAdapter, 0);
-
+                        cr.accept(classAdapter, ClassReader.EXPAND_FRAMES);
                         FileOutputStream fos = new FileOutputStream(filePath);
                         fos.write(cw.toByteArray());
                         fos.close();
-
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
