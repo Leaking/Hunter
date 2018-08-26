@@ -5,7 +5,7 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Type
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
-public class TimingMethodAdapter extends LocalVariablesSorter {
+public class TimingMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
     private int startVarIndex;
 
@@ -13,7 +13,7 @@ public class TimingMethodAdapter extends LocalVariablesSorter {
 
 
     public TimingMethodAdapter(String name, int access, String desc, MethodVisitor mv) {
-        super(Opcodes.ASM6, access, desc, mv);
+        super(Opcodes.ASM5, access, desc, mv);
         this.methodName = name;
     }
 
