@@ -21,9 +21,9 @@ android {
 
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:28.0.0-rc01'
-    compile 'com.quinn.hunter:hunter-library:1.0.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
+    implementation 'com.quinn.hunter:hunter-library:1.0.0'
 }
 
 repositories {
@@ -37,6 +37,7 @@ repositories {
 buildscript {
     repositories {
         jcenter()
+        google()
         maven {
             url uri('../repo')
         }

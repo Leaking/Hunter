@@ -3,14 +3,15 @@ apply plugin: 'maven'
 
 
 dependencies {
-    compile gradleApi()
-    compile localGroovy()
-    compile 'com.android.tools.build:transform-api:1.5.0'
-    compile 'org.javassist:javassist:3.20.0-GA'
-    compile 'commons-io:commons-io:2.5'
-    compile 'commons-codec:commons-codec:1.5'
-    compile 'org.ow2.asm:asm:5.1'
-    compile 'org.ow2.asm:asm-util:5.1'
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle-api:3.1.4'
+
+    implementation 'org.javassist:javassist:3.20.0-GA'
+    implementation 'commons-io:commons-io:2.5'
+    implementation 'commons-codec:commons-codec:1.5'
+    implementation 'org.ow2.asm:asm:5.1'
+    implementation 'org.ow2.asm:asm-util:5.1'
     compile 'org.ow2.asm:asm-commons:5.1'
 
 }
@@ -19,6 +20,7 @@ repositories {
     maven {
         url uri('../repo')
     }
+    google()
     jcenter()
     mavenCentral()
 }
