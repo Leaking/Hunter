@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.lolita.example"
+        applicationId "com.quinn.hunter.example"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -48,9 +48,9 @@ buildscript {
 }
 
 
-apply plugin: 'lolita'
+apply plugin: 'hunter'
 
-lolitaExt {
+hunterExt {
     on = 'true'
     global = 'true'
 }

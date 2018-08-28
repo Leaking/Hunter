@@ -1,4 +1,4 @@
-package com.lolita.example;
+package com.quinn.hunter.example;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

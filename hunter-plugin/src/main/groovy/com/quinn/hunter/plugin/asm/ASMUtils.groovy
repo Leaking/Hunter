@@ -1,4 +1,4 @@
-package com.lolita.plugin.asm
+package com.quinn.hunter.plugin
 
 
 import org.objectweb.asm.ClassReader;
