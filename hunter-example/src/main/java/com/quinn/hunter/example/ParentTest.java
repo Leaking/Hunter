@@ -1,4 +1,4 @@
-package com.lolita.example;
+package com.quinn.hunter.example;
 
 /**
  * Created by quinn on 6/13/17.

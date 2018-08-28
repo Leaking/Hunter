@@ -1,4 +1,4 @@
-package com.lolita.plugin
+package com.quinn.hunter.plugin
 
 /**
  * Created by Quinn on 26/02/2017.
@@ -13,20 +13,14 @@ import com.android.build.api.transform.Transform
 import com.android.build.api.transform.TransformException
 import com.android.build.api.transform.TransformInput
 import com.android.build.api.transform.TransformOutputProvider
-import com.lolita.plugin.asm.ASMUtils
-import jdk.internal.org.objectweb.asm.util.ASMifiable
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
-import org.gradle.api.artifacts.Configuration
-import org.gradle.internal.impldep.org.bouncycastle.crypto.Digest
-
-import java.security.MessageDigest
 
 /**
  * Transform to modify bytecode
  */
-class LolitaTransform extends Transform {
+class HunterTransform extends Transform {
 
     private static final Set<QualifiedContent.Scope> SCOPES = new HashSet<>();
     static {
@@ -37,19 +31,17 @@ class LolitaTransform extends Transform {
         SCOPES.add(QualifiedContent.Scope.EXTERNAL_LIBRARIES);
     }
 
-    private ArrayList<String> androidClassPaths = new ArrayList<>();
     private Project project;
-    private LolitaExtension lolitaExtension;
+    private HunterExtension hunterExtension;
 
-    public LolitaTransform(Project project, String androidSdkPath){
+    public HunterTransform(Project project){
         this.project = project;
-        this.lolitaExtension = project.lolitaExt;
-        this.androidClassPaths.add(androidSdkPath);
+        this.hunterExtension = project.hunterExt;
     }
 
     @Override
     String getName() {
-        return "LolitaTransform"
+        return "HunterTransform"
     }
 
     @Override
@@ -70,10 +62,10 @@ class LolitaTransform extends Transform {
     @Override
     void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println(getName() + " is starting...")
+        def startTime = System.currentTimeMillis()
         inputs.each { TransformInput input ->
             input.jarInputs.each { JarInput jarInput ->
                 def jarName = jarInput.name
-                androidClassPaths.add(jarInput.file.getAbsolutePath());
 //                println "jar path " + jarInput.file.getAbsolutePath() + " jarName = " + jarName;
                 def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
                 if (jarName.endsWith(".jar")) {
@@ -91,5 +83,7 @@ class LolitaTransform extends Transform {
                 FileUtils.copyDirectory(directoryInput.file, dest)
             }
         }
+        def costTime = System.currentTimeMillis() - startTime
+        println (getName() + " costed " + costTime + "ms")
     }
 }

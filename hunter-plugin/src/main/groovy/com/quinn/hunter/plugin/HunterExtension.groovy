@@ -1,10 +1,10 @@
-package com.lolita.plugin;
+package com.quinn.hunter.plugin
 
 /**
  * Created by quinn on 27/06/2017.
  */
 
-public class LolitaExtension {
+public class HunterExtension {
     def on = "false"
     def global = "false"
 }
