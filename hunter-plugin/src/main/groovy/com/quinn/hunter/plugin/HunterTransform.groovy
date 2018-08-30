@@ -76,6 +76,7 @@ class HunterTransform extends Transform {
                 FileUtils.copyFile(jarInput.file, dest)
             }
             input.directoryInputs.each { DirectoryInput directoryInput ->
+                println ("weaving dir " + directoryInput.file.absolutePath)
                 ASMUtils.weaveByteCode(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
@@ -84,6 +85,6 @@ class HunterTransform extends Transform {
             }
         }
         def costTime = System.currentTimeMillis() - startTime
-        println (getName() + " costed " + costTime + "ms")
+        println (getName() + " costed " + costTime + "ms"  + " success " + ASMUtils.successCount + " fail " + ASMUtils.failCount)
     }
 }
