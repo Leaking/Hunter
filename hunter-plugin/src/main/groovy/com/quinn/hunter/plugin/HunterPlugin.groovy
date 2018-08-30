@@ -12,4 +12,7 @@ public class HunterPlugin implements Plugin<Project> {
         project.extensions.create('hunterExt', HunterExtension)
         project.android.registerTransform(new HunterTransform(project))
     }
+
+
+
 }

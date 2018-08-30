@@ -27,10 +27,14 @@ class HunterTransform extends Transform {
     private Project project;
     private HunterExtension hunterExtension;
     private BytecodeWeaver bytecodeWeaver;
+    private URL androidJarURL;
 
     public HunterTransform(Project project){
         this.project = project;
         this.hunterExtension = project.hunterExt;
+        String androidJarPath = getAndroidJarPath(project)
+        File file = new File(androidJarPath);
+        androidJarURL = file.toURI().toURL()
     }
 
     @Override
@@ -63,7 +67,9 @@ class HunterTransform extends Transform {
         def startTime = System.currentTimeMillis()
 
         //initial class loader
+
         ImmutableList.Builder<URL> urls = new ImmutableList.Builder();
+        urls.add(androidJarURL)
         for (TransformInput totalInputs : Iterables.concat(inputs, referencedInputs)) {
             for (DirectoryInput directoryInput : totalInputs.getDirectoryInputs()) {
                 if (directoryInput.getFile().isDirectory()) {
@@ -95,7 +101,6 @@ class HunterTransform extends Transform {
                 FileUtils.copyFile(jarInput.file, dest)
             }
             input.directoryInputs.each { DirectoryInput directoryInput ->
-                println ("weaving dir " + directoryInput.file.absolutePath)
                 bytecodeWeaver.weaveByteCode(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
@@ -104,6 +109,29 @@ class HunterTransform extends Transform {
             }
         }
         def costTime = System.currentTimeMillis() - startTime
-        println (getName() + " costed " + costTime + "ms"  + " success " + BytecodeWeaver.successCount + " fail " + BytecodeWeaver.failCount)
+        println (getName() + " costed " + costTime + "ms")
+    }
+
+    private String getAndroidJarPath(Project project) {
+        def rootDir = project.rootDir
+        def localProperties = new File(rootDir, "local.properties")
+        if (localProperties.exists()) {
+            Properties properties = new Properties()
+            localProperties.withInputStream { instr ->
+                properties.load(instr)
+            }
+            def sdkDir = properties.getProperty('sdk.dir')
+            if(sdkDir == null || sdkDir.length() == 0) {
+                throw new RuntimeException(
+                        "No sdk.dir property defined in local.properties file.")
+            }
+            sdkDir = sdkDir + File.separator + "platforms" + File.separator
+            def androidJarPath = sdkDir + project.android.compileSdkVersion + File.separator + "android.jar";
+            println "compile android.jar dir = " + androidJarPath
+            return androidJarPath
+        } else {
+            throw new RuntimeException(
+                    "No local.properties file, you need it!!")
+        }
     }
 }
