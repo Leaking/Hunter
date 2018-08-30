@@ -1,8 +1,8 @@
 package com.quinn.hunter.plugin
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.ClassVisitor
+import org.objectweb.asm.MethodVisitor
+import org.objectweb.asm.Opcodes
 
 public class ClassAdapter extends ClassVisitor{
 
@@ -24,5 +24,7 @@ public class ClassAdapter extends ClassVisitor{
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         return mv == null ? null : new TimingMethodAdapter(className + File.separator + name, access, desc, mv);
     }
+
+
 
 }
