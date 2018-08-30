@@ -1,19 +1,13 @@
 package com.quinn.hunter.plugin
 
+import com.android.build.api.transform.*
+import com.google.common.collect.ImmutableList
+import com.google.common.collect.Iterables
+import org.apache.commons.codec.digest.DigestUtils
+
 /**
  * Created by Quinn on 26/02/2017.
  */
-
-import com.android.build.api.transform.Context
-import com.android.build.api.transform.DirectoryInput
-import com.android.build.api.transform.Format
-import com.android.build.api.transform.JarInput
-import com.android.build.api.transform.QualifiedContent
-import com.android.build.api.transform.Transform
-import com.android.build.api.transform.TransformException
-import com.android.build.api.transform.TransformInput
-import com.android.build.api.transform.TransformOutputProvider
-import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
@@ -23,16 +17,16 @@ import org.gradle.api.Project
 class HunterTransform extends Transform {
 
     private static final Set<QualifiedContent.Scope> SCOPES = new HashSet<>();
+
     static {
         SCOPES.add(QualifiedContent.Scope.PROJECT);
-        SCOPES.add(QualifiedContent.Scope.PROJECT_LOCAL_DEPS);
         SCOPES.add(QualifiedContent.Scope.SUB_PROJECTS);
-        SCOPES.add(QualifiedContent.Scope.SUB_PROJECTS_LOCAL_DEPS);
         SCOPES.add(QualifiedContent.Scope.EXTERNAL_LIBRARIES);
     }
 
     private Project project;
     private HunterExtension hunterExtension;
+    private BytecodeWeaver bytecodeWeaver;
 
     public HunterTransform(Project project){
         this.project = project;
@@ -60,13 +54,38 @@ class HunterTransform extends Transform {
     }
 
     @Override
-    void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
+    void transform(Context context,
+                   Collection<TransformInput> inputs,
+                   Collection<TransformInput> referencedInputs,
+                   TransformOutputProvider outputProvider,
+                   boolean isIncremental) throws IOException, TransformException, InterruptedException {
         println(getName() + " is starting...")
         def startTime = System.currentTimeMillis()
+
+        //initial class loader
+        ImmutableList.Builder<URL> urls = new ImmutableList.Builder();
+        for (TransformInput totalInputs : Iterables.concat(inputs, referencedInputs)) {
+            for (DirectoryInput directoryInput : totalInputs.getDirectoryInputs()) {
+                if (directoryInput.getFile().isDirectory()) {
+                    urls.add(directoryInput.getFile().toURI().toURL());
+                }
+            }
+            for (JarInput jarInput : totalInputs.getJarInputs()) {
+                if (jarInput.getFile().isFile()) {
+                    urls.add(jarInput.getFile().toURI().toURL());
+                }
+            }
+        }
+        ImmutableList<URL> allUrls = urls.build();
+        URL[] classLoaderUrls = allUrls.toArray(new URL[allUrls.size()]);
+        URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
+
+        //use classloader to buid a bytecodeWeaver
+        this.bytecodeWeaver = new BytecodeWeaver(urlClassLoader);
+
         inputs.each { TransformInput input ->
             input.jarInputs.each { JarInput jarInput ->
                 def jarName = jarInput.name
-//                println "jar path " + jarInput.file.getAbsolutePath() + " jarName = " + jarName;
                 def md5Name = DigestUtils.md5Hex(jarInput.file.getAbsolutePath())
                 if (jarName.endsWith(".jar")) {
                     jarName = jarName.substring(0, jarName.length() - 4)
@@ -77,7 +96,7 @@ class HunterTransform extends Transform {
             }
             input.directoryInputs.each { DirectoryInput directoryInput ->
                 println ("weaving dir " + directoryInput.file.absolutePath)
-                ASMUtils.weaveByteCode(directoryInput.file.absolutePath)
+                bytecodeWeaver.weaveByteCode(directoryInput.file.absolutePath)
                 def dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
@@ -85,6 +104,6 @@ class HunterTransform extends Transform {
             }
         }
         def costTime = System.currentTimeMillis() - startTime
-        println (getName() + " costed " + costTime + "ms"  + " success " + ASMUtils.successCount + " fail " + ASMUtils.failCount)
+        println (getName() + " costed " + costTime + "ms"  + " success " + BytecodeWeaver.successCount + " fail " + BytecodeWeaver.failCount)
     }
 }
