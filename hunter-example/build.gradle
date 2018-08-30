@@ -17,6 +17,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 
@@ -27,10 +30,8 @@ dependencies {
 }
 
 repositories {
-    maven {
-        url uri('../repo')
-    }
     jcenter()
+    google()
     mavenLocal()
 }
 
@@ -38,9 +39,7 @@ buildscript {
     repositories {
         jcenter()
         google()
-        maven {
-            url uri('../repo')
-        }
+        mavenLocal()
     }
     dependencies {
         classpath 'com.quinn.hunter:hunter-plugin:1.0.0'

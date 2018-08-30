@@ -31,10 +31,12 @@ targetCompatibility = 1.7
 group='com.quinn.hunter'
 version='1.0.0'
 
+def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: uri('../repo'))
+            repository(url: localRepoURL)
         }
     }
 }
