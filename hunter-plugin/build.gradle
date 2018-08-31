@@ -9,8 +9,8 @@ dependencies {
     implementation localGroovy()
     implementation 'com.android.tools.build:gradle:3.1.4'
     implementation 'com.android.tools.build:gradle-api:3.1.4'
-    implementation 'commons-io:commons-io:2.5'
-    implementation 'commons-codec:commons-codec:1.5'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-codec:commons-codec:1.10'
     implementation 'org.ow2.asm:asm:5.1'
     implementation 'org.ow2.asm:asm-util:5.1'
     implementation 'org.ow2.asm:asm-commons:5.1'

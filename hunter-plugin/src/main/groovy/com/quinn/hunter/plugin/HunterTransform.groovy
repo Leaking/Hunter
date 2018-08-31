@@ -1,9 +1,7 @@
 package com.quinn.hunter.plugin
 
 import com.android.build.api.transform.*
-import com.android.build.gradle.internal.transforms.TransformInputUtil
 import com.quinn.hunter.plugin.log.Logging
-import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
@@ -66,28 +64,38 @@ class HunterTransform extends Transform {
 
         println(getName() + " is starting...isIncremental = " + isIncremental)
         def startTime = System.currentTimeMillis()
+        if(!isIncremental) {
+            outputProvider.deleteAll();
+        }
         URLClassLoader urlClassLoader = ClassLoaderHelper.getClassLoader(inputs, referencedInputs, project);
         this.bytecodeWeaver = new BytecodeWeaver(urlClassLoader);
         for(TransformInput input : inputs) {
             for(JarInput jarInput : input.jarInputs) {
-//                Status status = jarInput.getStatus();
-//                if (isIncremental && status == Status.NOTCHANGED) {
-//                    continue;
-//                }
+                Status status = jarInput.getStatus();
+                println(jarInput.getFile().getAbsolutePath() + " : " + status)
+                if (isIncremental && status == Status.NOTCHANGED) {
+                    continue;
+                }
                 File dest = outputProvider.getContentLocation(
-                        jarInput.name,
+                        jarInput.file.absolutePath,
                         jarInput.contentTypes,
                         jarInput.scopes,
                         Format.JAR)
-                Files.deleteIfExists(dest.toPath());
-                processJar(jarInput.file, dest)
-//                if (!incremental || status == Status.ADDED || status == Status.CHANGED) {
-//                }
+                switch(status) {
+                    case Status.ADDED:
+                    case Status.CHANGED:
+                        transformJar(jarInput.file, dest)
+                        break;
+                    case Status.REMOVED:
+                        if (dest.exists()) {
+                            FileUtils.forceDelete(dest)
+                        }
+                        break;
+                }
             }
 
             for(DirectoryInput directoryInput : input.directoryInputs) {
                 bytecodeWeaver.weaveByteCode(directoryInput)
-                directoryInput.getChangedFiles();
                 File dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
@@ -100,13 +108,19 @@ class HunterTransform extends Transform {
         println (getName() + " costed " + costTime + "ms")
     }
 
-    private void processJar(File srcJar, File destJar) {
-        println("process jar " + srcJar.getAbsolutePath())
+    private void transformJar(File srcJar, File destJar) {
+        println("transformJar jar " + srcJar.getName() + " to dest" + destJar.getName())
         FileUtils.copyFile(srcJar, destJar)
     }
 
     private void println(String str) {
         logger.log(str)
     }
+
+    @Override
+    boolean isCacheable() {
+        return true
+    }
+
 
 }
