@@ -1,5 +1,9 @@
 package com.quinn.hunter.plugin
 
+import com.android.build.api.transform.DirectoryInput
+import com.android.build.api.transform.Format
+import com.android.build.api.transform.TransformOutputProvider
+import com.google.common.io.Files
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 /**
@@ -14,8 +18,9 @@ public class BytecodeWeaver {
         this.urlClassLoader = urlClassLoader
     }
 
-    public void weaveByteCode(String classDir){
-        File dir = new File(classDir)
+    public void weaveByteCode(DirectoryInput directoryInput){
+        String srcPath = directoryInput.file.absolutePath;
+        File dir = new File(srcPath)
         if (dir.isDirectory()) {
             dir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
@@ -26,14 +31,19 @@ public class BytecodeWeaver {
         }
     }
 
-    private void weaveFile( String filePath){
+    private void getDestPath() {
+        File dest = outputProvider.getContentLocation(directoryInput.name,
+                directoryInput.contentTypes, directoryInput.scopes,
+                Format.DIRECTORY)
+    }
+    private void weaveFile(String inputFilePath){
         try {
-            FileInputStream fileInputStream = new FileInputStream(filePath);
+            FileInputStream fileInputStream = new FileInputStream(inputFilePath);
             ClassReader classReader = new ClassReader(fileInputStream);
             ClassWriter classWriter = new TimingClassWriter(urlClassLoader, ClassWriter.COMPUTE_FRAMES);
             ClassAdapter classAdapter = new ClassAdapter(classWriter);
             classReader.accept(classAdapter, ClassReader.EXPAND_FRAMES);
-            FileOutputStream fos = new FileOutputStream(filePath);
+            FileOutputStream fos = new FileOutputStream(inputFilePath);
             fos.write(classWriter.toByteArray());
             fos.close();
         } catch (IOException e) {

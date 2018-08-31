@@ -9,9 +9,9 @@ import org.objectweb.asm.Opcodes
  */
 public class TimingClassWriter extends ClassWriter {
 
-    private static final String OBJECT = "java/lang/Object";
-
     public static final String TAG = "TimingClassWriter";
+
+    private static final String OBJECT = "java/lang/Object";
 
     private URLClassLoader urlClassLoader;
 
