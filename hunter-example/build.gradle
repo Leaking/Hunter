@@ -9,6 +9,13 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
+
     }
 
     buildTypes {
@@ -20,13 +27,18 @@ android {
     lintOptions {
         abortOnError false
     }
+
+
 }
 
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    //    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
     implementation 'com.quinn.hunter:hunter-library:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.1'
 }
 
 repositories {
