@@ -73,29 +73,32 @@ class HunterTransform extends Transform {
             for(JarInput jarInput : input.jarInputs) {
                 Status status = jarInput.getStatus();
                 println(jarInput.getFile().getAbsolutePath() + " : " + status)
-                if (isIncremental && status == Status.NOTCHANGED) {
-                    continue;
-                }
                 File dest = outputProvider.getContentLocation(
                         jarInput.file.absolutePath,
                         jarInput.contentTypes,
                         jarInput.scopes,
                         Format.JAR)
-                switch(status) {
-                    case Status.ADDED:
-                    case Status.CHANGED:
-                        transformJar(jarInput.file, dest)
-                        break;
-                    case Status.REMOVED:
-                        if (dest.exists()) {
-                            FileUtils.forceDelete(dest)
-                        }
-                        break;
+                if(isIncremental) {
+                    switch(status) {
+                        case Status.NOTCHANGED:
+                            continue;
+                        case Status.ADDED:
+                        case Status.CHANGED:
+                            transformJar(jarInput.file, dest)
+                            break;
+                        case Status.REMOVED:
+                            if (dest.exists()) {
+                                FileUtils.forceDelete(dest)
+                            }
+                            break;
+                    }
+                } else {
+                    transformJar(jarInput.file, dest)
                 }
             }
 
             for(DirectoryInput directoryInput : input.directoryInputs) {
-                bytecodeWeaver.weaveByteCode(directoryInput)
+                bytecodeWeaver.weaveDirectory(directoryInput)
                 File dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
@@ -110,7 +113,8 @@ class HunterTransform extends Transform {
 
     private void transformJar(File srcJar, File destJar) {
         println("transformJar jar " + srcJar.getName() + " to dest" + destJar.getName())
-        FileUtils.copyFile(srcJar, destJar)
+        bytecodeWeaver.weaveJar(srcJar, destJar)
+//        FileUtils.copyFile(srcJar, destJar)
     }
 
     private void println(String str) {
