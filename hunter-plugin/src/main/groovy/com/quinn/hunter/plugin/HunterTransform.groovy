@@ -1,11 +1,12 @@
 package com.quinn.hunter.plugin
 
 import com.android.build.api.transform.*
+import com.android.ide.common.internal.WaitableExecutor
 import com.quinn.hunter.plugin.log.Logging
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
-import java.nio.file.Files
+import java.util.concurrent.Callable
 
 /**
  * Created by Quinn on 26/02/2017.
@@ -26,12 +27,14 @@ class HunterTransform extends Transform {
     private Project project;
     private HunterExtension hunterExtension;
     private BytecodeWeaver bytecodeWeaver;
+    private WaitableExecutor waitableExecutor;
     private final Logging logger = Logging.getLogger("HunterTransform");
 
 
     public HunterTransform(Project project){
         this.project = project;
         this.hunterExtension = project.hunterExt;
+        this.waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool();
     }
 
     @Override
@@ -51,7 +54,7 @@ class HunterTransform extends Transform {
 
     @Override
     boolean isIncremental() {
-        return true
+        return false
     }
 
 
@@ -98,7 +101,7 @@ class HunterTransform extends Transform {
             }
 
             for(DirectoryInput directoryInput : input.directoryInputs) {
-                bytecodeWeaver.weaveDirectory(directoryInput)
+                transformDir(directoryInput)
                 File dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
@@ -107,13 +110,24 @@ class HunterTransform extends Transform {
 
         }
 
+        waitableExecutor.waitForTasksWithQuickFail(true);
         def costTime = System.currentTimeMillis() - startTime
         println (getName() + " costed " + costTime + "ms")
     }
 
+    private void transformDir(DirectoryInput directoryInput) {
+        bytecodeWeaver.weaveDirectory(directoryInput)
+    }
+
     private void transformJar(File srcJar, File destJar) {
-        println("transformJar jar " + srcJar.getName() + " to dest" + destJar.getName())
-        bytecodeWeaver.weaveJar(srcJar, destJar)
+        println("transformJar jar " + srcJar.getName() + " to dest " + destJar.getName())
+        waitableExecutor.execute(new Callable() {
+            @Override
+            Object call() throws Exception {
+                bytecodeWeaver.weaveJar(srcJar, destJar)
+                return null
+            }
+        })
 //        FileUtils.copyFile(srcJar, destJar)
     }
 
