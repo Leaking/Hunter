@@ -101,11 +101,12 @@ class HunterTransform extends Transform {
             }
 
             for(DirectoryInput directoryInput : input.directoryInputs) {
-                transformDir(directoryInput)
                 File dest = outputProvider.getContentLocation(directoryInput.name,
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
-                FileUtils.copyDirectory(directoryInput.file, dest)
+                FileUtils.forceMkdir(dest);
+                transformDir(directoryInput.file, dest)
+//                FileUtils.copyDirectory(directoryInput.file, dest)
             }
 
         }
@@ -115,8 +116,8 @@ class HunterTransform extends Transform {
         println (getName() + " costed " + costTime + "ms")
     }
 
-    private void transformDir(DirectoryInput directoryInput) {
-        bytecodeWeaver.weaveDirectory(directoryInput)
+    private void transformDir(File inputDir, File outputDir) {
+        bytecodeWeaver.weaveDirectory(inputDir, outputDir)
     }
 
     private void transformJar(File srcJar, File destJar) {

@@ -6,6 +6,7 @@ import com.android.build.api.transform.Format
 import com.android.build.api.transform.TransformOutputProvider
 import com.google.common.io.Files
 import com.quinn.hunter.plugin.log.Logging
+import org.apache.commons.io.FileUtils
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 
@@ -31,14 +32,22 @@ public class BytecodeWeaver {
         this.urlClassLoader = urlClassLoader
     }
 
-    public void weaveDirectory(DirectoryInput directoryInput){
-        String srcPath = directoryInput.file.absolutePath;
-        File dir = new File(srcPath)
-        if (dir.isDirectory()) {
-            dir.eachFileRecurse { File file ->
+    public void weaveDirectory(File inputDir, File outputDir){
+        String inputDirPath = inputDir.getAbsolutePath();
+        String outputDirPath = outputDir.getAbsolutePath();
+        if (inputDir.isDirectory()) {
+            inputDir.eachFileRecurse { File file ->
                 String filePath = file.absolutePath
+                File outputFile = new File(filePath.replace(inputDirPath, outputDirPath))
                 if (isWeavableClass(filePath)) {
-                    weaveSingleClassToFile(file)
+                    FileUtils.touch(outputFile);
+                    weaveSingleClassToFile(file, outputFile);
+                } else {
+                    if(file.isDirectory()) {
+                        FileUtils.copyDirectory(file, outputFile);
+                    } else {
+                        FileUtils.copyFile(file, outputFile);
+                    }
                 }
             }
         }
@@ -86,10 +95,10 @@ public class BytecodeWeaver {
                 Format.DIRECTORY)
     }
 
-    private void weaveSingleClassToFile(File file){
+    private void weaveSingleClassToFile(File inputFile, File outputFile){
         try {
-            byte[] bytes = weaveSingleClassToByteArray(new FileInputStream(file));
-            FileOutputStream fos = new FileOutputStream(file);
+            byte[] bytes = weaveSingleClassToByteArray(new FileInputStream(inputFile));
+            FileOutputStream fos = new FileOutputStream(outputFile);
             fos.write(bytes);
             fos.close();
         } catch (IOException e) {
