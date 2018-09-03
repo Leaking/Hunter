@@ -1,1 +1,1 @@
-include ':hunter-example', ':hunter-plugin', ':hunter-library', ':hunter-none'
+include ':hunter-example', ':hunter-plugin', ':hunter-library'
