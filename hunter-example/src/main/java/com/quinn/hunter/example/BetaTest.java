@@ -51,4 +51,9 @@ public class BetaTest extends ParentTest{
         int a = 5;
         Log.i(TAG, "claw");
     }
+
+    private void learn() {
+        int a = 5;
+        Log.i(TAG, "claw");
+    }
 }

@@ -1,10 +1,6 @@
 package com.quinn.hunter.plugin
 
 import com.android.SdkConstants
-import com.android.build.api.transform.DirectoryInput
-import com.android.build.api.transform.Format
-import com.android.build.api.transform.TransformOutputProvider
-import com.google.common.io.Files
 import com.quinn.hunter.plugin.log.Logging
 import org.apache.commons.io.FileUtils
 import org.objectweb.asm.ClassReader
@@ -15,7 +11,6 @@ import java.util.zip.CRC32
 import java.util.zip.ZipEntry
 import java.util.zip.ZipFile
 import java.util.zip.ZipOutputStream
-
 /**
  * Created by Quinn on 09/07/2017.
  */
@@ -89,13 +84,7 @@ public class BytecodeWeaver {
 
     }
 
-    private void getDestPath() {
-        File dest = outputProvider.getContentLocation(directoryInput.name,
-                directoryInput.contentTypes, directoryInput.scopes,
-                Format.DIRECTORY)
-    }
-
-    private void weaveSingleClassToFile(File inputFile, File outputFile){
+    public void weaveSingleClassToFile(File inputFile, File outputFile){
         try {
             byte[] bytes = weaveSingleClassToByteArray(new FileInputStream(inputFile));
             FileOutputStream fos = new FileOutputStream(outputFile);

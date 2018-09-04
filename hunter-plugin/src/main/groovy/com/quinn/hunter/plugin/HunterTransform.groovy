@@ -7,7 +7,6 @@ import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
 
 import java.util.concurrent.Callable
-
 /**
  * Created by Quinn on 26/02/2017.
  */
@@ -54,7 +53,7 @@ class HunterTransform extends Transform {
 
     @Override
     boolean isIncremental() {
-        return false
+        return true;
     }
 
 
@@ -75,7 +74,6 @@ class HunterTransform extends Transform {
         for(TransformInput input : inputs) {
             for(JarInput jarInput : input.jarInputs) {
                 Status status = jarInput.getStatus();
-                println(jarInput.getFile().getAbsolutePath() + " : " + status)
                 File dest = outputProvider.getContentLocation(
                         jarInput.file.absolutePath,
                         jarInput.contentTypes,
@@ -105,8 +103,34 @@ class HunterTransform extends Transform {
                         directoryInput.contentTypes, directoryInput.scopes,
                         Format.DIRECTORY)
                 FileUtils.forceMkdir(dest);
-                transformDir(directoryInput.file, dest)
-//                FileUtils.copyDirectory(directoryInput.file, dest)
+                if(isIncremental) {
+                    String srcDirPath = directoryInput.file.absolutePath;
+                    String destDirPath = dest.getAbsolutePath();
+                    Map<File, Status> fileStatusMap = directoryInput.getChangedFiles()
+                    println("change file size " + fileStatusMap.size())
+                    for (Map.Entry<File, Status> changedFile : fileStatusMap.entrySet()) {
+                        Status status = changedFile.getValue();
+                        File inputFile = changedFile.getKey();
+                        println(changedFile.getKey().getName() + " -- " + status)
+                        switch (status) {
+                            case Status.NOTCHANGED:
+                                break;
+                            case Status.REMOVED:
+                                FileUtils.forceDelete(inputFile);
+                                break;
+                            case Status.ADDED:
+                            case Status.CHANGED:
+                                String destFilePath = inputFile.getAbsolutePath().replace(srcDirPath, destDirPath);
+                                File destFile = new File(destFilePath);
+                                FileUtils.touch(destFile);
+                                transformSingleFile(inputFile, destFile)
+                                break;
+                        }
+                    }
+                } else {
+                    transformDir(directoryInput.file, dest)
+                }
+
             }
 
         }
@@ -116,7 +140,12 @@ class HunterTransform extends Transform {
         println (getName() + " costed " + costTime + "ms")
     }
 
+    private void transformSingleFile(File inputFile, File outputFile) {
+        bytecodeWeaver.weaveSingleClassToFile(inputFile, outputFile);
+    }
+
     private void transformDir(File inputDir, File outputDir) {
+        println("transformDir dir " + inputDir.getName())
         bytecodeWeaver.weaveDirectory(inputDir, outputDir)
     }
 
