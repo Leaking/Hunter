@@ -152,16 +152,34 @@ class HunterTransform extends Transform {
     }
 
     private void transformDir(File inputDir, File outputDir) {
-        waitableExecutor.execute(new Callable() {
-            @Override
-            Object call() throws Exception {
-                long start = System.currentTimeMillis();
-                bytecodeWeaver.weaveDirectory(inputDir, outputDir)
-                long costed = System.currentTimeMillis() - start;
-                println("transformDir dir " + inputDir.getAbsolutePath() + " costed " + costed)
-                return null
+        long start = System.currentTimeMillis();
+        String inputDirPath = inputDir.getAbsolutePath();
+        String outputDirPath = outputDir.getAbsolutePath();
+        if (inputDir.isDirectory()) {
+            inputDir.eachFileRecurse { File file0 ->
+                waitableExecutor.execute(new Callable() {
+                    @Override
+                    Object call() throws Exception {
+                        File file = file0;
+                        String filePath = file.absolutePath
+                        File outputFile = new File(filePath.replace(inputDirPath, outputDirPath))
+                        if (bytecodeWeaver.isWeavableClass(filePath)) {
+                            FileUtils.touch(outputFile);
+                            bytecodeWeaver.weaveSingleClassToFile(file, outputFile);
+                        } else {
+                            if(file.isDirectory()) {
+                                FileUtils.copyDirectory(file, outputFile);
+                            } else {
+                                FileUtils.copyFile(file, outputFile);
+                            }
+                        }
+                        return null
+                    }
+                })
             }
-        })
+        }
+        long costed = System.currentTimeMillis() - start;
+        println("transformDir dir " + inputDir.getAbsolutePath() + " costed " + costed)
     }
 
     private void transformJar(File srcJar, File destJar, Status status) {

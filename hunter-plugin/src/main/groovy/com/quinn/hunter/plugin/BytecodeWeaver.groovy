@@ -97,7 +97,7 @@ public class BytecodeWeaver {
         }
     }
 
-    private byte[] weaveSingleClassToByteArray(InputStream inputStream) {
+    public byte[] weaveSingleClassToByteArray(InputStream inputStream) {
         ClassReader classReader = new ClassReader(inputStream);
         ClassWriter classWriter = new TimingClassWriter(urlClassLoader, ClassWriter.COMPUTE_MAXS);
         ClassAdapter classAdapter = new ClassAdapter(classWriter);
@@ -105,8 +105,7 @@ public class BytecodeWeaver {
         return classWriter.toByteArray();
     }
 
-
-    private boolean isWeavableClass(String filePath){
+    public boolean isWeavableClass(String filePath){
         return filePath.endsWith(".class") && !filePath.contains('R$') && !filePath.contains('R.class') && !filePath.contains("BuildConfig.class");
     }
 
