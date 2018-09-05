@@ -85,7 +85,7 @@ class HunterTransform extends Transform {
                             continue;
                         case Status.ADDED:
                         case Status.CHANGED:
-                            transformJar(jarInput.file, dest)
+                            transformJar(jarInput.file, dest, status)
                             break;
                         case Status.REMOVED:
                             if (dest.exists()) {
@@ -94,7 +94,7 @@ class HunterTransform extends Transform {
                             break;
                     }
                 } else {
-                    transformJar(jarInput.file, dest)
+                    transformJar(jarInput.file, dest, status)
                 }
             }
 
@@ -152,22 +152,26 @@ class HunterTransform extends Transform {
     }
 
     private void transformDir(File inputDir, File outputDir) {
-        println("transformDir dir " + inputDir.getName())
         waitableExecutor.execute(new Callable() {
             @Override
             Object call() throws Exception {
+                long start = System.currentTimeMillis();
                 bytecodeWeaver.weaveDirectory(inputDir, outputDir)
+                long costed = System.currentTimeMillis() - start;
+                println("transformDir dir " + inputDir.getAbsolutePath() + " costed " + costed)
                 return null
             }
         })
     }
 
     private void transformJar(File srcJar, File destJar, Status status) {
-        println("transformJar jar " + srcJar.getName() + "; status - " + status)
         waitableExecutor.execute(new Callable() {
             @Override
             Object call() throws Exception {
+                long start = System.currentTimeMillis();
                 bytecodeWeaver.weaveJar(srcJar, destJar)
+                long costed = System.currentTimeMillis() - start;
+                println("transformJar jar " + srcJar.getAbsolutePath() + " costed " + costed)
                 return null
             }
         })

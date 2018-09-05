@@ -86,10 +86,12 @@ public class BytecodeWeaver {
 
     public void weaveSingleClassToFile(File inputFile, File outputFile){
         try {
-            byte[] bytes = weaveSingleClassToByteArray(new FileInputStream(inputFile));
+            InputStream inputStream = new FileInputStream(inputFile);
+            byte[] bytes = weaveSingleClassToByteArray(inputStream);
             FileOutputStream fos = new FileOutputStream(outputFile);
             fos.write(bytes);
             fos.close();
+            inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -97,7 +99,7 @@ public class BytecodeWeaver {
 
     private byte[] weaveSingleClassToByteArray(InputStream inputStream) {
         ClassReader classReader = new ClassReader(inputStream);
-        ClassWriter classWriter = new TimingClassWriter(urlClassLoader, ClassWriter.COMPUTE_FRAMES);
+        ClassWriter classWriter = new TimingClassWriter(urlClassLoader, ClassWriter.COMPUTE_MAXS);
         ClassAdapter classAdapter = new ClassAdapter(classWriter);
         classReader.accept(classAdapter, ClassReader.EXPAND_FRAMES);
         return classWriter.toByteArray();
