@@ -107,23 +107,23 @@ class HunterTransform extends Transform {
                     String srcDirPath = directoryInput.file.absolutePath;
                     String destDirPath = dest.getAbsolutePath();
                     Map<File, Status> fileStatusMap = directoryInput.getChangedFiles()
-                    println("change file size " + fileStatusMap.size())
                     for (Map.Entry<File, Status> changedFile : fileStatusMap.entrySet()) {
                         Status status = changedFile.getValue();
                         File inputFile = changedFile.getKey();
-                        println(changedFile.getKey().getName() + " -- " + status)
                         switch (status) {
                             case Status.NOTCHANGED:
                                 break;
                             case Status.REMOVED:
-                                FileUtils.forceDelete(inputFile);
+                                if(inputFile.exists()) {
+                                    FileUtils.forceDelete(inputFile)
+                                }
                                 break;
                             case Status.ADDED:
                             case Status.CHANGED:
                                 String destFilePath = inputFile.getAbsolutePath().replace(srcDirPath, destDirPath);
                                 File destFile = new File(destFilePath);
                                 FileUtils.touch(destFile);
-                                transformSingleFile(inputFile, destFile)
+                                transformSingleFile(inputFile, destFile, status)
                                 break;
                         }
                     }
@@ -140,17 +140,30 @@ class HunterTransform extends Transform {
         println (getName() + " costed " + costTime + "ms")
     }
 
-    private void transformSingleFile(File inputFile, File outputFile) {
-        bytecodeWeaver.weaveSingleClassToFile(inputFile, outputFile);
+    private void transformSingleFile(File inputFile, File outputFile, Status status) {
+        println("transform single File - " + inputFile.getName() + "; status - " + status)
+        waitableExecutor.execute(new Callable() {
+            @Override
+            Object call() throws Exception {
+                bytecodeWeaver.weaveSingleClassToFile(inputFile, outputFile);
+                return null
+            }
+        })
     }
 
     private void transformDir(File inputDir, File outputDir) {
         println("transformDir dir " + inputDir.getName())
-        bytecodeWeaver.weaveDirectory(inputDir, outputDir)
+        waitableExecutor.execute(new Callable() {
+            @Override
+            Object call() throws Exception {
+                bytecodeWeaver.weaveDirectory(inputDir, outputDir)
+                return null
+            }
+        })
     }
 
-    private void transformJar(File srcJar, File destJar) {
-        println("transformJar jar " + srcJar.getName() + " to dest " + destJar.getName())
+    private void transformJar(File srcJar, File destJar, Status status) {
+        println("transformJar jar " + srcJar.getName() + "; status - " + status)
         waitableExecutor.execute(new Callable() {
             @Override
             Object call() throws Exception {
@@ -158,7 +171,6 @@ class HunterTransform extends Transform {
                 return null
             }
         })
-//        FileUtils.copyFile(srcJar, destJar)
     }
 
     private void println(String str) {
