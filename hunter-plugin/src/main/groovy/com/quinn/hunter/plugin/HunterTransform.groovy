@@ -167,9 +167,8 @@ class HunterTransform extends Transform {
                             FileUtils.touch(outputFile);
                             bytecodeWeaver.weaveSingleClassToFile(file, outputFile);
                         } else {
-                            if(file.isDirectory()) {
-                                FileUtils.copyDirectory(file, outputFile);
-                            } else {
+                            if(file.isFile()) {
+                                FileUtils.touch(outputFile);
                                 FileUtils.copyFile(file, outputFile);
                             }
                         }
