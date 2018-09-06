@@ -45,12 +45,12 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-plugin-timing:1.0.0'
     }
 }
 
 
-apply plugin: 'hunter'
+apply plugin: 'hunter-timing'
 
 hunterExt {
     on = 'true'

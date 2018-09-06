@@ -1,8 +1,8 @@
-package com.quinn.hunter.plugin
+package com.quinn.hunter.plugin.bytecode.timing
 
 import com.android.SdkConstants
+import com.quinn.hunter.plugin.bytecode.ExtendClassWriter
 import com.quinn.hunter.plugin.log.Logging
-import org.apache.commons.io.FileUtils
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
 
@@ -15,37 +15,16 @@ import java.util.zip.ZipOutputStream
  * Created by Quinn on 09/07/2017.
  */
 
-public class BytecodeWeaver {
+public class TimingWeaver {
 
-    private final Logging logger = Logging.getLogger("BytecodeWeaver");
+    private final Logging logger = Logging.getLogger("TimingWeaver");
     private static final FileTime ZERO = FileTime.fromMillis(0);
     private URLClassLoader urlClassLoader;
 
     public static final String PLUGIN_LIBRARY = "com/hunter/library";
 
-    public BytecodeWeaver(URLClassLoader urlClassLoader) {
+    public TimingWeaver(URLClassLoader urlClassLoader) {
         this.urlClassLoader = urlClassLoader
-    }
-
-    public void weaveDirectory(File inputDir, File outputDir){
-        String inputDirPath = inputDir.getAbsolutePath();
-        String outputDirPath = outputDir.getAbsolutePath();
-        if (inputDir.isDirectory()) {
-            inputDir.eachFileRecurse { File file ->
-                String filePath = file.absolutePath
-                File outputFile = new File(filePath.replace(inputDirPath, outputDirPath))
-                if (isWeavableClass(filePath)) {
-                    FileUtils.touch(outputFile);
-                    weaveSingleClassToFile(file, outputFile);
-                } else {
-                    if(file.isDirectory()) {
-                        FileUtils.copyDirectory(file, outputFile);
-                    } else {
-                        FileUtils.copyFile(file, outputFile);
-                    }
-                }
-            }
-        }
     }
 
     public void weaveJar(File inputJar, File outputJar){
@@ -99,8 +78,8 @@ public class BytecodeWeaver {
 
     public byte[] weaveSingleClassToByteArray(InputStream inputStream) {
         ClassReader classReader = new ClassReader(inputStream);
-        ClassWriter classWriter = new TimingClassWriter(urlClassLoader, ClassWriter.COMPUTE_MAXS);
-        ClassAdapter classAdapter = new ClassAdapter(classWriter);
+        ClassWriter classWriter = new ExtendClassWriter(urlClassLoader, ClassWriter.COMPUTE_MAXS);
+        TimingClassAdapter classAdapter = new TimingClassAdapter(classWriter);
         classReader.accept(classAdapter, ClassReader.EXPAND_FRAMES);
         return classWriter.toByteArray();
     }

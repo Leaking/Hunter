@@ -2,6 +2,8 @@ package com.quinn.hunter.plugin
 
 import com.android.build.api.transform.*
 import com.android.ide.common.internal.WaitableExecutor
+import com.quinn.hunter.plugin.bytecode.ClassLoaderHelper
+import com.quinn.hunter.plugin.bytecode.timing.TimingWeaver
 import com.quinn.hunter.plugin.log.Logging
 import org.apache.commons.io.FileUtils
 import org.gradle.api.Project
@@ -25,7 +27,7 @@ class HunterTransform extends Transform {
 
     private Project project;
     private HunterExtension hunterExtension;
-    private BytecodeWeaver bytecodeWeaver;
+    private TimingWeaver bytecodeWeaver;
     private WaitableExecutor waitableExecutor;
     private final Logging logger = Logging.getLogger("HunterTransform");
 
@@ -70,7 +72,7 @@ class HunterTransform extends Transform {
             outputProvider.deleteAll();
         }
         URLClassLoader urlClassLoader = ClassLoaderHelper.getClassLoader(inputs, referencedInputs, project);
-        this.bytecodeWeaver = new BytecodeWeaver(urlClassLoader);
+        this.bytecodeWeaver = new TimingWeaver(urlClassLoader);
         for(TransformInput input : inputs) {
             for(JarInput jarInput : input.jarInputs) {
                 Status status = jarInput.getStatus();
