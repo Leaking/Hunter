@@ -1,14 +1,14 @@
-package com.quinn.hunter.plugin
+package com.quinn.hunter.plugin.bytecode.timing
 
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
-public class ClassAdapter extends ClassVisitor{
+public class TimingClassAdapter extends ClassVisitor{
 
     private String className;
 
-    public ClassAdapter(final ClassVisitor cv) {
+    public TimingClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
     }
 

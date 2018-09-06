@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin
+package com.quinn.hunter.plugin.bytecode
 
 import com.android.build.api.transform.DirectoryInput
 import com.android.build.api.transform.JarInput

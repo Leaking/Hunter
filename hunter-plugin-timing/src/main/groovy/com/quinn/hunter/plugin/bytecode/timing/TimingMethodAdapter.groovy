@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin
+package com.quinn.hunter.plugin.bytecode.timing
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.MethodVisitor

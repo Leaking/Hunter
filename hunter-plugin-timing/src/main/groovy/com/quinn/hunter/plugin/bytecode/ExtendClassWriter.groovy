@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin
+package com.quinn.hunter.plugin.bytecode
 
 import org.objectweb.asm.ClassReader
 import org.objectweb.asm.ClassWriter
@@ -7,15 +7,15 @@ import org.objectweb.asm.Opcodes
 /**
  * Created by quinn on 30/08/2018
  */
-public class TimingClassWriter extends ClassWriter {
+public class ExtendClassWriter extends ClassWriter {
 
-    public static final String TAG = "TimingClassWriter";
+    public static final String TAG = "ExtendClassWriter";
 
     private static final String OBJECT = "java/lang/Object";
 
     private URLClassLoader urlClassLoader;
 
-    public TimingClassWriter(URLClassLoader urlClassLoader, int flags) {
+    public ExtendClassWriter(URLClassLoader urlClassLoader, int flags) {
         super(flags);
         this.urlClassLoader = urlClassLoader;
     }
