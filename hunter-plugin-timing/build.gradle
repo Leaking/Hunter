@@ -2,8 +2,6 @@ apply plugin: 'groovy'
 apply plugin: 'maven'
 
 
-
-
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
@@ -24,9 +22,6 @@ repositories {
     jcenter()
     mavenCentral()
 }
-
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
 
 group='com.quinn.hunter'
 version='1.0.0'

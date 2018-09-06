@@ -1,36 +1,45 @@
-package com.quinn.hunter.plugin.bytecode.timing
+package com.quinn.hunter.plugin.bytecode.timing;
 
-import com.android.SdkConstants
-import com.quinn.hunter.plugin.bytecode.ExtendClassWriter
-import com.quinn.hunter.plugin.log.Logging
-import org.objectweb.asm.ClassReader
-import org.objectweb.asm.ClassWriter
+import com.android.SdkConstants;
+import com.android.utils.FileUtils;
+import com.quinn.hunter.plugin.bytecode.ExtendClassWriter;
 
-import java.nio.file.attribute.FileTime
-import java.util.zip.CRC32
-import java.util.zip.ZipEntry
-import java.util.zip.ZipFile
-import java.util.zip.ZipOutputStream
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLClassLoader;
+import java.nio.file.attribute.FileTime;
+import java.util.Enumeration;
+import java.util.zip.CRC32;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 /**
  * Created by Quinn on 09/07/2017.
  */
 
 public class TimingWeaver {
 
-    private final Logging logger = Logging.getLogger("TimingWeaver");
     private static final FileTime ZERO = FileTime.fromMillis(0);
     private URLClassLoader urlClassLoader;
 
-    public static final String PLUGIN_LIBRARY = "com/hunter/library";
+    private static final String PLUGIN_LIBRARY = "com/hunter/library";
 
     public TimingWeaver(URLClassLoader urlClassLoader) {
-        this.urlClassLoader = urlClassLoader
+        this.urlClassLoader = urlClassLoader;
     }
 
-    public void weaveJar(File inputJar, File outputJar){
+    public void weaveJar(File inputJar, File outputJar) throws IOException {
         ZipFile inputZip = new ZipFile(inputJar);
         ZipOutputStream outputZip = new ZipOutputStream(new BufferedOutputStream(
-                                java.nio.file.Files.newOutputStream(outputJar.toPath())))
+                java.nio.file.Files.newOutputStream(outputJar.toPath())));
         Enumeration<? extends ZipEntry> inEntries = inputZip.entries();
         while (inEntries.hasMoreElements()) {
             ZipEntry entry = inEntries.nextElement();
@@ -40,7 +49,7 @@ public class TimingWeaver {
             ZipEntry outEntry = new ZipEntry(entry.getName());
             byte[] newEntryContent;
             if (!entry.getName().endsWith(SdkConstants.DOT_CLASS) || entry.getName().startsWith(PLUGIN_LIBRARY)) {
-                newEntryContent = originalFile.bytes
+                newEntryContent = org.apache.commons.io.IOUtils.toByteArray(originalFile);
             } else {
                 newEntryContent = weaveSingleClassToByteArray(originalFile);
             }
@@ -60,23 +69,18 @@ public class TimingWeaver {
         }
         outputZip.flush();
         outputZip.close();
-
     }
 
-    public void weaveSingleClassToFile(File inputFile, File outputFile){
-        try {
-            InputStream inputStream = new FileInputStream(inputFile);
-            byte[] bytes = weaveSingleClassToByteArray(inputStream);
-            FileOutputStream fos = new FileOutputStream(outputFile);
-            fos.write(bytes);
-            fos.close();
-            inputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void weaveSingleClassToFile(File inputFile, File outputFile) throws IOException {
+        InputStream inputStream = new FileInputStream(inputFile);
+        byte[] bytes = weaveSingleClassToByteArray(inputStream);
+        FileOutputStream fos = new FileOutputStream(outputFile);
+        fos.write(bytes);
+        fos.close();
+        inputStream.close();
     }
 
-    public byte[] weaveSingleClassToByteArray(InputStream inputStream) {
+    private byte[] weaveSingleClassToByteArray(InputStream inputStream) throws IOException {
         ClassReader classReader = new ClassReader(inputStream);
         ClassWriter classWriter = new ExtendClassWriter(urlClassLoader, ClassWriter.COMPUTE_MAXS);
         TimingClassAdapter classAdapter = new TimingClassAdapter(classWriter);
@@ -85,7 +89,7 @@ public class TimingWeaver {
     }
 
     public boolean isWeavableClass(String filePath){
-        return filePath.endsWith(".class") && !filePath.contains('R$') && !filePath.contains('R.class') && !filePath.contains("BuildConfig.class");
+        return filePath.endsWith(".class") && !filePath.contains("R$") && !filePath.contains("R.class") && !filePath.contains("BuildConfig.class");
     }
 
 
