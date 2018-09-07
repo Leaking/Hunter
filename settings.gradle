@@ -1,1 +1,1 @@
-include ':hunter-example', ':hunter-plugin-timing', ':hunter-library-timing'
+include ':hunter-example', ':hunter-plugin-timing', ':hunter-library-timing', ':hunter-transform'

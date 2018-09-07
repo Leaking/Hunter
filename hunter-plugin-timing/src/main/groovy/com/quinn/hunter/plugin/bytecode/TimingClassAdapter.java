@@ -1,8 +1,10 @@
-package com.quinn.hunter.plugin.bytecode.timing
+package com.quinn.hunter.plugin.bytecode;
 
-import org.objectweb.asm.ClassVisitor
-import org.objectweb.asm.MethodVisitor
-import org.objectweb.asm.Opcodes
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
+import java.io.File;
 
 public class TimingClassAdapter extends ClassVisitor{
 
