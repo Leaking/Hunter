@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin.bytecode;
+package com.quinn.hunter.plugin.timing.bytecode;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -24,7 +24,7 @@ public class TimingClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        return mv == null ? null : new TimingMethodAdapter(className + File.separator + name, access, desc, mv);
+        return mv == null ? null : new com.quinn.hunter.plugin.timing.bytecode.TimingMethodAdapter(className + File.separator + name, access, desc, mv);
     }
 
 

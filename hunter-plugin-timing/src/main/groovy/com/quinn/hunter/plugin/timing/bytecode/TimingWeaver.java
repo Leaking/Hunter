@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin.bytecode;
+package com.quinn.hunter.plugin.timing.bytecode;
 
 
 import com.quinn.hunter.transform.asm.BaseWeaver;

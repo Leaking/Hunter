@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin;
+package com.quinn.hunter.plugin.timing;
 
 /**
  * Created by quinn on 27/06/2017.
