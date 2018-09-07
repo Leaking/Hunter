@@ -1,4 +1,5 @@
-apply plugin: 'groovy'
+apply plugin: 'java-library'
+
 apply plugin: 'maven'
 
 
@@ -9,7 +10,6 @@ dependencies {
     implementation 'com.android.tools.build:gradle-api:3.1.4'
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.10'
-    implementation 'com.quinn.hunter:hunter-transform:1.0.0'
     implementation 'org.ow2.asm:asm:5.1'
     implementation 'org.ow2.asm:asm-util:5.1'
     implementation 'org.ow2.asm:asm-commons:5.1'

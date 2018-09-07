@@ -8,11 +8,10 @@ import org.gradle.api.Project
  */
 
 public class HunterPlugin implements Plugin<Project> {
+
     void apply(Project project) {
         project.extensions.create('hunterExt', HunterExtension)
-        project.android.registerTransform(new HunterTransform(project))
+        project.android.registerTransform(new TimingHunterTransform(project))
     }
-
-
 
 }

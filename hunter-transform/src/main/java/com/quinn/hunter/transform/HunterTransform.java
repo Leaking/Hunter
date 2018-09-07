@@ -1,34 +1,38 @@
-package com.quinn.hunter.plugin;
+package com.quinn.hunter.transform;
 
-import com.android.build.api.transform.*;
+import com.android.build.api.transform.Context;
+import com.android.build.api.transform.DirectoryInput;
+import com.android.build.api.transform.Format;
+import com.android.build.api.transform.JarInput;
+import com.android.build.api.transform.QualifiedContent;
+import com.android.build.api.transform.Status;
+import com.android.build.api.transform.Transform;
+import com.android.build.api.transform.TransformException;
+import com.android.build.api.transform.TransformInput;
+import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.LoggerWrapper;
 import com.android.build.gradle.internal.pipeline.TransformManager;
-import com.android.build.gradle.internal.transforms.DexTransform;
 import com.android.ide.common.internal.WaitableExecutor;
-import com.quinn.hunter.plugin.bytecode.ClassLoaderHelper;
-import com.quinn.hunter.plugin.bytecode.timing.TimingWeaver;
+import com.quinn.hunter.transform.asm.BaseWeaver;
+import com.quinn.hunter.transform.asm.ClassLoaderHelper;
 
 import org.apache.commons.io.FileUtils;
 import org.gradle.api.Project;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URLClassLoader;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.Callable;
 /**
  * Created by Quinn on 26/02/2017.
  */
 /**
  * Transform to modify bytecode
  */
-class HunterTransform extends Transform {
+public class HunterTransform extends Transform {
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(HunterTransform.class);
 
@@ -41,21 +45,17 @@ class HunterTransform extends Transform {
     }
 
     private Project project;
-    private HunterExtension hunterExtension;
-    private TimingWeaver bytecodeWeaver;
+    protected BaseWeaver bytecodeWeaver;
     private WaitableExecutor waitableExecutor;
-
-
 
     public HunterTransform(Project project){
         this.project = project;
-        this.hunterExtension = (HunterExtension)project.getExtensions().getByName("hunterExt");
         this.waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool();
     }
 
     @Override
     public String getName() {
-        return "HunterTransform";
+        return this.getClass().getSimpleName();
     }
 
     @Override
@@ -74,6 +74,7 @@ class HunterTransform extends Transform {
     }
 
 
+    @SuppressWarnings("deprecation")
     @Override
     public void transform(Context context,
                    Collection<TransformInput> inputs,
@@ -87,7 +88,7 @@ class HunterTransform extends Transform {
             outputProvider.deleteAll();
         }
         URLClassLoader urlClassLoader = ClassLoaderHelper.getClassLoader(inputs, referencedInputs, project);
-        this.bytecodeWeaver = new TimingWeaver(urlClassLoader);
+        this.bytecodeWeaver.setClassLoader(urlClassLoader);
         for(TransformInput input : inputs) {
             for(JarInput jarInput : input.getJarInputs()) {
                 Status status = jarInput.getStatus();
@@ -172,15 +173,7 @@ class HunterTransform extends Transform {
                 waitableExecutor.execute(() -> {
                     String filePath = file.getAbsolutePath();
                     File outputFile = new File(filePath.replace(inputDirPath, outputDirPath));
-                    if (bytecodeWeaver.isWeavableClass(filePath)) {
-                        FileUtils.touch(outputFile);
-                        bytecodeWeaver.weaveSingleClassToFile(file, outputFile);
-                    } else {
-                        if (file.isFile()) {
-                            FileUtils.touch(outputFile);
-                            FileUtils.copyFile(file, outputFile);
-                        }
-                    }
+                    bytecodeWeaver.weaveSingleClassToFile(file, outputFile);
                     return null;
                 });
             }

@@ -1,8 +1,13 @@
-package com.quinn.hunter.plugin.bytecode
+package com.quinn.hunter.transform.asm;
 
-import org.objectweb.asm.ClassReader
-import org.objectweb.asm.ClassWriter
-import org.objectweb.asm.Opcodes
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Opcodes;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by quinn on 30/08/2018
@@ -13,9 +18,9 @@ public class ExtendClassWriter extends ClassWriter {
 
     private static final String OBJECT = "java/lang/Object";
 
-    private URLClassLoader urlClassLoader;
+    private ClassLoader urlClassLoader;
 
-    public ExtendClassWriter(URLClassLoader urlClassLoader, int flags) {
+    public ExtendClassWriter(ClassLoader urlClassLoader, int flags) {
         super(flags);
         this.urlClassLoader = urlClassLoader;
     }
