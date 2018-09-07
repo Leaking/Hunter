@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin;
+package com.quinn.hunter.plugin.timing;
 
 import com.android.build.gradle.AppExtension;
 import org.gradle.api.Plugin;

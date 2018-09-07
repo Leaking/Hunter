@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin;
+package com.quinn.hunter.plugin.timing;
 
 
 import com.android.build.api.transform.Context;
@@ -6,7 +6,7 @@ import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.LoggerWrapper;
-import com.quinn.hunter.plugin.bytecode.TimingWeaver;
+import com.quinn.hunter.plugin.timing.bytecode.TimingWeaver;
 import com.quinn.hunter.transform.HunterTransform;
 
 import org.gradle.api.Project;
