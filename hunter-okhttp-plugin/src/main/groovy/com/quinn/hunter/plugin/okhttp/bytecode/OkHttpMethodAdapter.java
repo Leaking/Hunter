@@ -1,5 +1,7 @@
 package com.quinn.hunter.plugin.okhttp.bytecode;
 
+import com.android.build.gradle.internal.LoggerWrapper;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
@@ -7,39 +9,29 @@ import org.objectweb.asm.commons.LocalVariablesSorter;
 
 public class OkHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
-    private int startVarIndex;
+    private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpMethodAdapter.class);
 
-    private String methodName;
-
+    private boolean defaultOkhttpClientBuilderInitMethod = false;
 
     public OkHttpMethodAdapter(String name, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM5, access, desc, mv);
-        this.methodName = name;
+        if ("okhttp3/OkHttpClient$Builder/<init>".equals(name) && "()V".equals(desc)) {
+            defaultOkhttpClientBuilderInitMethod = true;
+        }
     }
-
-
-    @Override
-    public void visitCode() {
-        super.visitCode();
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-        startVarIndex = newLocal(Type.LONG_TYPE);
-        mv.visitVarInsn(Opcodes.LSTORE, startVarIndex);
-    }
-
 
     @Override
     public void visitInsn(int opcode) {
-        if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-            mv.visitVarInsn(Opcodes.LLOAD, startVarIndex);
-            mv.visitInsn(Opcodes.LSUB);
-            int index = newLocal(Type.LONG_TYPE);
-            mv.visitVarInsn(Opcodes.LSTORE, index);
-            mv.visitLdcInsn(methodName);
-            mv.visitVarInsn(Opcodes.LLOAD, index);
-            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/BlockLogger", "log", "(Ljava/lang/String;J)V", false);
+        if(defaultOkhttpClientBuilderInitMethod) {
+            if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
+                logger.info("insert bytecode ");
+                mv.visitVarInsn(ALOAD, 0);
+                mv.visitFieldInsn(GETFIELD, "okhttp3/OkHttpClient$Builder", "eventListenerFactory", "Lokhttp3/EventListener$Factory;");
+                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/okhttp/EventListenerFactoryHelper", "setEventListenerFactory", "(Lokhttp3/EventListener$Factory;)V", false);
+            }
         }
         super.visitInsn(opcode);
+
     }
 
 }
