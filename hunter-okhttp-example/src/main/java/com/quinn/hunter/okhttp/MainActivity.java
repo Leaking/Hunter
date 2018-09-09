@@ -39,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
                             .url(url)
                             .build();
                     OkHttpClient okHttpClient = new OkHttpClient();
-                    okHttpClient.eventListenerFactory();
                     Response response = okHttpClient.newCall(request).execute();
-                    Log.i(TAG, okHttpClient.eventListenerFactory().toString());
+                    String result = response.body().string();
+                    Log.i(TAG, "result " + result);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

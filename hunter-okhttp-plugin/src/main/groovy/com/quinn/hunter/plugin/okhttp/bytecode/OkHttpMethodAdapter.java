@@ -26,8 +26,8 @@ public class OkHttpMethodAdapter extends LocalVariablesSorter implements Opcodes
             if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
                 logger.info("insert bytecode ");
                 mv.visitVarInsn(ALOAD, 0);
-                mv.visitFieldInsn(GETFIELD, "okhttp3/OkHttpClient$Builder", "eventListenerFactory", "Lokhttp3/EventListener$Factory;");
-                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/okhttp/EventListenerFactoryHelper", "setEventListenerFactory", "(Lokhttp3/EventListener$Factory;)V", false);
+                mv.visitFieldInsn(GETSTATIC, "com/hunter/library/okhttp/EventListenerFactoryHelper", "globalFactory", "Lokhttp3/EventListener$Factory;");
+                mv.visitFieldInsn(PUTFIELD, "okhttp3/OkHttpClient$Builder", "eventListenerFactory", "Lokhttp3/EventListener$Factory;");
             }
         }
         super.visitInsn(opcode);
