@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        applicationId "com.quinn.hunter.okhttp"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.quinn.hunter:hunter-timing-library:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+}
+
+repositories {
+    jcenter()
+    google()
+    mavenLocal()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.quinn.hunter:hunter-timing-plugin:1.0.0'
+    }
+}
+
+
+apply plugin: 'hunter-timing'
+
+hunterExt {
+    on = 'true'
+    global = 'true'
+}
