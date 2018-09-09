@@ -8,13 +8,13 @@ import java.util.Collections;
 /**
  * Created by Quinn on 25/02/2017.
  */
-public class HunterTimingPlugin implements Plugin<Project> {
+public class OkHttpHunterPlugin implements Plugin<Project> {
 
     @SuppressWarnings("NullableProblems")
     @Override
     public void apply(Project project) {
         AppExtension appExtension = (AppExtension)project.getProperties().get("android");
-        appExtension.registerTransform(new OkhttpHunterTransform(project), Collections.EMPTY_LIST);
+        appExtension.registerTransform(new OkHttpHunterTransform(project), Collections.EMPTY_LIST);
     }
 
 }
