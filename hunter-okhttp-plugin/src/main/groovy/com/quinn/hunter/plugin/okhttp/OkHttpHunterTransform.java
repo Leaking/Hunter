@@ -8,19 +8,13 @@ import com.quinn.hunter.transform.HunterTransform;
 import org.gradle.api.Project;
 
 /**
- * Created by quinn on 07/09/2018
+ * Created by Quinn on 09/09/2018.
  */
-public class OkHttpHunterTransform extends HunterTransform {
+public final class OkHttpHunterTransform extends HunterTransform {
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpHunterTransform.class);
-
-    private Project project;
-
-    public OkHttpHunterTransform(Project project) {
+    OkHttpHunterTransform(Project project) {
         super(project);
-        this.project = project;
         this.bytecodeWeaver = new OkHttpWeaver();
     }
-
 
 }

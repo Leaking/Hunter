@@ -9,13 +9,17 @@ import org.objectweb.asm.Opcodes;
 
 import java.io.File;
 
-public class OkHttpClassAdapter extends ClassVisitor{
+
+/**
+ * Created by Quinn on 09/09/2018.
+ */
+public final class OkHttpClassAdapter extends ClassVisitor{
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpClassAdapter.class);
 
     private String className;
 
-    public OkHttpClassAdapter(final ClassVisitor cv) {
+    OkHttpClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
     }
 
