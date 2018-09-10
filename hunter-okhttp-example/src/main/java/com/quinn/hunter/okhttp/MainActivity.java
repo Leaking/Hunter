@@ -19,13 +19,12 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
-    private EventListener.Factory factory;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);setContentView(R.layout.activity_main);
-        factory = DefaultEventListener.getFactory();
+        EventListener.Factory factory = DefaultEventListener.getFactory();
         EventListenerFactoryHelper.install(factory);
-        Log.i(TAG, "factory " + factory);
         run("http://square.github.io/okhttp/");
         run("https://github.com/");
     }
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
                     OkHttpClient okHttpClient = new OkHttpClient();
                     Response response = okHttpClient.newCall(request).execute();
                     String result = response.body().string();
-                    Log.i(TAG, "result " + result);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

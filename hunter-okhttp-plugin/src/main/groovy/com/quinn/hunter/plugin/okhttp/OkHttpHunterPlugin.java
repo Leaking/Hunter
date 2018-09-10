@@ -6,9 +6,9 @@ import org.gradle.api.Project;
 import java.util.Collections;
 
 /**
- * Created by Quinn on 25/02/2017.
+ * Created by Quinn on 09/09/2018.
  */
-public class OkHttpHunterPlugin implements Plugin<Project> {
+public final class OkHttpHunterPlugin implements Plugin<Project> {
 
     @SuppressWarnings("NullableProblems")
     @Override

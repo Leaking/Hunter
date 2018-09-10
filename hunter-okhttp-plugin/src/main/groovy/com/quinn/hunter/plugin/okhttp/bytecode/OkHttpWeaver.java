@@ -7,10 +7,9 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
 /**
- * Created by Quinn on 09/07/2017.
+ * Created by Quinn on 09/09/2018.
  */
-
-public class OkHttpWeaver extends BaseWeaver {
+public final class OkHttpWeaver extends BaseWeaver {
 
     private static final String PLUGIN_LIBRARY = "com/hunter/library";
 
