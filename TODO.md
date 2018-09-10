@@ -1,7 +1,26 @@
-TODO
+#TODO
 
-# Hunter-Transform framework
+## Hunter-Transform framework
 
-1. ~~这是删除线~~
-2. ~~这是删除线~~
-3. 
+1. ~~incremental compile~~
+2. ~~parallel compile~~
+3. ~~extract and modify jar~~
+4. use cached jar
+
+
+## Timing Plugin
+
+1. ~~Insert byteCode to get time costed by every method~~
+2. Extension to control whitelist and blacklist
+3. Algorithm to reduction blocked stacktrace
+
+## OkHttp Plugin
+
+1. ~~Global EventListener~~
+2. Global Dns
+3. Global Intercepter
+
+## Cachable-Method Plugin
+
+1. Memory-Cache Method
+2. SharePreference-Cache Method
