@@ -1,4 +1,4 @@
-package com.hunter.library;
+package com.hunter.library.timing;
 
 import android.os.Environment;
 import android.util.Log;
@@ -23,13 +23,17 @@ import java.util.concurrent.Executors;
  * Created by quinn on 27/06/2017.
  */
 
-public class BlockManager {
+public class BlockManagerImpl {
 
-    private static final String TAG = "BlockManager";
+    private static final String TAG = "BlockManagerImpl";
 
     private static String newline = System.getProperty("line.separator");
     private static String twonewline = newline + newline;
 
+    /**
+     * Store costed time of methods, one method may be invoked more than one time
+     * 1(method) TO N(cost-times)
+     */
     private static ConcurrentHashMap<String, ArrayList<Integer>> methodBlockDetails = new ConcurrentHashMap<>();
 
     private static List<BlockTrace> blockTraces = Collections.synchronizedList(new ArrayList<BlockTrace>());
@@ -38,8 +42,8 @@ public class BlockManager {
 
     private static File blockLog = new File(Environment.getExternalStorageDirectory() + File.separator + "blocktrace.log");
 
-
     private static class BlockTrace {
+        //Inner method is ahead of Outter method
         ArrayList<String> methods = new ArrayList<>();
         ArrayList<Integer> mills = new ArrayList<>();
         int traceCostedTime = -1;
@@ -65,7 +69,6 @@ public class BlockManager {
 
 
     public static void addMethodBlockDetail(final String method, final int mills) {
-
 
         StackTraceElement[] stackTraceElements = new Throwable().getStackTrace();
         final StackTraceElement currMethod = stackTraceElements[1];

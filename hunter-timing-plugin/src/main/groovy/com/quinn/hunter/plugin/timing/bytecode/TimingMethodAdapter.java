@@ -5,7 +5,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
-public class TimingMethodAdapter extends LocalVariablesSorter implements Opcodes {
+public final class TimingMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
     private int startVarIndex;
 
@@ -26,7 +26,6 @@ public class TimingMethodAdapter extends LocalVariablesSorter implements Opcodes
         mv.visitVarInsn(Opcodes.LSTORE, startVarIndex);
     }
 
-
     @Override
     public void visitInsn(int opcode) {
         if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
@@ -37,7 +36,7 @@ public class TimingMethodAdapter extends LocalVariablesSorter implements Opcodes
             mv.visitVarInsn(Opcodes.LSTORE, index);
             mv.visitLdcInsn(methodName);
             mv.visitVarInsn(Opcodes.LLOAD, index);
-            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/BlockLogger", "log", "(Ljava/lang/String;J)V", false);
+            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/timing/BlockHandler", "timingMethod", "(Ljava/lang/String;J)V", false);
         }
         super.visitInsn(opcode);
     }
