@@ -6,11 +6,11 @@ import org.objectweb.asm.Opcodes;
 
 import java.io.File;
 
-public class TimingClassAdapter extends ClassVisitor{
+public final class TimingClassAdapter extends ClassVisitor{
 
     private String className;
 
-    public TimingClassAdapter(final ClassVisitor cv) {
+    TimingClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
     }
 

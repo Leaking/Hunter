@@ -10,7 +10,7 @@ import org.objectweb.asm.ClassWriter;
  * Created by Quinn on 09/07/2017.
  */
 
-public class TimingWeaver extends BaseWeaver {
+public final class TimingWeaver extends BaseWeaver {
 
     private static final String PLUGIN_LIBRARY = "com/hunter/library";
 

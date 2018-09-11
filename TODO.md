@@ -14,6 +14,7 @@
 1. ~~Insert byteCode to get time costed by every method~~
 2. Extension to control whitelist and blacklist
 3. Algorithm to reduction blocked stacktrace
+4. Support Annotation
 
 ## OkHttp Plugin
 
@@ -25,3 +26,4 @@
 
 1. Memory-Cache Method
 2. SharePreference-Cache Method
+
