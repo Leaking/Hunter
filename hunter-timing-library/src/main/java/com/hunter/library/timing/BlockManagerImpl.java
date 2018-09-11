@@ -3,10 +3,7 @@ package com.hunter.library.timing;
 import android.os.Environment;
 import android.util.Log;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,26 +20,28 @@ import java.util.concurrent.Executors;
  * Created by quinn on 27/06/2017.
  */
 
-public class BlockManagerImpl {
+public class BlockManagerImpl implements IBlockManger {
 
-    private static final String TAG = "BlockManagerImpl";
+    private final String TAG = "BlockManagerImpl";
 
-    private static String newline = System.getProperty("line.separator");
-    private static String twonewline = newline + newline;
+    private String newline = System.getProperty("line.separator");
+    private String twonewline = newline + newline;
+
+    public static final int THRESHOLD = 100;
 
     /**
      * Store costed time of methods, one method may be invoked more than one time
      * 1(method) TO N(cost-times)
      */
-    private static ConcurrentHashMap<String, ArrayList<Integer>> methodBlockDetails = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, ArrayList<Integer>> methodBlockDetails = new ConcurrentHashMap<>();
 
-    private static List<BlockTrace> blockTraces = Collections.synchronizedList(new ArrayList<BlockTrace>());
+    private List<BlockTrace> blockTraces = Collections.synchronizedList(new ArrayList<BlockTrace>());
 
-    private static ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-    private static File blockLog = new File(Environment.getExternalStorageDirectory() + File.separator + "blocktrace.log");
+    private File blockLog = new File(Environment.getExternalStorageDirectory() + File.separator + "blocktrace.log");
 
-    private static class BlockTrace {
+    private class BlockTrace {
         //Inner method is ahead of Outter method
         ArrayList<String> methods = new ArrayList<>();
         ArrayList<Integer> mills = new ArrayList<>();
@@ -67,9 +66,9 @@ public class BlockManagerImpl {
         }
     }
 
-
-    public static void addMethodBlockDetail(final String method, final int mills) {
-
+    @Override
+    public void timingMethod(final String method, final int mills) {
+        if(mills < THRESHOLD) return;
         StackTraceElement[] stackTraceElements = new Throwable().getStackTrace();
         final StackTraceElement currMethod = stackTraceElements[1];
         final StackTraceElement callMethod = stackTraceElements[2];
@@ -89,7 +88,7 @@ public class BlockManagerImpl {
 
     }
 
-    private static void appendTraceElement(int currMills, String currMethod, String callMethod){
+    private void appendTraceElement(int currMills, String currMethod, String callMethod){
         boolean flag = false;
         for(BlockTrace blockTrace : blockTraces) {
             String method = blockTrace.methods.get(blockTrace.methods.size() - 1);
@@ -113,7 +112,7 @@ public class BlockManagerImpl {
         }
     }
 
-    private static String dumpBlockStackTrace() {
+    private String dumpBlockStackTrace() {
         List<BlockTrace> copyBlockTraces = new ArrayList<>(blockTraces);
         Collections.sort(copyBlockTraces, new Comparator<BlockTrace>() {
             @Override
@@ -136,35 +135,37 @@ public class BlockManagerImpl {
     /**
      * 应用层可以自己拿数据做自定义的分析
      */
-    public static ConcurrentHashMap<String, ArrayList<Integer>> getMethodBlockDetails() {
+    public ConcurrentHashMap<String, ArrayList<Integer>> getMethodBlockDetails() {
         return methodBlockDetails;
     }
 
-    public static void dump() {
+    @Override
+    public void dump() {
+        Log.i(TAG, "dump " + blockLog.length());
         String topContent = dump(20);
         String stackTraceContent = dumpBlockStackTrace();
         Log.i(TAG, topContent);
         Log.i(TAG, stackTraceContent);
 
-        try {
-            FileUtils.forceDelete(blockLog);
-            if(!blockLog.exists()) blockLog.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FileUtils.writeStringToFile(blockLog, topContent, true);
-            FileUtils.writeStringToFile(blockLog, stackTraceContent, true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            if(blockLog.exists()) FileUtils.forceDelete(blockLog);
+//            if(!blockLog.exists()) blockLog.createNewFile();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            FileUtils.writeStringToFile(blockLog, topContent, true);
+//            FileUtils.writeStringToFile(blockLog, stackTraceContent, true);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
      * 一种默认的分析方式，dump出平均值排行，以及重现次数排行
      */
-    public static String dump(int count) {
+    private String dump(int count) {
         StringBuilder result = new StringBuilder();
         result.append(newline);
         HashMap<String, Float> method_block_average_map = new HashMap<>();
@@ -207,14 +208,14 @@ public class BlockManagerImpl {
     /**
      * 小数点保留两位
      */
-    public static Float formatFloat(Float val) {
+    private Float formatFloat(Float val) {
         return (float)(Math.round(val*100))/100;
     }
 
     /**
      * 按照 value值对 hashmap进行排序
      */
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ) {
+    private <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map ) {
         List<Map.Entry<K, V>> list =
                 new LinkedList<Map.Entry<K, V>>( map.entrySet() );
         Collections.sort( list, new Comparator<Map.Entry<K, V>>()
@@ -236,7 +237,7 @@ public class BlockManagerImpl {
     /**
      * 求平均值
      */
-    public static float average(ArrayList<Integer> costTimeList) {
+    private float average(ArrayList<Integer> costTimeList) {
         if(costTimeList == null || costTimeList.size() == 0) {
             return 0 ;
         }

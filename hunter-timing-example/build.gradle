@@ -27,8 +27,9 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.quinn.hunter:hunter-timing-library:1.0.0'
+//    implementation 'com.quinn.hunter:hunter-timing-library:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation project(':hunter-timing-library')
 }
 
 repositories {

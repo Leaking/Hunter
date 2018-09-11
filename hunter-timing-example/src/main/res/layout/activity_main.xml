@@ -8,11 +8,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.quinn.transformapi.MainActivity">
+    tools:context="com.quinn.hunter.example.MainActivity">
 
     <TextView
-        android:id="@+id/hello"
+        android:id="@+id/dump"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Dump block data" />
+
 </RelativeLayout>

@@ -17,7 +17,7 @@ public class BlockHandler {
 
     public static void timingMethod(String method, long cost) {
         if (Looper.myLooper() == Looper.getMainLooper()) {
-            iBlockManger.timingMethod(method, cost);
+            iBlockManger.timingMethod(method, (int)cost);
         }
     }
 

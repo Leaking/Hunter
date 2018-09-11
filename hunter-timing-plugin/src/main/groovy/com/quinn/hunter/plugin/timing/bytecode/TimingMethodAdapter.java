@@ -17,7 +17,6 @@ public final class TimingMethodAdapter extends LocalVariablesSorter implements O
         this.methodName = name;
     }
 
-
     @Override
     public void visitCode() {
         super.visitCode();
@@ -29,13 +28,13 @@ public final class TimingMethodAdapter extends LocalVariablesSorter implements O
     @Override
     public void visitInsn(int opcode) {
         if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-            mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-            mv.visitVarInsn(Opcodes.LLOAD, startVarIndex);
-            mv.visitInsn(Opcodes.LSUB);
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+            mv.visitVarInsn(LLOAD, startVarIndex);
+            mv.visitInsn(LSUB);
             int index = newLocal(Type.LONG_TYPE);
-            mv.visitVarInsn(Opcodes.LSTORE, index);
+            mv.visitVarInsn(LSTORE, index);
             mv.visitLdcInsn(methodName);
-            mv.visitVarInsn(Opcodes.LLOAD, index);
+            mv.visitVarInsn(LLOAD, index);
             mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/timing/BlockHandler", "timingMethod", "(Ljava/lang/String;J)V", false);
         }
         super.visitInsn(opcode);
