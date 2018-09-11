@@ -15,15 +15,22 @@ public interface IBlockManger {
         private static final int BLOCK_THRESHOLD = 100;
 
         @Override
-        public void timingMethod(String method, long cost) {
-            if(cost >= 100) {
+        public void timingMethod(String method, int cost) {
+            if(cost >= BLOCK_THRESHOLD) {
                 Log.i(TAG, method + " costed " + cost);
             }
         }
 
+        @Override
+        public void dump() {
+
+        }
+
     };
 
-    public void timingMethod(String method, long cost);
+    public void timingMethod(String method, int cost);
+
+    public void dump();
 
 
 }

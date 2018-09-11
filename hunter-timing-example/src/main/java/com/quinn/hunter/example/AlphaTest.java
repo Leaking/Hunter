@@ -26,6 +26,31 @@ public class AlphaTest {
         a = 5;
     }
 
+    public void eat1() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void eat2() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void eat3() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 //    @ParameterDebug
     private void sleep(int begin, double second , String hah) {
         a = 10;
