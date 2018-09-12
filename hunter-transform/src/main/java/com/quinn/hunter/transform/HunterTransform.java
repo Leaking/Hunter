@@ -141,7 +141,7 @@ public class HunterTransform extends Transform {
                                 String destFilePath = inputFile.getAbsolutePath().replace(srcDirPath, destDirPath);
                                 File destFile = new File(destFilePath);
                                 FileUtils.touch(destFile);
-                                transformSingleFile(inputFile, destFile, status);
+                                transformSingleFile(inputFile, destFile, srcDirPath);
                                 break;
                         }
                     }
@@ -158,9 +158,9 @@ public class HunterTransform extends Transform {
         logger.info((getName() + " costed " + costTime + "ms"));
     }
 
-    private void transformSingleFile(final File inputFile, final File outputFile, final Status status) {
+    private void transformSingleFile(final File inputFile, final File outputFile, final String srcBaseDir) {
         waitableExecutor.execute(() -> {
-            bytecodeWeaver.weaveSingleClassToFile(inputFile, outputFile);
+            bytecodeWeaver.weaveSingleClassToFile(inputFile, outputFile, srcBaseDir);
             return null;
         });
     }
@@ -168,12 +168,13 @@ public class HunterTransform extends Transform {
     private void transformDir(final File inputDir, final File outputDir) {
         final String inputDirPath = inputDir.getAbsolutePath();
         final String outputDirPath = outputDir.getAbsolutePath();
+        logger.info("transform dir " + inputDirPath);
         if (inputDir.isDirectory()) {
             for (final File file : com.android.utils.FileUtils.getAllFiles(inputDir)) {
                 waitableExecutor.execute(() -> {
                     String filePath = file.getAbsolutePath();
                     File outputFile = new File(filePath.replace(inputDirPath, outputDirPath));
-                    bytecodeWeaver.weaveSingleClassToFile(file, outputFile);
+                    bytecodeWeaver.weaveSingleClassToFile(file, outputFile, inputDirPath);
                     return null;
                 });
             }

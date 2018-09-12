@@ -8,6 +8,7 @@ import android.view.View;
 import com.hunter.library.timing.BlockHandler;
 import com.hunter.library.timing.BlockManagerImpl;
 import com.hunter.library.timing.IBlockManger;
+import com.quinn.hunter.example.black.AlphaTest;
 
 
 public class MainActivity extends AppCompatActivity {

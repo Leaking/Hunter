@@ -11,13 +11,6 @@ import org.objectweb.asm.ClassWriter;
  */
 public final class OkHttpWeaver extends BaseWeaver {
 
-    private static final String PLUGIN_LIBRARY = "com/hunter/library";
-
-    @Override
-    public boolean isWeavableJarClass(String entryName) {
-        return isWeavableClass(entryName) && !entryName.startsWith(PLUGIN_LIBRARY);
-    }
-
     @Override
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         return new OkHttpClassAdapter(classWriter);
