@@ -12,6 +12,7 @@ import com.quinn.hunter.transform.HunterTransform;
 import org.gradle.api.Project;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -26,14 +27,15 @@ public class TimingHunterTransform extends HunterTransform {
     public TimingHunterTransform(Project project) {
         super(project);
         this.project = project;
-        project.getExtensions().create("hunterExt", HunterExtension.class);
+        project.getExtensions().create("timingHunterExtension", TimingHunterExtension.class);
         this.bytecodeWeaver = new TimingWeaver();
     }
 
     @Override
     public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        HunterExtension hunterExtension = (HunterExtension) project.getExtensions().getByName("hunterExt");
-        logger.info("hunter2 2 ext global " + hunterExtension.global + " on " + hunterExtension.on);
+        TimingHunterExtension timingHunterExtension = (TimingHunterExtension) project.getExtensions().getByName("timingHunterExtension");
+        bytecodeWeaver.setExtension(timingHunterExtension);
+        logger.info("hunter2 2 ext global " + timingHunterExtension.global + " on " + timingHunterExtension.on + " blacklist " + Arrays.toString(timingHunterExtension.blacklist.toArray()));
         super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
     }
 }

@@ -14,11 +14,6 @@ public interface IWeaver {
     public boolean isWeavableClass(String filePath) throws IOException;
 
     /**
-     * Check a certain class inside of jar is weavable
-     */
-    public boolean isWeavableJarClass(String entryName) throws IOException;
-
-    /**
      * Weave single class to byte array
      */
     public byte[] weaveSingleClassToByteArray(InputStream inputStream) throws IOException;

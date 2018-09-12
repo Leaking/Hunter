@@ -8,7 +8,7 @@ import java.util.Collections;
 /**
  * Created by Quinn on 25/02/2017.
  */
-public class HunterTimingPlugin implements Plugin<Project> {
+public class TimingHunterPlugin implements Plugin<Project> {
 
     @SuppressWarnings("NullableProblems")
     @Override

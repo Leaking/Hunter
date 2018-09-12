@@ -1,4 +1,4 @@
-package com.quinn.hunter.example;
+package com.quinn.hunter.example.black;
 
 
 import okhttp3.OkHttpClient;

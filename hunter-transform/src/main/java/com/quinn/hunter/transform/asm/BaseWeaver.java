@@ -1,5 +1,7 @@
 package com.quinn.hunter.transform.asm;
 
+import com.android.build.gradle.internal.LoggerWrapper;
+
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -26,6 +28,7 @@ public abstract class BaseWeaver implements IWeaver{
 
     private static final FileTime ZERO = FileTime.fromMillis(0);
     private ClassLoader classLoader;
+    private static final LoggerWrapper logger = LoggerWrapper.getLogger(BaseWeaver.class);
 
     public BaseWeaver() {
     }
@@ -41,7 +44,7 @@ public abstract class BaseWeaver implements IWeaver{
                     new BufferedInputStream(inputZip.getInputStream(entry));
             ZipEntry outEntry = new ZipEntry(entry.getName());
             byte[] newEntryContent;
-            if (!isWeavableJarClass(outEntry.getName())) {
+            if (!isWeavableClass(outEntry.getName().replace("/", "."))) {
                 newEntryContent = org.apache.commons.io.IOUtils.toByteArray(originalFile);
             } else {
                 newEntryContent = weaveSingleClassToByteArray(originalFile);
@@ -63,8 +66,9 @@ public abstract class BaseWeaver implements IWeaver{
         outputZip.close();
     }
 
-    public final void weaveSingleClassToFile(File inputFile, File outputFile) throws IOException {
-        if(isWeavableClass(inputFile.getAbsolutePath())) {
+    public final void weaveSingleClassToFile(File inputFile, File outputFile, String inputBaseDir) throws IOException {
+        if(!inputBaseDir.endsWith("/")) inputBaseDir = inputBaseDir + "/";
+        if(isWeavableClass(inputFile.getAbsolutePath().replace(inputBaseDir, "").replace("/", "."))) {
             FileUtils.touch(outputFile);
             InputStream inputStream = new FileInputStream(inputFile);
             byte[] bytes = weaveSingleClassToByteArray(inputStream);
@@ -93,17 +97,17 @@ public abstract class BaseWeaver implements IWeaver{
         return classWriter.toByteArray();
     }
 
+    public void setExtension(Object extension) {
+
+    }
+
     protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
         return classWriter;
     }
 
     @Override
-    public boolean isWeavableClass(String filePath){
-        return filePath.endsWith(".class") && !filePath.contains("R$") && !filePath.contains("R.class") && !filePath.contains("BuildConfig.class");
+    public boolean isWeavableClass(String fullQualifiedClassName){
+        return fullQualifiedClassName.endsWith(".class") && !fullQualifiedClassName.contains("R$") && !fullQualifiedClassName.contains("R.class") && !fullQualifiedClassName.contains("BuildConfig.class");
     }
 
-    @Override
-    public boolean isWeavableJarClass(String entryName) {
-        return isWeavableClass(entryName);
-    }
 }
