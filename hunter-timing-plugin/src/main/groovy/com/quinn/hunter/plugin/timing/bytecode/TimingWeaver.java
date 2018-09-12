@@ -13,7 +13,7 @@ import org.objectweb.asm.ClassWriter;
  */
 public final class TimingWeaver extends BaseWeaver {
 
-    private static final String PLUGIN_LIBRARY = "com/hunter/library";
+    private static final String PLUGIN_LIBRARY = "com.hunter.library.timing";
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(TimingWeaver.class);
 
     private TimingHunterExtension timingHunterExtension;
@@ -37,6 +37,7 @@ public final class TimingWeaver extends BaseWeaver {
             }
         }
         if(inBlackList) logger.info("In blacklist " + fullQualifiedClassName);
+        if(isByteCodePlugin) logger.info("In ByteCodePlugin " + fullQualifiedClassName);
         return superResult && !isByteCodePlugin && !inBlackList;
     }
 

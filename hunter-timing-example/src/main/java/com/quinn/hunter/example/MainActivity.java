@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.hunter.library.timing.BlockHandler;
-import com.hunter.library.timing.BlockManagerImpl;
 import com.hunter.library.timing.IBlockManger;
 import com.quinn.hunter.example.black.AlphaTest;
 
@@ -20,8 +18,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        iBlockManger = new BlockManagerImpl();
-        BlockHandler.installBlockManager(iBlockManger);
         new AlphaTest();
         new BetaTest();
 

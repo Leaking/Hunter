@@ -186,7 +186,7 @@ public class HunterTransform extends Transform {
             long start = System.currentTimeMillis();
             bytecodeWeaver.weaveJar(srcJar, destJar);
             long costed = System.currentTimeMillis() - start;
-            logger.info("transformJar jar " + srcJar.getAbsolutePath() + " costed " + costed);
+            logger.info("transform jar " + srcJar.getAbsolutePath()  + " to " + destJar.getName() + " costed " + costed);
             return null;
         });
     }
