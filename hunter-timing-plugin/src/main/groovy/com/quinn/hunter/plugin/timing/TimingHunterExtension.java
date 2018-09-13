@@ -9,10 +9,10 @@ import java.util.List;
  */
 
 public class TimingHunterExtension {
+
     public String on = "false";
     public String global = "false";
     public List<String> blacklist = new ArrayList<>();
-
 
     @Override
     public String toString() {

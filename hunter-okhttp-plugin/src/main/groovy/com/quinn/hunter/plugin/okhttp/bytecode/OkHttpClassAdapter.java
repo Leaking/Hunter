@@ -1,21 +1,15 @@
 package com.quinn.hunter.plugin.okhttp.bytecode;
 
 import com.android.build.gradle.internal.LoggerWrapper;
-import com.quinn.hunter.plugin.okhttp.OkHttpHunterTransform;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
 import java.io.File;
-
 
 /**
  * Created by Quinn on 09/09/2018.
  */
 public final class OkHttpClassAdapter extends ClassVisitor{
-
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpClassAdapter.class);
 
     private String className;
 
@@ -39,7 +33,5 @@ public final class OkHttpClassAdapter extends ClassVisitor{
             return mv;
         }
     }
-
-
 
 }

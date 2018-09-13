@@ -1,10 +1,8 @@
 package com.quinn.hunter.plugin.timing.bytecode;
 
-
 import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.timing.TimingHunterExtension;
 import com.quinn.hunter.transform.asm.BaseWeaver;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
