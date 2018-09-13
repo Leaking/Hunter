@@ -7,8 +7,6 @@ import android.os.Looper;
  */
 public class BlockHandler {
 
-    public static final String TAG = "BlockHandler";
-
     private static IBlockManger iBlockManger = IBlockManger.DEFAULT;
 
     public static void installBlockManager(IBlockManger custom) {

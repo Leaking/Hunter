@@ -1,8 +1,6 @@
 package com.quinn.hunter.plugin.okhttp.bytecode;
 
-
 import com.quinn.hunter.transform.asm.BaseWeaver;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 

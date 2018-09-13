@@ -3,7 +3,6 @@ package com.quinn.hunter.plugin.timing.bytecode;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
 import java.io.File;
 
 public final class TimingClassAdapter extends ClassVisitor{
