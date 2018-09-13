@@ -1,4 +1,4 @@
-package com.hunter.library.okhttp;
+package com.quinn.hunter.okhttp;
 
 import android.annotation.SuppressLint;
 import android.os.SystemClock;

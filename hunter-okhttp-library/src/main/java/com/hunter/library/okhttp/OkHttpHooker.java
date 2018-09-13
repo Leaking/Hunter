@@ -1,5 +1,7 @@
 package com.hunter.library.okhttp;
 
+import okhttp3.Call;
+import okhttp3.Dns;
 import okhttp3.EventListener;
 
 /**
@@ -7,10 +9,20 @@ import okhttp3.EventListener;
  */
 public class OkHttpHooker {
 
-    public static EventListener.Factory globalEventFactory = DefaultEventListener.FACTORY;
+    public static EventListener.Factory globalEventFactory = new EventListener.Factory() {
+        public EventListener create(Call call) {
+            return new EventListener() {};
+        }
+    };;
 
-    public static void install(EventListener.Factory factory) {
+    public static Dns globalDns = Dns.SYSTEM;
+
+    public static void installEventListenerFactory(EventListener.Factory factory) {
         globalEventFactory = factory;
+    }
+
+    public static void installDns(Dns dns) {
+        globalDns = dns;
     }
 
 }
