@@ -1,9 +1,7 @@
 package com.quinn.hunter.plugin.okhttp.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
 /**
@@ -25,7 +23,7 @@ public final class OkHttpMethodAdapter extends LocalVariablesSorter implements O
         if(defaultOkhttpClientBuilderInitMethod) {
             if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
                 mv.visitVarInsn(ALOAD, 0);
-                mv.visitFieldInsn(GETSTATIC, "com/hunter/library/okhttp/EventListenerFactoryHelper", "globalFactory", "Lokhttp3/EventListener$Factory;");
+                mv.visitFieldInsn(GETSTATIC, "com/hunter/library/okhttp/OkHttpHooker", "globalEventFactory", "Lokhttp3/EventListener$Factory;");
                 mv.visitFieldInsn(PUTFIELD, "okhttp3/OkHttpClient$Builder", "eventListenerFactory", "Lokhttp3/EventListener$Factory;");
             }
         }
