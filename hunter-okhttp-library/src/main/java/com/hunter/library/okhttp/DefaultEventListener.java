@@ -17,7 +17,7 @@ import okhttp3.EventListener;
  */
 public class DefaultEventListener extends EventListener{
 
-    public static final String TAG = "DefaultEventListener";
+    private static final String TAG = "DefaultEventListener";
 
     public static final EventListener.Factory FACTORY =  new EventListener.Factory() {
 

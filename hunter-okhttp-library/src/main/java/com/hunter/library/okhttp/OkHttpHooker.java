@@ -5,12 +5,12 @@ import okhttp3.EventListener;
 /**
  * Created by Quinn on 09/09/2018.
  */
-public class EventListenerFactoryHelper {
+public class OkHttpHooker {
 
-    public static EventListener.Factory globalFactory = null;
+    public static EventListener.Factory globalEventFactory = DefaultEventListener.FACTORY;
 
     public static void install(EventListener.Factory factory) {
-        globalFactory = factory;
+        globalEventFactory = factory;
     }
 
 }

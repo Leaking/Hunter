@@ -2,11 +2,9 @@ package com.quinn.hunter.okhttp;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 
 import com.hunter.library.okhttp.DefaultEventListener;
-import com.hunter.library.okhttp.EventListenerFactoryHelper;
+import com.hunter.library.okhttp.OkHttpHooker;
 
 import java.io.IOException;
 
@@ -24,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);setContentView(R.layout.activity_main);
         EventListener.Factory factory = DefaultEventListener.FACTORY;
-        EventListenerFactoryHelper.install(factory);
+//        OkHttpHooker.install(factory);
         run("http://square.github.io/okhttp/");
         run("https://github.com/");
     }
