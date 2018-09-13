@@ -19,8 +19,8 @@
 ## OkHttp Plugin
 
 1. ~~Global EventListener~~
-2. Global Dns
-3. Global Intercepter
+2. ~~Global Dns~~
+3. ~~Global Intercepter~~
 
 ## Cachable-Method Plugin
 

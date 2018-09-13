@@ -15,9 +15,9 @@ import okhttp3.EventListener;
 /**
  * Created by Quinn on 09/09/2018.
  */
-public class DefaultEventListener extends EventListener{
+public class CustomGlobalEventListener extends EventListener{
 
-    private static final String TAG = "DefaultEventListener";
+    private static final String TAG = "CustomGlobalEventListener";
 
     public static final EventListener.Factory FACTORY =  new EventListener.Factory() {
 
@@ -26,7 +26,7 @@ public class DefaultEventListener extends EventListener{
         @Override
         public EventListener create(Call call) {
             long callId = nextCallId.getAndIncrement();
-            return new DefaultEventListener(callId);
+            return new CustomGlobalEventListener(callId);
         }
 
     };
@@ -35,7 +35,7 @@ public class DefaultEventListener extends EventListener{
     private long callStartNanos = 0L;
     private boolean isNewConnection = false;
 
-    public DefaultEventListener(long callId) {
+    public CustomGlobalEventListener(long callId) {
         this.callId = callId;
     }
 

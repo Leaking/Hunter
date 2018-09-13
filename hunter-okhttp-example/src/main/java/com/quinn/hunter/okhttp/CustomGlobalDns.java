@@ -12,11 +12,11 @@ import okhttp3.Dns;
 /**
  * Created by quinn on 13/09/2018
  */
-public class DefaultDns implements Dns {
+public class CustomGlobalDns implements Dns {
 
     @Override public List<InetAddress> lookup(String hostname) throws UnknownHostException {
         if (hostname == null) throw new UnknownHostException("hostname == null");
-        Log.i("DefaultDns", "lookup " + hostname);
+        Log.i("CustomGlobalDns", "lookup " + hostname);
         try {
             return Arrays.asList(InetAddress.getAllByName(hostname));
         } catch (NullPointerException e) {

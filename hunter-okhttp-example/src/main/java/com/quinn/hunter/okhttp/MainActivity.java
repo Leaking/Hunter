@@ -19,9 +19,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);setContentView(R.layout.activity_main);
-//        EventListener.Factory factory = DefaultEventListener.FACTORY;
-        OkHttpHooker.installEventListenerFactory(DefaultEventListener.FACTORY);
-        OkHttpHooker.installDns(new DefaultDns());
+        OkHttpHooker.installEventListenerFactory(CustomGlobalEventListener.FACTORY);
+        OkHttpHooker.installDns(new CustomGlobalDns());
+        OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
         run("http://square.github.io/okhttp/");
         run("https://github.com/");
     }
