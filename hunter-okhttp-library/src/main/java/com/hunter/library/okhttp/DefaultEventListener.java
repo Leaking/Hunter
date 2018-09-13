@@ -1,8 +1,14 @@
 package com.hunter.library.okhttp;
 
+import android.annotation.SuppressLint;
+import android.os.SystemClock;
 import android.util.Log;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.util.concurrent.atomic.AtomicLong;
+
 import okhttp3.Call;
 import okhttp3.EventListener;
 
@@ -13,37 +19,53 @@ public class DefaultEventListener extends EventListener{
 
     public static final String TAG = "DefaultEventListener";
 
-    private String url;
+    public static final EventListener.Factory FACTORY =  new EventListener.Factory() {
 
-    public static EventListener.Factory getFactory() {
-        return new EventListener.Factory() {
-            public EventListener create(Call call) {
-                return new DefaultEventListener(call);
-            }
-        };
-    }
+        AtomicLong nextCallId = new AtomicLong(1L);
 
+        @Override
+        public EventListener create(Call call) {
+            long callId = nextCallId.getAndIncrement();
+            return new DefaultEventListener(callId);
+        }
 
-    public DefaultEventListener(Call call) {
-        this.url = call.request().url().toString();
+    };
+
+    private long callId;
+    private long callStartNanos = 0L;
+    private boolean isNewConnection = false;
+
+    public DefaultEventListener(long callId) {
+        this.callId = callId;
     }
 
     @Override
     public void callStart(Call call) {
-        super.callStart(call);
-        Log.i(TAG, "callStart");
+        callStartNanos = SystemClock.elapsedRealtime();
     }
 
+    @Override
+    public void connectStart(Call call, InetSocketAddress inetSocketAddress, Proxy proxy) {
+        isNewConnection = true;
+    }
 
     @Override
     public void callEnd(Call call) {
-        super.callEnd(call);
-        Log.i(TAG, "callEnd");
+        printResult(true, call);
     }
 
     @Override
     public void callFailed(Call call, IOException ioe) {
-        super.callFailed(call, ioe);
-        Log.i(TAG, "callFailed");
+        printResult(false, call);
     }
+
+    @SuppressLint("DefaultLocale")
+    private void printResult(boolean success, Call call) {
+        float elapsed = (float) ((SystemClock.elapsedRealtime() - callStartNanos) / 1000.0);
+        String from = isNewConnection ? "newest connection" : "pooled connection";
+        String url = call.request().url().toString();
+        String result = String.format("%04d %s Call From %s costs %.3f, url %s", callId, success ? "Success" : "Fail", from, elapsed, url);
+        Log.i(TAG, result);
+    }
+
 }

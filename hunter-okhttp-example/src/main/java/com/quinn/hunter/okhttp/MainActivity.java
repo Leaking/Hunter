@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);setContentView(R.layout.activity_main);
-        EventListener.Factory factory = DefaultEventListener.getFactory();
+        EventListener.Factory factory = DefaultEventListener.FACTORY;
         EventListenerFactoryHelper.install(factory);
         run("http://square.github.io/okhttp/");
         run("https://github.com/");
