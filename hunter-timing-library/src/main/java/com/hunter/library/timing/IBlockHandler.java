@@ -5,12 +5,12 @@ import android.util.Log;
 /**
  * Created by quinn on 11/09/2018
  */
-public interface IBlockManger {
+public interface IBlockHandler {
 
 
-    IBlockManger DEFAULT = new IBlockManger() {
+    IBlockHandler DEFAULT = new IBlockHandler() {
 
-        private static final String TAG = "Default-IBlockManger";
+        private static final String TAG = "Default-IBlockHandler";
 
         private static final int BLOCK_THRESHOLD = 100;
 
@@ -22,15 +22,15 @@ public interface IBlockManger {
         }
 
         @Override
-        public void dump() {
-
+        public String dump() {
+            return "";
         }
 
     };
 
     public void timingMethod(String method, int cost);
 
-    public void dump();
+    public String dump();
 
 
 }

@@ -1,40 +1,31 @@
-package com.quinn.hunter.example;
+package com.quinn.hunter.timing;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import com.quinn.hunter.timing.black.NetWorkManager;
 
-import com.hunter.library.timing.BlockHandler;
-import com.hunter.library.timing.IBlockManger;
-import com.hunter.library.timing.impl.BlockManagerImpl;
-import com.quinn.hunter.example.black.AlphaTest;
-
-
+/**
+ * Created by Quinn on 24/03/2017.
+ */
 public class MainActivity extends AppCompatActivity {
-
-    public static final String TAG = "MainActivity";
-
-    IBlockManger iBlockManger = new BlockManagerImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new AlphaTest();
-        new BetaTest();
-        BlockHandler.installBlockManager(iBlockManger);
+        DataSource.getInstance().getUserName();
+        DataSource.getInstance().saveHugeFileToDisk();
+        DataSource.getInstance().modifyAndMoveFile();
+        NetWorkManager.getInstance().uploadHugeFile();
+        NativeService.getInstance().loadSoFile();
         findViewById(R.id.dump).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "dump");
-                iBlockManger.dump();
+                ((App)getApplication()).getCustomBlockManager().dump();
             }
         });
     }
-
-
-
 
     @Override
     protected void onDestroy() {
