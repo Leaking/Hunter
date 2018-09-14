@@ -13,11 +13,12 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by quinn on 12/09/2018
+ * Reduce block trace
  */
 public class StacktraceBlockHandler implements IBlockHandler {
 
     private final String TAG = "StacktraceBlockImpl";
-    private static final int THRESHOLD = 100;
+    public static int THRESHOLD = 100;
     private String newline = System.getProperty("line.separator");
     private String doubleNewline = newline + newline;
     private List<StacktraceBlockHandler.BlockTrace> blockTraces = Collections.synchronizedList(new ArrayList<StacktraceBlockHandler.BlockTrace>());

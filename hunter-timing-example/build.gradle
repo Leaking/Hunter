@@ -52,4 +52,6 @@ buildscript {
 
 apply plugin: 'hunter-timing'
 
-
+timingHunterExtension {
+    blacklist = ['com.quinn.hunter.timing.black']
+}

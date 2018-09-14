@@ -10,8 +10,8 @@ import java.util.List;
 
 public class TimingHunterExtension {
 
-    public String on = "false";
-    public String global = "false";
+    public String on = "true";
+    public String global = "true";
     public List<String> blacklist = new ArrayList<>();
 
     @Override

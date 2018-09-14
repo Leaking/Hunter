@@ -7,7 +7,6 @@ import android.util.Log;
  */
 public interface IBlockHandler {
 
-
     IBlockHandler DEFAULT = new IBlockHandler() {
 
         private static final String TAG = "Default-IBlockHandler";
