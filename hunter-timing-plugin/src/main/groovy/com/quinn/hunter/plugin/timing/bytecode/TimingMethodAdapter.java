@@ -13,7 +13,7 @@ public final class TimingMethodAdapter extends LocalVariablesSorter implements O
 
     public TimingMethodAdapter(String name, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM5, access, desc, mv);
-        this.methodName = name;
+        this.methodName = name.replace("/", ".");
     }
 
     @Override
@@ -34,7 +34,7 @@ public final class TimingMethodAdapter extends LocalVariablesSorter implements O
             mv.visitVarInsn(LSTORE, index);
             mv.visitLdcInsn(methodName);
             mv.visitVarInsn(LLOAD, index);
-            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/timing/BlockHandler", "timingMethod", "(Ljava/lang/String;J)V", false);
+            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/timing/BlockManager", "timingMethod", "(Ljava/lang/String;J)V", false);
         }
         super.visitInsn(opcode);
     }

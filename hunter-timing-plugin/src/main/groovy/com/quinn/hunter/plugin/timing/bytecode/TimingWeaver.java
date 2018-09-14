@@ -34,8 +34,6 @@ public final class TimingWeaver extends BaseWeaver {
                 }
             }
         }
-        if(inBlackList) logger.info("In blacklist " + fullQualifiedClassName);
-        if(isByteCodePlugin) logger.info("In ByteCodePlugin " + fullQualifiedClassName);
         return superResult && !isByteCodePlugin && !inBlackList;
     }
 
