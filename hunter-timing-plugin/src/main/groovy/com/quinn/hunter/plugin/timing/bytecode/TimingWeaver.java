@@ -26,15 +26,28 @@ public final class TimingWeaver extends BaseWeaver {
     public boolean isWeavableClass(String fullQualifiedClassName) {
         boolean superResult = super.isWeavableClass(fullQualifiedClassName);
         boolean isByteCodePlugin = fullQualifiedClassName.startsWith(PLUGIN_LIBRARY);
-        boolean inBlackList = false;
         if(timingHunterExtension != null) {
-            for(String item : timingHunterExtension.blacklist) {
-                if(fullQualifiedClassName.startsWith(item)) {
-                    inBlackList = true;
+            //whitelist is prior to to blacklist
+            if(!timingHunterExtension.whitelist.isEmpty()) {
+                boolean inWhiteList = false;
+                for(String item : timingHunterExtension.whitelist) {
+                    if(fullQualifiedClassName.startsWith(item)) {
+                        inWhiteList = true;
+                    }
                 }
+                return superResult && !isByteCodePlugin && inWhiteList;
+            }
+            if(!timingHunterExtension.blacklist.isEmpty()) {
+                boolean inBlackList = false;
+                for(String item : timingHunterExtension.blacklist) {
+                    if(fullQualifiedClassName.startsWith(item)) {
+                        inBlackList = true;
+                    }
+                }
+                return superResult && !isByteCodePlugin && !inBlackList;
             }
         }
-        return superResult && !isByteCodePlugin && !inBlackList;
+        return superResult && !isByteCodePlugin;
     }
 
     @Override

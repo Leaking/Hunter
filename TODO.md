@@ -14,7 +14,8 @@
 1. ~~Insert byteCode to get time costed by every method~~
 2. ~~Extension to control blacklist~~
 3. Extension to control whitelist
-4. Algorithm to reduce blocked stacktrace
+4. ~~Algorithm to rank blocked method~~
+4. ~~Algorithm to reduce blocked stacktrace~~
 5. Support Annotation
 
 ## OkHttp Plugin
