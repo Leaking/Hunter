@@ -18,11 +18,12 @@ import java.util.concurrent.Executors;
 
 /**
  * Created by quinn on 12/09/2018
+ * Rank all block methods
  */
 public class RankingBlockHandler implements IBlockHandler {
 
     private final String TAG = "RankingBlockHandler";
-    private static final int THRESHOLD = 100;
+    public static int THRESHOLD = 100;
     private String newline = System.getProperty("line.separator");
     private String doubleNewline = newline + newline;
     private ConcurrentHashMap<String, ArrayList<Integer>> methodBlockDetails = new ConcurrentHashMap<>();
