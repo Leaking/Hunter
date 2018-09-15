@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.quinn.hunter.timing"
+        applicationId "com.quinn.hunter.debug"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -29,7 +29,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
 //    implementation 'com.quinn.hunter:hunter-timing-library:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation project(':hunter-timing-library')
+    implementation project(':hunter-debug-library')
 }
 
 repositories {
@@ -45,14 +45,10 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
     }
 }
 
 
-apply plugin: 'hunter-timing'
+apply plugin: 'hunter-debug'
 
-timingHunterExtension {
-    whitelist = ['com.quinn.hunter.timing.DataSource']
-    blacklist = ['com.quinn.hunter.timing.black']
-}
