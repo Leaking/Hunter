@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin.timing;
+package com.quinn.hunter.plugin.debug;
 
 import com.android.build.gradle.AppExtension;
 import org.gradle.api.Plugin;
@@ -8,13 +8,13 @@ import java.util.Collections;
 /**
  * Created by Quinn on 25/02/2017.
  */
-public class TimingHunterPlugin implements Plugin<Project> {
+public class DebugHunterPlugin implements Plugin<Project> {
 
     @SuppressWarnings("NullableProblems")
     @Override
     public void apply(Project project) {
         AppExtension appExtension = (AppExtension)project.getProperties().get("android");
-        appExtension.registerTransform(new TimingHunterTransform(project), Collections.EMPTY_LIST);
+        appExtension.registerTransform(new DebugHunterTransform(project), Collections.EMPTY_LIST);
     }
 
 }

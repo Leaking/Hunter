@@ -1,15 +1,15 @@
-package com.quinn.hunter.plugin.timing.bytecode;
+package com.quinn.hunter.plugin.debug.bytecode;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import java.io.File;
 
-public final class TimingClassAdapter extends ClassVisitor{
+public final class DebugClassAdapter extends ClassVisitor{
 
     private String className;
 
-    TimingClassAdapter(final ClassVisitor cv) {
+    DebugClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
     }
 
@@ -23,9 +23,7 @@ public final class TimingClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        return mv == null ? null : new com.quinn.hunter.plugin.timing.bytecode.TimingMethodAdapter(className + File.separator + name, access, desc, mv);
+        return mv == null ? null : new DebugMethodAdapter(className + File.separator + name, access, desc, mv);
     }
-
-
 
 }
