@@ -2,6 +2,11 @@ package com.hunter.library.linelog;
 
 import android.util.Log;
 
+/**
+ * Created by Quinn on 15/09/2018.
+ *
+ * interface bo replace the android logcat call
+ */
 public class LineNumberLog {
 
     public static int i(String tag, String msg, String linenumber) {

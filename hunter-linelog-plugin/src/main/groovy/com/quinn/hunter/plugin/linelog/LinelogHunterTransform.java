@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
- * Created by quinn on 07/09/2018
+ * Created by Quinn on 15/09/2018.
  */
 public final class LinelogHunterTransform extends HunterTransform {
 

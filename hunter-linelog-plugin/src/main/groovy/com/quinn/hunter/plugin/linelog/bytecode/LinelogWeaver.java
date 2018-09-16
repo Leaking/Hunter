@@ -10,7 +10,7 @@ import org.objectweb.asm.ClassWriter;
  */
 public final class LinelogWeaver extends BaseWeaver {
 
-    private static final String PLUGIN_LIBRARY = "com.hunter.library";
+    private static final String PLUGIN_LIBRARY = "com.hunter.library.linelog";
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogWeaver.class);
 
     @Override
