@@ -23,7 +23,7 @@ public final class DebugClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        return mv == null ? null : new DebugMethodAdapter(className + File.separator + name, access, desc, mv);
+        return mv == null ? null : new DebugMethodAdapter(className + File.separator + name, mv);
     }
 
 }

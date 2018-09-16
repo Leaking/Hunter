@@ -11,7 +11,7 @@ import org.objectweb.asm.ClassWriter;
  */
 public final class DebugWeaver extends BaseWeaver {
 
-    private static final String PLUGIN_LIBRARY = "com.hunter.library.timing";
+    private static final String PLUGIN_LIBRARY = "com.hunter.library.debug";
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugWeaver.class);
 
     private DebugHunterExtension extension;
@@ -26,27 +26,6 @@ public final class DebugWeaver extends BaseWeaver {
     public boolean isWeavableClass(String fullQualifiedClassName) {
         boolean superResult = super.isWeavableClass(fullQualifiedClassName);
         boolean isByteCodePlugin = fullQualifiedClassName.startsWith(PLUGIN_LIBRARY);
-        if(extension != null) {
-            //whitelist is prior to to blacklist
-            if(!extension.whitelist.isEmpty()) {
-                boolean inWhiteList = false;
-                for(String item : extension.whitelist) {
-                    if(fullQualifiedClassName.startsWith(item)) {
-                        inWhiteList = true;
-                    }
-                }
-                return superResult && !isByteCodePlugin && inWhiteList;
-            }
-            if(!extension.blacklist.isEmpty()) {
-                boolean inBlackList = false;
-                for(String item : extension.blacklist) {
-                    if(fullQualifiedClassName.startsWith(item)) {
-                        inBlackList = true;
-                    }
-                }
-                return superResult && !isByteCodePlugin && !inBlackList;
-            }
-        }
         return superResult && !isByteCodePlugin;
     }
 
