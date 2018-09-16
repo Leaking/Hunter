@@ -31,7 +31,7 @@
 ## Debug Plugin
 
 1. Print Method Parameter
-2. Print every step costed time of a certain method
+2. Print costed time of every step in a certain method
 
 ## Code LineNumber Plugin
 
