@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.quinn.hunter.timing"
+        applicationId "com.quinn.hunter.linelog"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
@@ -27,8 +27,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0-rc02'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation project(':hunter-timing-library')
+    implementation project(':hunter-linelog-library')
 }
 
 repositories {
@@ -44,14 +43,10 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.0.0'
     }
 }
 
 
-apply plugin: 'hunter-timing'
+apply plugin: 'hunter-linelog'
 
-timingHunterExtension {
-    whitelist = ['com.quinn.hunter.timing.DataSource']
-    blacklist = ['com.quinn.hunter.timing.black']
-}
