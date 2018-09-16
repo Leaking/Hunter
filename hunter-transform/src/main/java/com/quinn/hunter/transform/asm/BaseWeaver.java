@@ -27,7 +27,7 @@ import java.util.zip.ZipOutputStream;
 public abstract class BaseWeaver implements IWeaver{
 
     private static final FileTime ZERO = FileTime.fromMillis(0);
-    private ClassLoader classLoader;
+    protected ClassLoader classLoader;
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(BaseWeaver.class);
 
     public BaseWeaver() {
