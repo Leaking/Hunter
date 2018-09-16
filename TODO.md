@@ -35,7 +35,7 @@
 
 ## Code LineNumber Plugin
 
-1. Add linenumber to logcat output
+1. ~~Add linenumber to logcat output~~
 
 
 
