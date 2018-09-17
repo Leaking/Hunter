@@ -5,7 +5,6 @@ import com.quinn.hunter.transform.asm.BaseWeaver;
 import com.quinn.hunter.transform.asm.ExtendClassWriter;
 
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 
 import java.io.IOException;
@@ -31,8 +30,6 @@ public final class DebugWeaver extends BaseWeaver {
         classReader.accept(debugClassAdapter, ClassReader.EXPAND_FRAMES);
         return classWriter.toByteArray();
     }
-
-
 
     @Override
     public boolean isWeavableClass(String fullQualifiedClassName) {

@@ -6,6 +6,7 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +26,7 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     private boolean lackOfParameterDetail = false;
     private boolean parameterDebug = true;
 
-    public DebugMethodAdapter(String methodKey, MethodVisitor mv, Map<String, List<String>> methodParametersMap) {
+    public DebugMethodAdapter(String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
@@ -36,10 +37,8 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
         /**
          *  ....
          */
+        logger.info("visit annotation " + desc + "" + Type.getType(desc));
         this.parameterDebug = true;
-        if(methodParametersMap.get(methodKey).isEmpty()){
-            lackOfParameterDetail = true;
-        }
         return super.visitAnnotation(desc, visible);
     }
 
