@@ -27,26 +27,26 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-//    implementation project(':hunter-linelog-library')
+    implementation project(':hunter-debug-library')
 }
 
 repositories {
+    mavenLocal()
     jcenter()
     google()
-    mavenLocal()
 }
 
 buildscript {
     repositories {
+        mavenLocal()
         jcenter()
         google()
-        mavenLocal()
     }
     dependencies {
-//        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
     }
 }
 
 
-//apply plugin: 'hunter-linelog'
+apply plugin: 'hunter-debug'
 

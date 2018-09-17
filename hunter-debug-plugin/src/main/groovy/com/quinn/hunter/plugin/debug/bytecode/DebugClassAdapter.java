@@ -26,7 +26,7 @@ public final class DebugClassAdapter extends ClassVisitor{
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
 
         String methodUniqueKey = name + desc + signature;
-        debugMethodAdapter = new DebugMethodAdapter(methodUniqueKey, mv, methodParametersMap.get(methodUniqueKey));
+        debugMethodAdapter = new DebugMethodAdapter(methodUniqueKey, methodParametersMap, mv);
         return mv == null ? null : debugMethodAdapter;
     }
 

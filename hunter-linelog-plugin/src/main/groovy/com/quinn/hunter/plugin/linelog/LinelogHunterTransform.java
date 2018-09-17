@@ -19,7 +19,7 @@ import java.util.Collection;
 public final class LinelogHunterTransform extends HunterTransform {
 
     private Project project;
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogWeaver.class);
+    private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogHunterTransform.class);
 
     public LinelogHunterTransform(Project project) {
         super(project);
