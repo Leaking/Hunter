@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "27.0.3"
+    defaultConfig {
+        applicationId "com.quinn.hunter.debug"
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    lintOptions {
+        abortOnError false
+    }
+
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+//    implementation project(':hunter-linelog-library')
+}
+
+repositories {
+    jcenter()
+    google()
+    mavenLocal()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+        mavenLocal()
+    }
+    dependencies {
+//        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.0.0'
+    }
+}
+
+
+//apply plugin: 'hunter-linelog'
+

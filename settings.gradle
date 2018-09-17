@@ -1,4 +1,4 @@
-include ':hunter-timing-example',
+include ':hunter-timing-example', ':hunter-debug-library', ':hunter-debug-example',
         ':hunter-timing-plugin',
         ':hunter-timing-library',
         ':hunter-debug-plugin',
