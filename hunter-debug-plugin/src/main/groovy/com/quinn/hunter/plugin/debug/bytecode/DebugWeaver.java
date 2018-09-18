@@ -26,7 +26,7 @@ public final class DebugWeaver extends BaseWeaver {
     public byte[] weaveSingleClassToByteArray(InputStream inputStream) throws IOException {
         ClassReader classReader = new ClassReader(inputStream);
         ClassWriter classWriter = new ExtendClassWriter(classLoader, ClassWriter.COMPUTE_MAXS);
-        DebugClassAdapter debugClassAdapter = wrapClassWriter(classWriter);
+        DebugPreGoClassAdapter debugClassAdapter = wrapClassWriter(classWriter);
         classReader.accept(debugClassAdapter, ClassReader.EXPAND_FRAMES);
         return classWriter.toByteArray();
     }
@@ -39,8 +39,8 @@ public final class DebugWeaver extends BaseWeaver {
     }
 
     @Override
-    protected DebugClassAdapter wrapClassWriter(ClassWriter classWriter) {
-        return new DebugClassAdapter(classWriter);
+    protected DebugPreGoClassAdapter wrapClassWriter(ClassWriter classWriter) {
+        return new DebugPreGoClassAdapter(classWriter);
     }
 
 }
