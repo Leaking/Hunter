@@ -103,7 +103,7 @@ public class RankingBlockHandler implements IBlockHandler {
     /**
      * sort hashmap by value
      */
-    private <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map ) {
+    private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map ) {
         List<Map.Entry<K, V>> list =
                 new LinkedList<Map.Entry<K, V>>( map.entrySet() );
         Collections.sort( list, new Comparator<Map.Entry<K, V>>()
@@ -122,7 +122,7 @@ public class RankingBlockHandler implements IBlockHandler {
         return result;
     }
 
-    private float average(ArrayList<Integer> costTimeList) {
+    private static float average(ArrayList<Integer> costTimeList) {
         if(costTimeList == null || costTimeList.size() == 0) {
             return 0 ;
         }
@@ -132,5 +132,7 @@ public class RankingBlockHandler implements IBlockHandler {
         }
         return (float)sum / (float)costTimeList.size();
     }
+
+
 
 }
