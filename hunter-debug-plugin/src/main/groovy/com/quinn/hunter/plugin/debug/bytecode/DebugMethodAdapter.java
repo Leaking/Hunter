@@ -6,7 +6,6 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,11 +25,21 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     private boolean lackOfParameterDetail = false;
     private boolean debugMethod = false;
     private boolean stepByStep = false;
+    private List<Label> labelList = new ArrayList<>();
 
     public DebugMethodAdapter(String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
+    }
+
+    @Override
+    public void visitParameter(String name, int access) {
+        logger.info("parameter name" + name);
+        /**
+         * not called except you compile with -parameters option
+         */
+        super.visitParameter(name, access);
     }
 
     @Override
@@ -67,6 +76,9 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
 
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
+        if(!"this".equals(name) && start == labelList.get(0)) {
+            logger.info("local val " + name);
+        }
         parameters.add(name);
         super.visitLocalVariable(name, desc, signature, start, end, index);
     }
@@ -75,6 +87,12 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     public void visitEnd() {
         methodParametersMap.put(methodKey, parameters);
         super.visitEnd();
+    }
+
+    @Override
+    public void visitLabel(Label label) {
+        labelList.add(label);
+        super.visitLabel(label);
     }
 
     @Override
