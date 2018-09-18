@@ -24,7 +24,8 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     private List<String> parameters = new ArrayList<>();
     private String methodKey;
     private boolean lackOfParameterDetail = false;
-    private boolean parameterDebug = true;
+    private boolean debugMethod = false;
+    private boolean stepByStep = false;
 
     public DebugMethodAdapter(String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
@@ -34,12 +35,22 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        /**
-         *  ....
-         */
-        logger.info("visit annotation " + desc + "" + Type.getType(desc));
-        this.parameterDebug = true;
-        return super.visitAnnotation(desc, visible);
+        logger.info("visit annotation " + desc);
+        AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
+        if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
+            debugMethod = true;
+            return new AnnotationVisitor(Opcodes.ASM5, defaultAv) {
+                @Override
+                public void visit(String name, Object value) {
+                    if("stepByStep".equals(name) && (Boolean)value) {
+                        stepByStep = true;
+                    }
+                    super.visit(name, value);
+                }
+            };
+        } else {
+            return defaultAv;
+        }
     }
 
     @Override
