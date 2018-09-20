@@ -28,7 +28,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(needParameter == false && debugPreGoMethodAdapter != null) {
+        if(needParameter == false && debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
             needParameter = true;
         }
         String methodUniqueKey = name + desc + signature;
@@ -36,14 +36,11 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
         return mv == null ? null : debugPreGoMethodAdapter;
     }
 
-    @Override
-    public void visitEnd() {
-        super.visitEnd();
-        logger.info("methodParametersMap " + methodParametersMap);
+    public Map<String, List<String>> getMethodParametersMap(){
+        return this.methodParametersMap;
     }
 
-    public void setMethodParametersMap(Map<String, List<String>> methodParametersMap){
-        this.methodParametersMap = methodParametersMap;
+    public boolean isNeedParameter() {
+        return needParameter;
     }
-
 }

@@ -18,19 +18,14 @@ import java.util.Map;
 public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
 
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugClassAdapter.class);
-    private Map<String, List<String>> methodParametersMap = new HashMap<>();
-    private List<String> parameters = new ArrayList<>();
-    private String methodKey;
-    private boolean lackOfParameterDetail = false;
+    private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugMethodAdapter.class);
+    private List<String> parameters;
     private boolean debugMethod = false;
     private boolean stepByStep = false;
-    private List<Label> labelList = new ArrayList<>();
 
-    public DebugMethodAdapter(String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
+    public DebugMethodAdapter(String methodKey, List<String> parameters, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
-        this.methodKey = methodKey;
-        this.methodParametersMap = methodParametersMap;
+        this.parameters = parameters;
     }
 
     @Override
@@ -63,48 +58,8 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     }
 
     @Override
-    public void visitCode() {
-        if(lackOfParameterDetail) {
-            super.visitCode();
-        } else {
-            /**
-             *
-             */
-            super.visitCode();
-        }
-    }
-
-    @Override
-    public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        if(!"this".equals(name) && start == labelList.get(0)) {
-            logger.info("local val " + name);
-        }
-        parameters.add(name);
-        super.visitLocalVariable(name, desc, signature, start, end, index);
-    }
-
-    @Override
-    public void visitEnd() {
-        methodParametersMap.put(methodKey, parameters);
-        super.visitEnd();
-    }
-
-    @Override
-    public void visitLabel(Label label) {
-        labelList.add(label);
-        super.visitLabel(label);
-    }
-
-    @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         super.visitMethodInsn(opcode, owner, name, desc, itf);
     }
 
-    public boolean isLackOfParameterDetail() {
-        return lackOfParameterDetail;
-    }
-
-    public String getMethodKey() {
-        return methodKey;
-    }
 }

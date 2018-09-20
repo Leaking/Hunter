@@ -26,8 +26,16 @@ public final class DebugWeaver extends BaseWeaver {
     public byte[] weaveSingleClassToByteArray(InputStream inputStream) throws IOException {
         ClassReader classReader = new ClassReader(inputStream);
         ClassWriter classWriter = new ExtendClassWriter(classLoader, ClassWriter.COMPUTE_MAXS);
-        DebugPreGoClassAdapter debugClassAdapter = wrapClassWriter(classWriter);
-        classReader.accept(debugClassAdapter, ClassReader.EXPAND_FRAMES);
+        DebugPreGoClassAdapter debugPreGoClassAdapter = new DebugPreGoClassAdapter(classWriter);
+        classReader.accept(debugPreGoClassAdapter, ClassReader.EXPAND_FRAMES);
+        logger.info("need parameter " + debugPreGoClassAdapter.isNeedParameter());
+        logger.info("parameter " + debugPreGoClassAdapter.getMethodParametersMap());
+        //if need parameter
+        if(debugPreGoClassAdapter.isNeedParameter()) {
+            classWriter = new ExtendClassWriter(classLoader, ClassWriter.COMPUTE_MAXS);
+            DebugClassAdapter debugClassAdapter = new DebugClassAdapter(classWriter, debugPreGoClassAdapter.getMethodParametersMap());
+            classReader.accept(debugClassAdapter, ClassReader.EXPAND_FRAMES);
+        }
         return classWriter.toByteArray();
     }
 
@@ -38,9 +46,6 @@ public final class DebugWeaver extends BaseWeaver {
         return superResult && !isByteCodePlugin && fullQualifiedClassName.contains("MainActivity");
     }
 
-    @Override
-    protected DebugPreGoClassAdapter wrapClassWriter(ClassWriter classWriter) {
-        return new DebugPreGoClassAdapter(classWriter);
-    }
+
 
 }

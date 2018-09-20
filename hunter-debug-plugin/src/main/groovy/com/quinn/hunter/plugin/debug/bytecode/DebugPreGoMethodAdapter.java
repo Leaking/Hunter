@@ -45,23 +45,14 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
         if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
             needParameter = true;
-            return new AnnotationVisitor(Opcodes.ASM5, defaultAv) {
-                @Override
-                public void visit(String name, Object value) {
-                    if("stepByStep".equals(name) && (Boolean)value) {
-//                        stepByStep = true;
-                    }
-                    super.visit(name, value);
-                }
-            };
-        } else {
-            return defaultAv;
         }
+        return defaultAv;
+
     }
 
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        if(!"this".equals(name) && start == labelList.get(0)) {
+        if(!"this".equals(name) && start == labelList.get(0) && needParameter) {
             logger.info("local val " + name);
             parameters.add(name + "--" + desc);
         }
