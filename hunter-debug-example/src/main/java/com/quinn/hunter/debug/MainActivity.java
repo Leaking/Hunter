@@ -24,6 +24,7 @@ public class MainActivity extends Activity {
 
     private List<String> paramNames = new ArrayList<>();
 
+    @HunterDebug(stepByStep = true)
     public void fun(int a, String str, int[] array) {
         printarg("tag", paramNames, a, str, array);
         int b;
