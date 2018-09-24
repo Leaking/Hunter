@@ -1,5 +1,7 @@
 package com.quinn.hunter.plugin.debug.bytecode;
 
+import com.android.build.gradle.internal.LoggerWrapper;
+
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -13,6 +15,7 @@ import java.util.Map;
  */
 public final class DebugClassAdapter extends ClassVisitor{
 
+    private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugClassAdapter.class);
     private Map<String, List<String>> methodParametersMap;
     private DebugMethodAdapter debugMethodAdapter;
 
@@ -22,11 +25,18 @@ public final class DebugClassAdapter extends ClassVisitor{
     }
 
     @Override
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        super.visit(version, access, name, signature, superName, interfaces);
+        logger.info("Visit class " + name);
+    }
+
+    @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        String methodUniqueKey = name + desc + signature;
-        debugMethodAdapter = new DebugMethodAdapter(methodUniqueKey, methodParametersMap.get(methodUniqueKey), mv);
+        String methodUniqueKey = name + desc;
+        logger.info(methodUniqueKey + " > " + methodParametersMap.get(methodUniqueKey));
+        debugMethodAdapter = new DebugMethodAdapter(methodParametersMap.get(methodUniqueKey), mv);
         return mv == null ? null : debugMethodAdapter;
     }
 

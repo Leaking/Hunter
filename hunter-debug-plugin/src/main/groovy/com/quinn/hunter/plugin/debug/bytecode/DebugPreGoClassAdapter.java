@@ -31,7 +31,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
         if(needParameter == false && debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
             needParameter = true;
         }
-        String methodUniqueKey = name + desc + signature;
+        String methodUniqueKey = name + desc;
         debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(methodUniqueKey, methodParametersMap, mv);
         return mv == null ? null : debugPreGoMethodAdapter;
     }
