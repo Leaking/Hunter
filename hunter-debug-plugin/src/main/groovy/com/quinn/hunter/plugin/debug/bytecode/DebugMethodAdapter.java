@@ -23,19 +23,12 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     private boolean debugMethod = false;
     private boolean stepByStep = false;
 
-    public DebugMethodAdapter(String methodKey, List<String> parameters, MethodVisitor mv) {
+    public DebugMethodAdapter(List<String> parameters, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
         this.parameters = parameters;
     }
 
-    @Override
-    public void visitParameter(String name, int access) {
-        logger.info("parameter name" + name);
-        /**
-         * not called except you compile with -parameters option
-         */
-        super.visitParameter(name, access);
-    }
+
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
@@ -55,6 +48,13 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
         } else {
             return defaultAv;
         }
+    }
+
+    @Override
+    public void visitCode() {
+        super.visitCode();
+        logger.info("parameters222 " + parameters);
+
     }
 
     @Override

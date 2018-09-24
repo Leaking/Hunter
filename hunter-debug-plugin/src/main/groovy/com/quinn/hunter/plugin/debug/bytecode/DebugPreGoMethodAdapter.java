@@ -30,30 +30,18 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
         this.methodParametersMap = methodParametersMap;
     }
 
-    /**
-     * not called except you compile with -parameters option
-     */
-    @Override
-    public void visitParameter(String name, int access) {
-        logger.info("parameter name" + name);
-        super.visitParameter(name, access);
-    }
-
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        logger.info("visit annotation " + desc);
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
         if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
             needParameter = true;
         }
         return defaultAv;
-
     }
 
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         if(!"this".equals(name) && start == labelList.get(0) && needParameter) {
-            logger.info("local val " + name);
             parameters.add(name + "--" + desc);
         }
         super.visitLocalVariable(name, desc, signature, start, end, index);

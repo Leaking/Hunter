@@ -23,6 +23,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.apache.commons:commons-lang3:3.7'
+
 }
 
 group='com.quinn.hunter'
