@@ -21,7 +21,9 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        MainPresenter mainPresenter = new MainPresenter();
+        mainPresenter.load("1212");
+        mainPresenter.loadMore("12123232");
 //        is Boolean -> b.putBoolean(k, v)
 //        is Byte -> b.putByte(k, v)
 //        is Char -> b.putChar(k, v)
@@ -45,7 +47,8 @@ public class MainActivity extends Activity {
 
     private List<String> paramNames = new ArrayList<>();
 
-    private void fun(boolean bool, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr){
+    @HunterDebug
+    private void fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr){
         PrintUtils printUtils = new PrintUtils("tag");
         printUtils.append("aa", byte_v);
         printUtils.append("aa", char_v);
@@ -54,7 +57,7 @@ public class MainActivity extends Activity {
         printUtils.append("aa", long_v);
         printUtils.append("aa", float_v);
         printUtils.append("aa", double_v);
-        printUtils.append("aa", bool);
+        printUtils.append("aa", bool_v);
         printUtils.append("aa", string_v);
         printUtils.append("aa", arr);
         printUtils.print();

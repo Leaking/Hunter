@@ -20,6 +20,7 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugMethodAdapter.class);
     private List<String> parameters;
+    private String methodName;
     private boolean debugMethod = false;
     private boolean stepByStep = false;
 
@@ -32,7 +33,6 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-        logger.info("visit annotation " + desc);
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
         if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
             debugMethod = true;
@@ -53,8 +53,7 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     @Override
     public void visitCode() {
         super.visitCode();
-        logger.info("parameters222 " + parameters);
-
+        logger.info(debugMethod + "  parameters " + parameters);
     }
 
     @Override

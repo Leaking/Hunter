@@ -27,8 +27,9 @@ public final class DebugClassAdapter extends ClassVisitor{
     @Override
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         super.visit(version, access, name, signature, superName, interfaces);
-        logger.info("Visit class " + name);
     }
+
+
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
@@ -43,6 +44,7 @@ public final class DebugClassAdapter extends ClassVisitor{
     @Override
     public void visitEnd() {
         super.visitEnd();
+
     }
 
 }

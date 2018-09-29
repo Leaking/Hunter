@@ -1,6 +1,7 @@
 package com.quinn.hunter.plugin.debug.bytecode;
 
 import com.android.build.gradle.internal.LoggerWrapper;
+import com.quinn.hunter.plugin.debug.bytecode.prego.DebugPreGoClassAdapter;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 import com.quinn.hunter.transform.asm.ExtendClassWriter;
 
@@ -28,8 +29,6 @@ public final class DebugWeaver extends BaseWeaver {
         ClassWriter classWriter = new ExtendClassWriter(classLoader, ClassWriter.COMPUTE_MAXS);
         DebugPreGoClassAdapter debugPreGoClassAdapter = new DebugPreGoClassAdapter(classWriter);
         classReader.accept(debugPreGoClassAdapter, ClassReader.EXPAND_FRAMES);
-        logger.info("need parameter " + debugPreGoClassAdapter.isNeedParameter());
-        logger.info("parameter " + debugPreGoClassAdapter.getMethodParametersMap());
         //if need parameter
         if(debugPreGoClassAdapter.isNeedParameter()) {
             classWriter = new ExtendClassWriter(classLoader, ClassWriter.COMPUTE_MAXS);
@@ -43,7 +42,7 @@ public final class DebugWeaver extends BaseWeaver {
     public boolean isWeavableClass(String fullQualifiedClassName) {
         boolean superResult = super.isWeavableClass(fullQualifiedClassName);
         boolean isByteCodePlugin = fullQualifiedClassName.startsWith(PLUGIN_LIBRARY);
-        return superResult && !isByteCodePlugin && fullQualifiedClassName.contains("MainActivity");
+        return superResult && !isByteCodePlugin;
     }
 
 
