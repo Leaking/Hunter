@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin.debug.bytecode;
+package com.quinn.hunter.plugin.debug.bytecode.prego;
 
 import com.android.build.gradle.internal.LoggerWrapper;
 
@@ -8,7 +8,6 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +20,13 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
     private Map<String, List<String>> methodParametersMap;
     private List<String> parameters = new ArrayList<>();
     private String methodKey;
-    private boolean needParameter = false;
+    private boolean needParameter = false;;
     private List<Label> labelList = new ArrayList<>();
+    private String methodName;
 
-    public DebugPreGoMethodAdapter(String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
+    public DebugPreGoMethodAdapter(String name, String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
+        this.methodName = name;
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
     }

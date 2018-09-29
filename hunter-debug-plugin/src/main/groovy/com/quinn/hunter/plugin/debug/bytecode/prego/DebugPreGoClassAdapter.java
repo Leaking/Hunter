@@ -1,4 +1,4 @@
-package com.quinn.hunter.plugin.debug.bytecode;
+package com.quinn.hunter.plugin.debug.bytecode.prego;
 
 import com.android.build.gradle.internal.LoggerWrapper;
 
@@ -19,20 +19,27 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     private Map<String, List<String>> methodParametersMap = new HashMap<>();
     private DebugPreGoMethodAdapter debugPreGoMethodAdapter;
     private boolean needParameter = false;
+    private String className;
 
-    DebugPreGoClassAdapter(final ClassVisitor cv) {
+    public DebugPreGoClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
+    }
+
+    @Override
+    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+        super.visit(version, access, name, signature, superName, interfaces);
+        this.className = name;
     }
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(needParameter == false && debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
+        if(debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
             needParameter = true;
         }
         String methodUniqueKey = name + desc;
-        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(methodUniqueKey, methodParametersMap, mv);
+        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(name, methodUniqueKey, methodParametersMap, mv);
         return mv == null ? null : debugPreGoMethodAdapter;
     }
 
@@ -42,5 +49,13 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
 
     public boolean isNeedParameter() {
         return needParameter;
+    }
+
+    @Override
+    public void visitEnd() {
+        super.visitEnd();
+        if(debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
+            needParameter = true;
+        }
     }
 }
