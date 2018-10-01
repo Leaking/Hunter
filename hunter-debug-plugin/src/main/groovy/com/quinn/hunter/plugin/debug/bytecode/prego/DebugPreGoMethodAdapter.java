@@ -45,7 +45,7 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         if(!"this".equals(name) && start == labelList.get(0) && needParameter) {
             Type type = Type.getType(desc);
-            if(type.getSort() == Type.OBJECT) {
+            if(type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
                 parameters.add(name + "--" + "Ljava/lang/Object;" + "--" + index);
             } else {
                 parameters.add(name + "--" + desc + "--" + index);

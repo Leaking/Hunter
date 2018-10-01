@@ -62,6 +62,8 @@ public class MainActivity extends Activity {
         printUtils.append("array", arr);
         printUtils.append("bundle", savedInstanceState);
         printUtils.print();
+
+//        No virtual method append(Ljava/lang/String;[I)Lcom/hunter/library/debug/PrintUtils;
     }
 
 }
