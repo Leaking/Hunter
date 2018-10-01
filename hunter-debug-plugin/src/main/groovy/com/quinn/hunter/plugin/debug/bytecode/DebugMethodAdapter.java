@@ -33,6 +33,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     public DebugMethodAdapter(List<String> parameters, String name, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM5, access, desc, mv);
         this.parameters = parameters;
+        this.methodName = name;
     }
 
 
@@ -63,14 +64,15 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         logger.info(debugMethod + " new parameters " + printUtilsVarIndex);
         mv.visitTypeInsn(NEW, "com/hunter/library/debug/PrintUtils");
         mv.visitInsn(DUP);
-        mv.visitLdcInsn("tag");
+        mv.visitLdcInsn(methodName);
         mv.visitMethodInsn(INVOKESPECIAL, "com/hunter/library/debug/PrintUtils", "<init>", "(Ljava/lang/String;)V", false);
         mv.visitVarInsn(ASTORE, printUtilsVarIndex);
 
         //        name + "--" + desc + "--" + index
-        for(int i = 0; i < 7; i++) {
+        for(int i = 0; i < parameters.size(); i++) {
             String[] parts = parameters.get(i).split("--");
             String name = parts[0];
+            Type type;
 //            String desc = parts[1];
             int opcode = ILOAD;
             if("F".equals(parts[1])) {
@@ -79,28 +81,19 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
                 opcode = LLOAD;
             } else if("D".equals(parts[1])) {
                 opcode = DLOAD;
-            } else if(parts[1].startsWith("L")) {
+            } else if(parts[1].startsWith("L")) {  //object
+                opcode = ALOAD;
+            } else if(parts[1].startsWith("[")) {  //array
                 opcode = ALOAD;
             }
             String desc = String.format("(Ljava/lang/String;%s)Lcom/hunter/library/debug/PrintUtils;", parts[1]);
             int localIndex = Integer.parseInt(parts[2]);
-            logger.info(name + " > " + desc + " > " + localIndex);
-//            mv.visitVarInsn(ALOAD, printUtilsVarIndex);
-//            mv.visitLdcInsn(parts[0]);
-//            mv.visitVarInsn(ILOAD, Integer.parseInt(parts[2]));
-//            logger.info(parts[0] + " > " + parts[2] + " >  " + desc);
-//            mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/PrintUtils", "append", desc, false);
-//            mv.visitInsn(POP);
+            logger.info(name + " > "  +  parts[1] + " > "  + desc + " > " + localIndex);
             visitPrint(printUtilsVarIndex, localIndex, opcode, name, desc);
-
         }
+        mv.visitVarInsn(ALOAD, printUtilsVarIndex);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/PrintUtils", "print", "()V", false);
 
-//        mv.visitVarInsn(ALOAD, 14);
-//        mv.visitLdcInsn("bool_v");
-//        mv.visitVarInsn(ILOAD, 1);
-//        mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/PrintUtils", "append", "(Ljava/lang/String;Z)Lcom/hunter/library/debug/PrintUtils;", false);
-//        mv.visitInsn(POP);
-//        visitPrint(printUtilsVarIndex, 1, "bool_v", "(Ljava/lang/String;Z)Lcom/hunter/library/debug/PrintUtils;");
     }
 
     private void visitPrint(int varIndex, int localIndex, int opcode, String name, String desc){
