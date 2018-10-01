@@ -1,6 +1,7 @@
 package com.quinn.hunter.plugin.debug.bytecode.prego;
 
 import com.android.build.gradle.internal.LoggerWrapper;
+import com.quinn.hunter.plugin.debug.bytecode.Parameter;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
@@ -16,7 +17,7 @@ import java.util.Map;
 public final class DebugPreGoClassAdapter extends ClassVisitor{
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugPreGoClassAdapter.class);
-    private Map<String, List<String>> methodParametersMap = new HashMap<>();
+    private Map<String, List<Parameter>> methodParametersMap = new HashMap<>();
     private DebugPreGoMethodAdapter debugPreGoMethodAdapter;
     private boolean needParameter = false;
     private String className;
@@ -39,11 +40,11 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
             needParameter = true;
         }
         String methodUniqueKey = name + desc;
-        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(name, methodUniqueKey, methodParametersMap, mv);
+        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(methodUniqueKey, methodParametersMap, mv);
         return mv == null ? null : debugPreGoMethodAdapter;
     }
 
-    public Map<String, List<String>> getMethodParametersMap(){
+    public Map<String, List<Parameter>> getMethodParametersMap(){
         return this.methodParametersMap;
     }
 

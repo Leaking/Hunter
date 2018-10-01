@@ -1,6 +1,7 @@
 package com.quinn.hunter.plugin.debug.bytecode.prego;
 
 import com.android.build.gradle.internal.LoggerWrapper;
+import com.quinn.hunter.plugin.debug.bytecode.Parameter;
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
@@ -18,16 +19,14 @@ import java.util.Map;
 public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugPreGoMethodAdapter.class);
-    private Map<String, List<String>> methodParametersMap;
-    private List<String> parameters = new ArrayList<>();
+    private Map<String, List<Parameter>> methodParametersMap;
+    private List<Parameter> parameters = new ArrayList<>();
     private String methodKey;
     private boolean needParameter = false;;
     private List<Label> labelList = new ArrayList<>();
-    private String methodName;
 
-    public DebugPreGoMethodAdapter(String name, String methodKey, Map<String, List<String>> methodParametersMap, MethodVisitor mv) {
+    public DebugPreGoMethodAdapter(String methodKey, Map<String, List<Parameter>> methodParametersMap, MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
-        this.methodName = name;
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
     }
@@ -46,9 +45,9 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
         if(!"this".equals(name) && start == labelList.get(0) && needParameter) {
             Type type = Type.getType(desc);
             if(type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
-                parameters.add(name + "--" + "Ljava/lang/Object;" + "--" + index);
+                parameters.add(new Parameter(name, "Ljava/lang/Object;", index));
             } else {
-                parameters.add(name + "--" + desc + "--" + index);
+                parameters.add(new Parameter(name, desc, index));
             }
         }
         super.visitLocalVariable(name, desc, signature, start, end, index);

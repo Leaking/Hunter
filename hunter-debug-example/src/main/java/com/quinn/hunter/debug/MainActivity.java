@@ -48,7 +48,7 @@ public class MainActivity extends Activity {
     private List<String> paramNames = new ArrayList<>();
 
     @HunterDebug
-    private void fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
+    private static void fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
         PrintUtils printUtils = new PrintUtils("tag");
         printUtils.append("bool_v", bool_v);
         printUtils.append("byte_v", byte_v);
