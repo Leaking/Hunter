@@ -6,16 +6,20 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.commons.LocalVariablesSorter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
+
 /**
  * Created by Quinn on 16/09/2018.
  */
-public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
+public final class DebugMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugMethodAdapter.class);
@@ -23,12 +27,13 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     private String methodName;
     private boolean debugMethod = false;
     private boolean stepByStep = false;
+    private int printUtilsVarIndex;
 
-    public DebugMethodAdapter(List<String> parameters, MethodVisitor mv) {
-        super(Opcodes.ASM5, mv);
+
+    public DebugMethodAdapter(List<String> parameters, String name, int access, String desc, MethodVisitor mv) {
+        super(Opcodes.ASM5, access, desc, mv);
         this.parameters = parameters;
     }
-
 
 
     @Override
@@ -53,7 +58,61 @@ public final class DebugMethodAdapter extends MethodVisitor implements Opcodes {
     @Override
     public void visitCode() {
         super.visitCode();
-        logger.info(debugMethod + "  parameters " + parameters);
+        if(!debugMethod || parameters.size() == 0) return;
+        printUtilsVarIndex = newLocal(Type.getObjectType("com/hunter/library/debug/PrintUtils"));
+        logger.info(debugMethod + " new parameters " + printUtilsVarIndex);
+        mv.visitTypeInsn(NEW, "com/hunter/library/debug/PrintUtils");
+        mv.visitInsn(DUP);
+        mv.visitLdcInsn("tag");
+        mv.visitMethodInsn(INVOKESPECIAL, "com/hunter/library/debug/PrintUtils", "<init>", "(Ljava/lang/String;)V", false);
+        mv.visitVarInsn(ASTORE, printUtilsVarIndex);
+
+        //        name + "--" + desc + "--" + index
+        for(int i = 0; i < 7; i++) {
+            String[] parts = parameters.get(i).split("--");
+            String name = parts[0];
+//            String desc = parts[1];
+            int opcode = ILOAD;
+            if("F".equals(parts[1])) {
+                opcode = FLOAD;
+            } else if("J".equals(parts[1])) {
+                opcode = LLOAD;
+            } else if("D".equals(parts[1])) {
+                opcode = DLOAD;
+            } else if(parts[1].startsWith("L")) {
+                opcode = ALOAD;
+            }
+            String desc = String.format("(Ljava/lang/String;%s)Lcom/hunter/library/debug/PrintUtils;", parts[1]);
+            int localIndex = Integer.parseInt(parts[2]);
+            logger.info(name + " > " + desc + " > " + localIndex);
+//            mv.visitVarInsn(ALOAD, printUtilsVarIndex);
+//            mv.visitLdcInsn(parts[0]);
+//            mv.visitVarInsn(ILOAD, Integer.parseInt(parts[2]));
+//            logger.info(parts[0] + " > " + parts[2] + " >  " + desc);
+//            mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/PrintUtils", "append", desc, false);
+//            mv.visitInsn(POP);
+            visitPrint(printUtilsVarIndex, localIndex, opcode, name, desc);
+
+        }
+
+//        mv.visitVarInsn(ALOAD, 14);
+//        mv.visitLdcInsn("bool_v");
+//        mv.visitVarInsn(ILOAD, 1);
+//        mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/PrintUtils", "append", "(Ljava/lang/String;Z)Lcom/hunter/library/debug/PrintUtils;", false);
+//        mv.visitInsn(POP);
+//        visitPrint(printUtilsVarIndex, 1, "bool_v", "(Ljava/lang/String;Z)Lcom/hunter/library/debug/PrintUtils;");
+    }
+
+    private void visitPrint(int varIndex, int localIndex, int opcode, String name, String desc){
+
+        mv.visitVarInsn(ALOAD, varIndex);
+        mv.visitLdcInsn(name);
+        mv.visitVarInsn(opcode, localIndex);
+        mv.visitMethodInsn(INVOKEVIRTUAL,
+                "com/hunter/library/debug/PrintUtils",
+                "append",
+                desc, false);
+        mv.visitInsn(POP);
     }
 
     @Override
