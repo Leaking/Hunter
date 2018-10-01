@@ -42,24 +42,25 @@ public class MainActivity extends Activity {
         double double_v = 7;
         String string_v = "string";
         int[] int_arr = new int[]{1,2,3};
-        fun(bool, byte_v, char_v, short_v, int_v, long_v, float_v, double_v, string_v, int_arr);
+        fun(bool, byte_v, char_v, short_v, int_v, long_v, float_v, double_v, string_v, int_arr, savedInstanceState);
     }
 
     private List<String> paramNames = new ArrayList<>();
 
     @HunterDebug
-    private void fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr){
+    private void fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
         PrintUtils printUtils = new PrintUtils("tag");
-        printUtils.append("aa", byte_v);
-        printUtils.append("aa", char_v);
-        printUtils.append("aa", short_v);
-        printUtils.append("aa", int_v);
-        printUtils.append("aa", long_v);
-        printUtils.append("aa", float_v);
-        printUtils.append("aa", double_v);
-        printUtils.append("aa", bool_v);
-        printUtils.append("aa", string_v);
-        printUtils.append("aa", arr);
+        printUtils.append("bool_v", bool_v);
+        printUtils.append("byte_v", byte_v);
+        printUtils.append("char_v", char_v);
+        printUtils.append("short_v", short_v);
+        printUtils.append("int_v", int_v);
+        printUtils.append("long_v", long_v);
+        printUtils.append("float_v", float_v);
+        printUtils.append("double_v", double_v);
+        printUtils.append("string_v", string_v);
+        printUtils.append("array", arr);
+        printUtils.append("bundle", savedInstanceState);
         printUtils.print();
     }
 

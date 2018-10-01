@@ -36,8 +36,7 @@ public final class DebugClassAdapter extends ClassVisitor{
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         String methodUniqueKey = name + desc;
-        logger.info(methodUniqueKey + " > " + methodParametersMap.get(methodUniqueKey));
-        debugMethodAdapter = new DebugMethodAdapter(methodParametersMap.get(methodUniqueKey), mv);
+        debugMethodAdapter = new DebugMethodAdapter(methodParametersMap.get(methodUniqueKey), name, access, desc, mv);
         return mv == null ? null : debugMethodAdapter;
     }
 

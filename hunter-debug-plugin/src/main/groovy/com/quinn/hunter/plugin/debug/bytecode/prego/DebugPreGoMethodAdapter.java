@@ -6,6 +6,7 @@ import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,12 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
         if(!"this".equals(name) && start == labelList.get(0) && needParameter) {
-            parameters.add(name + "--" + desc);
+            Type type = Type.getType(desc);
+            if(type.getSort() == Type.OBJECT) {
+                parameters.add(name + "--" + "Ljava/lang/Object;" + "--" + index);
+            } else {
+                parameters.add(name + "--" + desc + "--" + index);
+            }
         }
         super.visitLocalVariable(name, desc, signature, start, end, index);
     }
