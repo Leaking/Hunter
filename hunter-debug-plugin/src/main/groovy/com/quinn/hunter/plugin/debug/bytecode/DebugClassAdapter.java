@@ -16,10 +16,10 @@ import java.util.Map;
 public final class DebugClassAdapter extends ClassVisitor{
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugClassAdapter.class);
-    private Map<String, List<String>> methodParametersMap;
+    private Map<String, List<Parameter>> methodParametersMap;
     private DebugMethodAdapter debugMethodAdapter;
 
-    DebugClassAdapter(final ClassVisitor cv, final Map<String, List<String>> methodParametersMap) {
+    DebugClassAdapter(final ClassVisitor cv, final Map<String, List<Parameter>> methodParametersMap) {
         super(Opcodes.ASM5, cv);
         this.methodParametersMap = methodParametersMap;
     }
