@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.hunter.library.debug.HunterDebug;
-import com.hunter.library.debug.PrintUtils;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +15,13 @@ public class MainActivity extends Activity {
     int aa = 5;
 
     @Override
+    @HunterDebug
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         MainPresenter mainPresenter = new MainPresenter();
         mainPresenter.load("1212");
         mainPresenter.loadMore("12123232");
-//        is Boolean -> b.putBoolean(k, v)
-//        is Byte -> b.putByte(k, v)
-//        is Char -> b.putChar(k, v)
-//        is Short -> b.putShort(k, v)
-//        is Int -> b.putInt(k, v)
-//        is Long -> b.putLong(k, v)
-//        is Float -> b.putFloat(k, v)
-//        is Double -> b.putDouble(k, v)
         boolean bool = true;
         byte byte_v = 1;
         char char_v = 2;
@@ -48,22 +38,17 @@ public class MainActivity extends Activity {
     private List<String> paramNames = new ArrayList<>();
 
     @HunterDebug
-    private static void fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
-        PrintUtils printUtils = new PrintUtils("tag");
-        printUtils.append("bool_v", bool_v);
-        printUtils.append("byte_v", byte_v);
-        printUtils.append("char_v", char_v);
-        printUtils.append("short_v", short_v);
-        printUtils.append("int_v", int_v);
-        printUtils.append("long_v", long_v);
-        printUtils.append("float_v", float_v);
-        printUtils.append("double_v", double_v);
-        printUtils.append("string_v", string_v);
-        printUtils.append("array", arr);
-        printUtils.append("bundle", savedInstanceState);
-        printUtils.print();
-
-//        No virtual method append(Ljava/lang/String;[I)Lcom/hunter/library/debug/PrintUtils;
+    private static int fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
+        int insideLocal = 5;
+        int insideLocal2 = 6;
+        Log.i(TAG, "insideLocal " + insideLocal);
+        print(insideLocal);
+        return insideLocal + insideLocal2;
     }
+
+    public static void print(Object object) {
+
+    }
+
 
 }
