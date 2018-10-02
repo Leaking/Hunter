@@ -2,80 +2,76 @@ package com.hunter.library.debug;
 
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.List;
 
-public class PrintUtils {
+public class ParameterPrinter {
 
-    private static final String HUNTER_DEBUG_TAG = "Hunter-Debug";
 
     private StringBuilder result = new StringBuilder();
 
     private int paramIndex = 0;
 
-    private String printFormat = "%ss=\"%s\"";
 
     private String divider = ", ";
 
-    public PrintUtils(String tag){
+    public ParameterPrinter(String tag){
         result.append(tag).append("[");
     }
 
-    public PrintUtils append(String name, int val) {
+    public ParameterPrinter append(String name, int val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, boolean val) {
+    public ParameterPrinter append(String name, boolean val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, short val) {
+    public ParameterPrinter append(String name, short val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, byte val) {
+    public ParameterPrinter append(String name, byte val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, char val) {
+    public ParameterPrinter append(String name, char val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, long val) {
+    public ParameterPrinter append(String name, long val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, double val) {
+    public ParameterPrinter append(String name, double val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, float val) {
+    public ParameterPrinter append(String name, float val) {
         if(paramIndex++ != 0) result.append(divider);
-        result.append(String.format(printFormat, name, val));
+        result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         return this;
     }
 
-    public PrintUtils append(String name, Object val) {
+    public ParameterPrinter append(String name, Object val) {
         if(paramIndex++ != 0) result.append(divider);
         if(val != null && val.getClass().isArray()){
-            result.append(String.format(printFormat, name, arrayToString(val)));
+            result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, arrayToString(val)));
         } else {
-            result.append(String.format(printFormat, name, val));
+            result.append(String.format(Constants.PARAMETER_PRINT_FORMAT, name, val));
         }
         return this;
     }
@@ -108,8 +104,10 @@ public class PrintUtils {
 
     public void print(){
         result.append("]");
-        Log.i(HUNTER_DEBUG_TAG, result.toString());
+        Log.i(Constants.HUNTER_DEBUG_TAG, result.toString());
     }
+
+
 }
 
 

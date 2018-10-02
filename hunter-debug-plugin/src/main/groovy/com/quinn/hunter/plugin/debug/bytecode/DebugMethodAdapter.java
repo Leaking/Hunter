@@ -28,6 +28,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     private boolean debugMethod = false;
     private boolean stepByStep = false;
     private int printUtilsVarIndex;
+    private int timingVarIndex;
 
 
     public DebugMethodAdapter(List<Parameter> parameters, String name, int access, String desc, MethodVisitor mv) {
@@ -59,36 +60,45 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     public void visitCode() {
         super.visitCode();
         if(!debugMethod || parameters.size() == 0) return;
-        printUtilsVarIndex = newLocal(Type.getObjectType("com/hunter/library/debug/PrintUtils"));
+        printUtilsVarIndex = newLocal(Type.getObjectType("com/hunter/library/debug/ParameterPrinter"));
         logger.info(debugMethod + " new parameters " + printUtilsVarIndex);
-        mv.visitTypeInsn(NEW, "com/hunter/library/debug/PrintUtils");
+        mv.visitTypeInsn(NEW, "com/hunter/library/debug/ParameterPrinter");
         mv.visitInsn(DUP);
         mv.visitLdcInsn(methodName);
-        mv.visitMethodInsn(INVOKESPECIAL, "com/hunter/library/debug/PrintUtils", "<init>", "(Ljava/lang/String;)V", false);
+        mv.visitMethodInsn(INVOKESPECIAL, "com/hunter/library/debug/ParameterPrinter", "<init>", "(Ljava/lang/String;)V", false);
         mv.visitVarInsn(ASTORE, printUtilsVarIndex);
         for(int i = 0; i < parameters.size(); i++) {
             Parameter parameter = parameters.get(i);
             String name = parameter.name;
             String desc = parameter.desc;
             int index = parameter.index;
-            int opcode = ILOAD;
-            if("F".equals(desc)) {
-                opcode = FLOAD;
-            } else if("J".equals(desc)) {
-                opcode = LLOAD;
-            } else if("D".equals(desc)) {
-                opcode = DLOAD;
-            } else if(desc.startsWith("L")) {  //object
-                opcode = ALOAD;
-            } else if(desc.startsWith("[")) {  //array
-                opcode = ALOAD;
-            }
-            String fullyDesc = String.format("(Ljava/lang/String;%s)Lcom/hunter/library/debug/PrintUtils;", desc);
+            int opcode = getOpcodeFromDesc(desc);
+            String fullyDesc = String.format("(Ljava/lang/String;%s)Lcom/hunter/library/debug/ParameterPrinter;", desc);
             logger.info(name + " > " + desc + " > "  + fullyDesc + " > " + index);
             visitPrint(printUtilsVarIndex, index, opcode, name, fullyDesc);
         }
         mv.visitVarInsn(ALOAD, printUtilsVarIndex);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/PrintUtils", "print", "()V", false);
+        mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/ParameterPrinter", "print", "()V", false);
+        //Timing
+//        timingVarIndex = newLocal(Type.LONG_TYPE);
+//        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+//        mv.visitVarInsn(Opcodes.LSTORE, timingVarIndex);
+    }
+
+    private int getOpcodeFromDesc(String desc){
+        int opcode = ILOAD;
+        if("F".equals(desc)) {
+            opcode = FLOAD;
+        } else if("J".equals(desc)) {
+            opcode = LLOAD;
+        } else if("D".equals(desc)) {
+            opcode = DLOAD;
+        } else if(desc.startsWith("L")) {  //object
+            opcode = ALOAD;
+        } else if(desc.startsWith("[")) {  //array
+            opcode = ALOAD;
+        }
+        return opcode;
     }
 
     private void visitPrint(int varIndex, int localIndex, int opcode, String name, String desc){
@@ -96,10 +106,27 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         mv.visitLdcInsn(name);
         mv.visitVarInsn(opcode, localIndex);
         mv.visitMethodInsn(INVOKEVIRTUAL,
-                "com/hunter/library/debug/PrintUtils",
+                "com/hunter/library/debug/ParameterPrinter",
                 "append",
                 desc, false);
         mv.visitInsn(POP);
     }
 
+
+    @Override
+    public void visitInsn(int opcode) {
+//        if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
+//            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+//            mv.visitVarInsn(LLOAD, timingVarIndex);
+//            mv.visitInsn(LSUB);
+//            int index = newLocal(Type.LONG_TYPE);
+//            mv.visitVarInsn(LSTORE, index);
+//            mv.visitLdcInsn(methodName);
+//            mv.visitVarInsn(LLOAD, index);
+//            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/timing/BlockManager", "timingMethod", "(Ljava/lang/String;J)V", false);
+//        }
+        super.visitInsn(opcode);
+//        mv.visitInsn(Opcodes.DUP); // Return object
+//        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "abc/xyz/CatchError", "getReturnObject", "(Ljava/lang/Object)V", false)
+    }
 }
