@@ -29,10 +29,12 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     private boolean stepByStep = false;
     private int printUtilsVarIndex;
     private int timingVarIndex;
+    private Type returnType;
 
 
     public DebugMethodAdapter(List<Parameter> parameters, String name, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM5, access, desc, mv);
+        returnType = Type.getReturnType(desc);
         this.parameters = parameters;
         this.methodName = name;
     }
@@ -80,9 +82,9 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         mv.visitVarInsn(ALOAD, printUtilsVarIndex);
         mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/ParameterPrinter", "print", "()V", false);
         //Timing
-//        timingVarIndex = newLocal(Type.LONG_TYPE);
-//        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-//        mv.visitVarInsn(Opcodes.LSTORE, timingVarIndex);
+        timingVarIndex = newLocal(Type.LONG_TYPE);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+        mv.visitVarInsn(Opcodes.LSTORE, timingVarIndex);
     }
 
     private int getOpcodeFromDesc(String desc){
@@ -115,16 +117,62 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
 
     @Override
     public void visitInsn(int opcode) {
-//        if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
+        if(!debugMethod || returnType == Type.VOID_TYPE) {
+            super.visitInsn(opcode);
+            return;
+        }
+        if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
+            logger.info("returnType " + returnType);
+            if(returnType != null) {
+                logger.info("returnType sort " + returnType.getSort());
+            }
+            int resultValIndex = newLocal(returnType);
+            mv.visitVarInsn(ISTORE, resultValIndex);
+            mv.visitVarInsn(ILOAD, resultValIndex);
 //            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
 //            mv.visitVarInsn(LLOAD, timingVarIndex);
 //            mv.visitInsn(LSUB);
 //            int index = newLocal(Type.LONG_TYPE);
 //            mv.visitVarInsn(LSTORE, index);
-//            mv.visitLdcInsn(methodName);
-//            mv.visitVarInsn(LLOAD, index);
-//            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/timing/BlockManager", "timingMethod", "(Ljava/lang/String;J)V", false);
-//        }
+//            mv.visitLdcInsn(methodName);   //parameter 1 string
+//            mv.visitVarInsn(LLOAD, index); //parameter 2 long
+//
+//            if(returnType == Type.VOID_TYPE) {
+//
+//            }
+//
+//            switch (returnType.getSort()) {
+//                case Type.BYTE:
+//
+//                    break;
+//                case Type.CHAR:
+//
+//                    break;
+//                case Type.SHORT:
+//
+//                    break;
+//                case Type.INT:
+//                    int resultValIndex = newLocal(Type.INT_TYPE);
+//                    mv.visitVarInsn(LSTORE, index);
+//
+//                    break;
+//                case Type.LONG:
+//
+//                    break;
+//                case Type.DOUBLE:
+//
+//                    break;
+//                case Type.FLOAT:
+//
+//                    break;
+//                case Type.OBJECT:
+//
+//                    break;
+//            }
+//
+//
+//            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;JI)V", false);
+        }
         super.visitInsn(opcode);
 //        mv.visitInsn(Opcodes.DUP); // Return object
 //        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "abc/xyz/CatchError", "getReturnObject", "(Ljava/lang/Object)V", false)

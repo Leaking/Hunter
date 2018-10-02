@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.hunter.library.debug.HunterDebug;
+import com.hunter.library.debug.ResultPrinter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,15 @@ public class MainActivity extends Activity {
         int insideLocal = 5;
         int insideLocal2 = 6;
         Log.i(TAG, "insideLocal " + insideLocal);
-        print(insideLocal);
+        ResultPrinter.print("fun", 1200, (byte)0);
+        ResultPrinter.print("fun", 1200, (char)0);
+        ResultPrinter.print("fun", 1200, (short)0);
+        ResultPrinter.print("fun", 1200, (int)0);
+        ResultPrinter.print("fun", 1200, (long)0);
+        ResultPrinter.print("fun", 1200, (double)0);
+        ResultPrinter.print("fun", 1200, (float)0);
+        ResultPrinter.print("fun", 1200, true);
+        ResultPrinter.print("fun", 1200, "");
         return insideLocal + insideLocal2;
     }
 
