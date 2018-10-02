@@ -128,15 +128,20 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             }
             int resultValIndex = newLocal(returnType);
             mv.visitVarInsn(ISTORE, resultValIndex);
+
+            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
+            mv.visitVarInsn(LLOAD, timingVarIndex);
+            mv.visitInsn(LSUB);
+            int index = newLocal(Type.LONG_TYPE);
+            mv.visitVarInsn(LSTORE, index);
+            mv.visitLdcInsn(methodName);   //parameter 1 string
+            mv.visitVarInsn(LLOAD, index); //parameter 2 long
+
+            mv.visitVarInsn(ILOAD, resultValIndex);   // parameter 3
+            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;JI)V", false);
+
             mv.visitVarInsn(ILOAD, resultValIndex);
-//            mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
-//            mv.visitVarInsn(LLOAD, timingVarIndex);
-//            mv.visitInsn(LSUB);
-//            int index = newLocal(Type.LONG_TYPE);
-//            mv.visitVarInsn(LSTORE, index);
-//            mv.visitLdcInsn(methodName);   //parameter 1 string
-//            mv.visitVarInsn(LLOAD, index); //parameter 2 long
-//
+
 //            if(returnType == Type.VOID_TYPE) {
 //
 //            }
