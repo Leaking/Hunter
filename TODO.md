@@ -23,20 +23,20 @@
 2. ~~Global Dns~~
 3. ~~Global Intercepter~~
 
-## Cachable-Method Plugin
-
-1. Memory-Cache Method
-2. SharePreference-Cache Method
-
 ## Debug Plugin
 
-1. Print Method Parameter
+1. ~~Print Method Parameter, Method Costed-Time,  Method Result~~
 2. Print costed time of every step in a certain method
 
 ## Code LineNumber Plugin
 
 1. ~~Add linenumber to logcat output~~
 
+
+## Cachable-Method Plugin
+
+1. Memory-Cache Method
+2. SharePreference-Cache Method
 
 
 Finally, your idea of AOP is welcome
