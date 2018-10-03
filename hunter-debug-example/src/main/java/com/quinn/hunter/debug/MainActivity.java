@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.hunter.library.debug.HunterDebug;
+import com.hunter.library.debug.ParameterPrinter;
 import com.hunter.library.debug.ResultPrinter;
 
 import java.util.ArrayList;
@@ -13,13 +14,13 @@ import java.util.List;
 public class MainActivity extends Activity {
 
     public static final String TAG = "MainActivity";
-    int aa = 5;
 
     @Override
     @HunterDebug
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ParameterPrinter parameterPrinter = new ParameterPrinter("tag", "methodname");
         MainPresenter mainPresenter = new MainPresenter();
         mainPresenter.load("1212");
         mainPresenter.loadMore("12123232");
@@ -46,6 +47,7 @@ public class MainActivity extends Activity {
         method_return_object();
         method_return_object_array();
         method_return_short();
+        method_static("parameter value");
     };
 
     private List<String> paramNames = new ArrayList<>();
@@ -99,8 +101,6 @@ public class MainActivity extends Activity {
 
     @HunterDebug
     private MainPresenter method_return_object(){
-        MainPresenter pre = new MainPresenter();
-        ResultPrinter.print("", 11, pre);
         return new MainPresenter();
     }
 
@@ -113,6 +113,10 @@ public class MainActivity extends Activity {
         return new int[]{1,2,3};
     }
 
+    @HunterDebug
+    private static Object method_static(String str){
+        return "object string" + str;
+    }
 
 
 

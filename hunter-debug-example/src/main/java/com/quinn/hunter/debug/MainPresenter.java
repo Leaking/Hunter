@@ -9,10 +9,10 @@ public class MainPresenter {
 
     }
 
+    @HunterDebug
     public void loadMore(String lastItemId){
 
     }
-
 
 
 

@@ -11,11 +11,13 @@ public class ParameterPrinter {
 
     private int paramIndex = 0;
 
-
     private String divider = ", ";
 
-    public ParameterPrinter(String tag){
-        result.append(tag).append("[");
+    private String tag = "";
+
+    public ParameterPrinter(String tag, String methodName){
+        this.tag = tag;
+        result.append("⇢ ").append(methodName).append("[");
     }
 
     public ParameterPrinter append(String name, int val) {
@@ -104,7 +106,7 @@ public class ParameterPrinter {
 
     public void print(){
         result.append("]");
-        Log.i(Constants.HUNTER_DEBUG_TAG, result.toString());
+        Log.i(tag, result.toString());
     }
 
 
