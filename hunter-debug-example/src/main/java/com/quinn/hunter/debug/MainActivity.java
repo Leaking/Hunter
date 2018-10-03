@@ -33,18 +33,86 @@ public class MainActivity extends Activity {
         double double_v = 7;
         String string_v = "string";
         int[] int_arr = new int[]{1,2,3};
-        fun(bool, byte_v, char_v, short_v, int_v, long_v, float_v, double_v, string_v, int_arr, savedInstanceState);
-    }
+        method_test_parameter(bool, byte_v, char_v, short_v, int_v, long_v, float_v, double_v, string_v, int_arr, savedInstanceState);
+        method_empty_parameter_empty_return();
+        method_return_array();
+        method_return_boolean();
+        method_return_byte();
+        method_return_char();
+        method_return_double();
+        method_return_float();
+        method_return_int();
+        method_return_long();
+        method_return_object();
+        method_return_object_array();
+        method_return_short();
+    };
 
     private List<String> paramNames = new ArrayList<>();
 
     @HunterDebug
-    private static int fun(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
+    private int method_test_parameter(boolean bool_v, byte byte_v, char char_v, short short_v, int int_v, long long_v, float float_v, double double_v, String string_v, int[] arr, Bundle savedInstanceState){
         int insideLocal = 5;
         int insideLocal2 = 6;
         Log.i(TAG, "insideLocal " + insideLocal);
         return insideLocal + insideLocal2;
     }
+
+    @HunterDebug
+    private void method_empty_parameter_empty_return(){
+
+    }
+
+    @HunterDebug
+    private boolean method_return_boolean() {
+        return true;
+    }
+
+    @HunterDebug
+    private char method_return_char(){
+        return 'c';
+    }
+    @HunterDebug
+    private byte method_return_byte(){
+        return 0x01;
+    }
+    @HunterDebug
+    private short method_return_short(){
+        return 2;
+    }
+    @HunterDebug
+    private int method_return_int(){
+        return 2;
+    }
+    @HunterDebug
+    private long method_return_long(){
+        return 2L;
+    }
+    @HunterDebug
+    private double method_return_double(){
+        return 2;
+    }
+    @HunterDebug
+    private float method_return_float(){
+        return 2.0f;
+    }
+
+    @HunterDebug
+    private MainPresenter method_return_object(){
+        MainPresenter pre = new MainPresenter();
+        ResultPrinter.print("", 11, pre);
+        return new MainPresenter();
+    }
+
+    @HunterDebug
+    private MainPresenter[] method_return_object_array(){
+        return new MainPresenter[]{new MainPresenter(),new MainPresenter(),new MainPresenter()};
+    }
+    @HunterDebug
+    private int[] method_return_array(){
+        return new int[]{1,2,3};
+    }
+
 
 
 
