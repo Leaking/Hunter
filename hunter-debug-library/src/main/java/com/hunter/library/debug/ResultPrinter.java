@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 public class ResultPrinter {
 
-
     public static void print(String methodName, long costedMilles, byte returnVal) {
         Log.i(Constants.HUNTER_DEBUG_TAG, String.format(Constants.RETURN_PRINT_FORMAT, methodName, costedMilles + "", returnVal + ""));
     }
@@ -41,9 +40,9 @@ public class ResultPrinter {
 
     public static void print(String methodName, long costedMilles, Object returnVal) {
         if(returnVal != null && returnVal.getClass().isArray()){
-
+            Log.i(Constants.HUNTER_DEBUG_TAG, String.format(Constants.RETURN_PRINT_FORMAT, methodName, costedMilles + "", arrayToString(returnVal)));
         } else {
-
+            Log.i(Constants.HUNTER_DEBUG_TAG, String.format(Constants.RETURN_PRINT_FORMAT, methodName, costedMilles + "", returnVal));
         }
     }
 

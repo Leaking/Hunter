@@ -43,21 +43,9 @@ public class MainActivity extends Activity {
         int insideLocal = 5;
         int insideLocal2 = 6;
         Log.i(TAG, "insideLocal " + insideLocal);
-        ResultPrinter.print("fun", 1200, (byte)0);
-        ResultPrinter.print("fun", 1200, (char)0);
-        ResultPrinter.print("fun", 1200, (short)0);
-        ResultPrinter.print("fun", 1200, (int)0);
-        ResultPrinter.print("fun", 1200, (long)0);
-        ResultPrinter.print("fun", 1200, (double)0);
-        ResultPrinter.print("fun", 1200, (float)0);
-        ResultPrinter.print("fun", 1200, true);
-        ResultPrinter.print("fun", 1200, "");
         return insideLocal + insideLocal2;
     }
 
-    public static void print(Object object) {
-
-    }
 
 
 }
