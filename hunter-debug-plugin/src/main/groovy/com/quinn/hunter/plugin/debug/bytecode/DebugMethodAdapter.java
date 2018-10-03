@@ -3,18 +3,12 @@ package com.quinn.hunter.plugin.debug.bytecode;
 import com.android.build.gradle.internal.LoggerWrapper;
 
 import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 
 /**
  * Created by Quinn on 16/09/2018.
@@ -27,16 +21,15 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     private String methodName;
     private boolean debugMethod = false;
     private boolean stepByStep = false;
-    private int printUtilsVarIndex;
     private int timingVarIndex;
-    private Type returnType;
+    private String methodDesc;
 
 
     public DebugMethodAdapter(List<Parameter> parameters, String name, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM5, access, desc, mv);
-        returnType = Type.getReturnType(desc);
         this.parameters = parameters;
         this.methodName = name;
+        this.methodDesc = desc;
     }
 
     @Override
@@ -61,8 +54,8 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     @Override
     public void visitCode() {
         super.visitCode();
-        if(!debugMethod || parameters.size() == 0) return;
-        printUtilsVarIndex = newLocal(Type.getObjectType("com/hunter/library/debug/ParameterPrinter"));
+        if(!debugMethod) return;
+        int printUtilsVarIndex = newLocal(Type.getObjectType("com/hunter/library/debug/ParameterPrinter"));
         logger.info(debugMethod + " new parameters " + printUtilsVarIndex);
         mv.visitTypeInsn(NEW, "com/hunter/library/debug/ParameterPrinter");
         mv.visitInsn(DUP);
@@ -74,7 +67,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             String name = parameter.name;
             String desc = parameter.desc;
             int index = parameter.index;
-            int opcode = getOpcodeFromDesc(desc);
+            int opcode = Utils.getLoadOpcodeFromDesc(desc);
             String fullyDesc = String.format("(Ljava/lang/String;%s)Lcom/hunter/library/debug/ParameterPrinter;", desc);
             logger.info(name + " > " + desc + " > "  + fullyDesc + " > " + index);
             visitPrint(printUtilsVarIndex, index, opcode, name, fullyDesc);
@@ -85,22 +78,6 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         timingVarIndex = newLocal(Type.LONG_TYPE);
         mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
         mv.visitVarInsn(Opcodes.LSTORE, timingVarIndex);
-    }
-
-    private int getOpcodeFromDesc(String desc){
-        int opcode = ILOAD;
-        if("F".equals(desc)) {
-            opcode = FLOAD;
-        } else if("J".equals(desc)) {
-            opcode = LLOAD;
-        } else if("D".equals(desc)) {
-            opcode = DLOAD;
-        } else if(desc.startsWith("L")) {  //object
-            opcode = ALOAD;
-        } else if(desc.startsWith("[")) {  //array
-            opcode = ALOAD;
-        }
-        return opcode;
     }
 
     private void visitPrint(int varIndex, int localIndex, int opcode, String name, String desc){
@@ -114,21 +91,20 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         mv.visitInsn(POP);
     }
 
-
     @Override
     public void visitInsn(int opcode) {
-        if(!debugMethod || returnType == Type.VOID_TYPE) {
-            super.visitInsn(opcode);
-            return;
-        }
-        if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-            logger.info("returnType " + returnType);
-            if(returnType != null) {
-                logger.info("returnType sort " + returnType.getSort());
+        if (debugMethod && ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW)) {
+            Type returnType = Type.getReturnType(methodDesc);
+            String returnDesc = methodDesc.substring(methodDesc.indexOf(")") + 1);
+            logger.info("returnDesc > " + returnDesc);
+            //store origin return value
+            int resultTempValIndex = -1;
+            if(returnType != Type.VOID_TYPE) {
+                resultTempValIndex = newLocal(returnType);
+                int storeOpcocde = Utils.getStoreOpcodeFromType(returnType);
+                mv.visitVarInsn(storeOpcocde, resultTempValIndex);
             }
-            int resultValIndex = newLocal(returnType);
-            mv.visitVarInsn(ISTORE, resultValIndex);
-
+            //parameter1 parameter2
             mv.visitMethodInsn(INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
             mv.visitVarInsn(LLOAD, timingVarIndex);
             mv.visitInsn(LSUB);
@@ -136,50 +112,17 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             mv.visitVarInsn(LSTORE, index);
             mv.visitLdcInsn(methodName);   //parameter 1 string
             mv.visitVarInsn(LLOAD, index); //parameter 2 long
-
-            mv.visitVarInsn(ILOAD, resultValIndex);   // parameter 3
-            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;JI)V", false);
-
-            mv.visitVarInsn(ILOAD, resultValIndex);
-
-//            if(returnType == Type.VOID_TYPE) {
-//
-//            }
-//
-//            switch (returnType.getSort()) {
-//                case Type.BYTE:
-//
-//                    break;
-//                case Type.CHAR:
-//
-//                    break;
-//                case Type.SHORT:
-//
-//                    break;
-//                case Type.INT:
-//                    int resultValIndex = newLocal(Type.INT_TYPE);
-//                    mv.visitVarInsn(LSTORE, index);
-//
-//                    break;
-//                case Type.LONG:
-//
-//                    break;
-//                case Type.DOUBLE:
-//
-//                    break;
-//                case Type.FLOAT:
-//
-//                    break;
-//                case Type.OBJECT:
-//
-//                    break;
-//            }
-//
-//
-//            mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;JI)V", false);
+            //parameter3
+            if(returnType != Type.VOID_TYPE) {
+                int loadOpcode = Utils.getLoadOpcodeFromType(returnType);
+                mv.visitVarInsn(loadOpcode, resultTempValIndex);
+                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", String.format("(Ljava/lang/String;J%s)V", returnDesc), false);
+                mv.visitVarInsn(loadOpcode, resultTempValIndex);
+            } else {
+                mv.visitLdcInsn("VOID");
+                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;JLjava/lang/Object;)V", false);
+            }
         }
         super.visitInsn(opcode);
-//        mv.visitInsn(Opcodes.DUP); // Return object
-//        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "abc/xyz/CatchError", "getReturnObject", "(Ljava/lang/Object)V", false)
     }
 }
