@@ -97,6 +97,10 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             Type returnType = Type.getReturnType(methodDesc);
             String returnDesc = methodDesc.substring(methodDesc.indexOf(")") + 1);
             logger.info("returnDesc > " + returnDesc);
+            if(returnDesc.startsWith("[") || returnDesc.startsWith("L")) {
+                returnDesc = "Ljava/lang/Object;"; //regard object extended from Object or array as object
+            }
+            logger.info("returnDesc > " + returnDesc);
             //store origin return value
             int resultTempValIndex = -1;
             if(returnType != Type.VOID_TYPE) {
@@ -116,7 +120,9 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             if(returnType != Type.VOID_TYPE) {
                 int loadOpcode = Utils.getLoadOpcodeFromType(returnType);
                 mv.visitVarInsn(loadOpcode, resultTempValIndex);
-                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", String.format("(Ljava/lang/String;J%s)V", returnDesc), false);
+                String formatDesc = String.format("(Ljava/lang/String;J%s)V", returnDesc);
+                logger.info("returnDesc > " + formatDesc);
+                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", formatDesc, false);
                 mv.visitVarInsn(loadOpcode, resultTempValIndex);
             } else {
                 mv.visitLdcInsn("VOID");
