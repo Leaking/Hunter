@@ -24,18 +24,18 @@ repositories {
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'Hunter-Transform'
+    bintrayName = 'hunter-transform'
 
     publishedGroupId = 'com.quinn.hunter'
-    libraryName = 'Hunter-Transform'
-    artifact = 'Hunter-Transform'
+    libraryName = 'hunter-transform'
+    artifact = 'hunter-transform'
 
     libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
 
     siteUrl = 'https://github.com/Leaking/Hunter'
     gitUrl = 'https://github.com/Leaking/Hunter.git'
 
-    libraryVersion = '0.8.0'
+    libraryVersion = '0.8.3'
 
     developerId = 'Leaking'
     developerName = 'QuinnChen'
@@ -52,7 +52,7 @@ apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.
 
 
 //def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
-
+//
 //uploadArchives {
 //    repositories {
 //        mavenDeployer {

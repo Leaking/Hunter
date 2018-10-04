@@ -27,9 +27,8 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation project(':hunter-debug-library')
+    implementation 'com.quinn.hunter:hunter-debug-library:0.8.3'
     implementation 'org.apache.commons:commons-lang3:3.7'
-
 }
 
 repositories {
