@@ -1,7 +1,5 @@
 apply plugin: 'java-library'
-
-apply plugin: 'maven'
-
+//apply plugin: 'maven'
 
 dependencies {
     implementation gradleApi()
@@ -24,15 +22,41 @@ repositories {
     mavenCentral()
 }
 
-group='com.quinn.hunter'
-version='1.0.0'
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'Hunter-Transform'
 
-def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+    publishedGroupId = 'com.quinn.hunter'
+    libraryName = 'Hunter-Transform'
+    artifact = 'Hunter-Transform'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: localRepoURL)
-        }
-    }
+    libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
+
+    siteUrl = 'https://github.com/Leaking/Hunter'
+    gitUrl = 'https://github.com/Leaking/Hunter.git'
+
+    libraryVersion = '0.8.0'
+
+    developerId = 'Leaking'
+    developerName = 'QuinnChen'
+    developerEmail = 'chenhuazhaoao@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
+
+
+//def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: localRepoURL)
+//        }
+//    }
+//}
