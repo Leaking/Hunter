@@ -2,6 +2,9 @@
 
 buildscript {
     repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+        }
         google()
         mavenLocal()
         jcenter()
@@ -15,6 +18,9 @@ buildscript {
 
 allprojects {
     repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+        }
         google()
         mavenLocal()
         jcenter()

@@ -47,6 +47,7 @@ public class HunterTransform extends Transform {
     private Project project;
     protected BaseWeaver bytecodeWeaver;
     private WaitableExecutor waitableExecutor;
+    private boolean emptyRun;
 
     public HunterTransform(Project project){
         this.project = project;
@@ -81,8 +82,12 @@ public class HunterTransform extends Transform {
                    Collection<TransformInput> referencedInputs,
                    TransformOutputProvider outputProvider,
                    boolean isIncremental) throws IOException, TransformException, InterruptedException {
-
-        logger.info(getName() + " is starting...isIncremental = " + isIncremental);
+        if("debug".equals(context.getVariantName())) {
+            emptyRun = transformVariant() != RunVariant.RELEASE;
+        } else if("release".equals(context.getVariantName())) {
+            emptyRun = transformVariant() != RunVariant.DEBUG;
+        }
+        logger.info(getName() + " isIncremental > " + isIncremental + " emptyRun > " + emptyRun);
         long startTime = System.currentTimeMillis();
         if(!isIncremental) {
             outputProvider.deleteAll();
@@ -97,7 +102,7 @@ public class HunterTransform extends Transform {
                         jarInput.getContentTypes(),
                         jarInput.getScopes(),
                         Format.JAR);
-                if(isIncremental) {
+                if(isIncremental && !emptyRun) {
                     switch(status) {
                         case NOTCHANGED:
                             continue;
@@ -121,7 +126,7 @@ public class HunterTransform extends Transform {
                         directoryInput.getContentTypes(), directoryInput.getScopes(),
                         Format.DIRECTORY);
                 FileUtils.forceMkdir(dest);
-                if(isIncremental) {
+                if(isIncremental && !emptyRun) {
                     String srcDirPath = directoryInput.getFile().getAbsolutePath();
                     String destDirPath = dest.getAbsolutePath();
                     Map<File, Status> fileStatusMap = directoryInput.getChangedFiles();
@@ -165,7 +170,11 @@ public class HunterTransform extends Transform {
         });
     }
 
-    private void transformDir(final File inputDir, final File outputDir) {
+    private void transformDir(final File inputDir, final File outputDir) throws IOException {
+        if(emptyRun) {
+            FileUtils.copyDirectory(inputDir, outputDir);
+            return;
+        }
         final String inputDirPath = inputDir.getAbsolutePath();
         final String outputDirPath = outputDir.getAbsolutePath();
         logger.info("transform dir " + inputDirPath);
@@ -183,6 +192,10 @@ public class HunterTransform extends Transform {
 
     private void transformJar(final File srcJar, final File destJar, Status status) {
         waitableExecutor.execute(() -> {
+            if(emptyRun) {
+                FileUtils.copyFile(srcJar, destJar);
+                return null;
+            }
             long start = System.currentTimeMillis();
             bytecodeWeaver.weaveJar(srcJar, destJar);
             long costed = System.currentTimeMillis() - start;
@@ -192,11 +205,13 @@ public class HunterTransform extends Transform {
     }
 
 
-
     @Override
     public boolean isCacheable() {
         return true;
     }
 
+    protected RunVariant transformVariant(){
+        return RunVariant.ALWAYS;
+    }
 
 }

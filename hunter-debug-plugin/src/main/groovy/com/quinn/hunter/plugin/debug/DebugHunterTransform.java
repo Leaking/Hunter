@@ -29,6 +29,8 @@ public class DebugHunterTransform extends HunterTransform {
 
     @Override
     public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
+        String variantName = context.getVariantName();
+        logger.info("variantName " + variantName);
         super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
     }
 
