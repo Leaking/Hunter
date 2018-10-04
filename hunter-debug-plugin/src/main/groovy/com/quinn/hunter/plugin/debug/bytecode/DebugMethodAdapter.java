@@ -39,18 +39,10 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
         if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
             debugMethod = true;
-            return new AnnotationVisitor(Opcodes.ASM5, defaultAv) {
-                @Override
-                public void visit(String name, Object value) {
-                    if("stepByStep".equals(name) && (Boolean)value) {
-                        stepByStep = true;
-                    }
-                    super.visit(name, value);
-                }
-            };
-        } else {
-            return defaultAv;
+        } else if("Lcom/hunter/library/debug/HunterStepTiming;".equals(desc)){
+            stepByStep = true;
         }
+        return defaultAv;
     }
 
     @Override
