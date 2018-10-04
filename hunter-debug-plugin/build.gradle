@@ -14,7 +14,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:5.1'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:5.1'
-    implementation 'com.quinn.hunter:hunter-transform:0.8.3'
+    implementation 'com.quinn.hunter:hunter-transform:0.8.4'
 }
 
 repositories {

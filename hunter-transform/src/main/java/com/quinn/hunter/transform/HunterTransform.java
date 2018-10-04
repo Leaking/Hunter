@@ -28,8 +28,6 @@ import java.util.Map;
 import java.util.Set;
 /**
  * Created by Quinn on 26/02/2017.
- */
-/**
  * Transform to modify bytecode
  */
 public class HunterTransform extends Transform {
@@ -47,7 +45,7 @@ public class HunterTransform extends Transform {
     private Project project;
     protected BaseWeaver bytecodeWeaver;
     private WaitableExecutor waitableExecutor;
-    private boolean emptyRun;
+    private boolean emptyRun = false;
 
     public HunterTransform(Project project){
         this.project = project;
@@ -83,11 +81,11 @@ public class HunterTransform extends Transform {
                    TransformOutputProvider outputProvider,
                    boolean isIncremental) throws IOException, TransformException, InterruptedException {
         if("debug".equals(context.getVariantName())) {
-            emptyRun = transformVariant() != RunVariant.RELEASE;
+            emptyRun = getRunVariant() == RunVariant.RELEASE;
         } else if("release".equals(context.getVariantName())) {
-            emptyRun = transformVariant() != RunVariant.DEBUG;
+            emptyRun = getRunVariant() == RunVariant.DEBUG;
         }
-        logger.info(getName() + " isIncremental > " + isIncremental + " emptyRun > " + emptyRun);
+        logger.info(getName() + " is starting, isIncremental > " + isIncremental + " emptyRun > " + emptyRun);
         long startTime = System.currentTimeMillis();
         if(!isIncremental) {
             outputProvider.deleteAll();
@@ -177,7 +175,6 @@ public class HunterTransform extends Transform {
         }
         final String inputDirPath = inputDir.getAbsolutePath();
         final String outputDirPath = outputDir.getAbsolutePath();
-        logger.info("transform dir " + inputDirPath);
         if (inputDir.isDirectory()) {
             for (final File file : com.android.utils.FileUtils.getAllFiles(inputDir)) {
                 waitableExecutor.execute(() -> {
@@ -196,10 +193,7 @@ public class HunterTransform extends Transform {
                 FileUtils.copyFile(srcJar, destJar);
                 return null;
             }
-            long start = System.currentTimeMillis();
             bytecodeWeaver.weaveJar(srcJar, destJar);
-            long costed = System.currentTimeMillis() - start;
-            logger.info("transform jar " + srcJar.getAbsolutePath()  + " to " + destJar.getName() + " costed " + costed);
             return null;
         });
     }
@@ -210,7 +204,7 @@ public class HunterTransform extends Transform {
         return true;
     }
 
-    protected RunVariant transformVariant(){
+    protected RunVariant getRunVariant(){
         return RunVariant.ALWAYS;
     }
 

@@ -7,6 +7,7 @@ import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.debug.bytecode.DebugWeaver;
 import com.quinn.hunter.transform.HunterTransform;
+import com.quinn.hunter.transform.RunVariant;
 
 import org.gradle.api.Project;
 
@@ -28,10 +29,7 @@ public class DebugHunterTransform extends HunterTransform {
     }
 
     @Override
-    public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        String variantName = context.getVariantName();
-        logger.info("variantName " + variantName);
-        super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
+    protected RunVariant transformVariant() {
+        return RunVariant.DEBUG;
     }
-
 }
