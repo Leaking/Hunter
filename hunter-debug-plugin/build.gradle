@@ -14,16 +14,15 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:5.1'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:5.1'
-    implementation project(':hunter-transform')
-//    implementation 'com.quinn.hunter:hunter-transform:1.0.0'
+    implementation 'com.quinn.hunter:hunter-transform:0.8.0'
 }
 
 repositories {
-    maven {
-        url uri('../repo')
-    }
     google()
     jcenter()
+    maven {
+        url 'https://dl.bintray.com/leaking/maven'
+    }
     mavenCentral()
 }
 
