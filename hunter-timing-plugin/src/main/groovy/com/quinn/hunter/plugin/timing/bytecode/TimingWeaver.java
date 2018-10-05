@@ -12,7 +12,6 @@ import org.objectweb.asm.ClassWriter;
 public final class TimingWeaver extends BaseWeaver {
 
     private static final String PLUGIN_LIBRARY = "com.hunter.library.timing";
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(TimingWeaver.class);
 
     private TimingHunterExtension timingHunterExtension;
 
