@@ -1,14 +1,13 @@
 # Hunter
 
-Hunter is a framework based on asm, you can use it to develop a fast, incremental, concurrent gradle 
-compile plugin for android project immediately. It also provides a set of some useful compile plugin 
-for android developer. with these plugins' help, you can time you app's method in ui thread, you even
- can provide a global interceptor, eventlistener for all okhttpclient, and so on.   
+Hunter is a framework to develop android gradle plugin based on 
+[ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
+It provides a set of useful, salable plugins for android developers.
 
-Hunter provides easy-to-use interface for developer to write a new gradle compile plugin, 
-it solves messy problems of asm for developers. and provides useful, flexible, salable interface.
-You can use Hunter to develop a Aspect-oriented tool, to extends 3rd-party library, etc.
-
+ + [Timing-Plugin](#timing-plugin): you can time all you ui-thread method, and dump the block trace, 
+ + [OkHttp-Plugin](#okhttp-plugin): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) or [Eventlistener](https://github.com/square/okhttp/wiki/Events) for all your OkhttpClients, 
+ + [LogLine-Plugin](#logline-plugin): you can add a line number into every lines of your logcat,
+ + [Debug-Plugin](#debug-plugin): you can simply add a annotation to a certain method, and the method will print all parameter and costed time, return value.
 
 ## Timing-Plugin
 
