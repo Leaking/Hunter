@@ -29,7 +29,7 @@ public class DebugHunterTransform extends HunterTransform {
     }
 
     @Override
-    protected RunVariant transformVariant() {
+    protected RunVariant getRunVariant() {
         return RunVariant.DEBUG;
     }
 }
