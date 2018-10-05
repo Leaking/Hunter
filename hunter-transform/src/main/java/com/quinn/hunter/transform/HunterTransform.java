@@ -80,10 +80,11 @@ public class HunterTransform extends Transform {
                    Collection<TransformInput> referencedInputs,
                    TransformOutputProvider outputProvider,
                    boolean isIncremental) throws IOException, TransformException, InterruptedException {
+        RunVariant runVariant = getRunVariant();
         if("debug".equals(context.getVariantName())) {
-            emptyRun = getRunVariant() == RunVariant.RELEASE;
+            emptyRun = runVariant == RunVariant.RELEASE || runVariant == RunVariant.NONE;
         } else if("release".equals(context.getVariantName())) {
-            emptyRun = getRunVariant() == RunVariant.DEBUG;
+            emptyRun = runVariant == RunVariant.DEBUG || runVariant == RunVariant.NONE;
         }
         logger.info(getName() + " is starting, isIncremental > " + isIncremental + " emptyRun > " + emptyRun);
         long startTime = System.currentTimeMillis();

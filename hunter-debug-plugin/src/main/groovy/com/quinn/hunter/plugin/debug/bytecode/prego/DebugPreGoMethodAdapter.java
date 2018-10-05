@@ -18,7 +18,6 @@ import java.util.Map;
  */
 public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugPreGoMethodAdapter.class);
     private Map<String, List<Parameter>> methodParametersMap;
     private List<Parameter> parameters = new ArrayList<>();
     private String methodKey;

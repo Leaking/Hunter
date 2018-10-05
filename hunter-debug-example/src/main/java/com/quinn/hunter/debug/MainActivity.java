@@ -20,7 +20,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ParameterPrinter parameterPrinter = new ParameterPrinter("tag", "methodname");
         MainPresenter mainPresenter = new MainPresenter();
         mainPresenter.load("1212");
         mainPresenter.loadMore("12123232");
