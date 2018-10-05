@@ -98,9 +98,10 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             logger.info("returnDesc > " + returnDesc);
             //store origin return value
             int resultTempValIndex = -1;
-            if(returnType != Type.VOID_TYPE) {
+            if(returnType != Type.VOID_TYPE || opcode == ATHROW) {
                 resultTempValIndex = newLocal(returnType);
                 int storeOpcocde = Utils.getStoreOpcodeFromType(returnType);
+                if(opcode == ATHROW) storeOpcocde = ASTORE;
                 mv.visitVarInsn(storeOpcocde, resultTempValIndex);
             }
             //parameter1 parameter2
@@ -113,8 +114,12 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             mv.visitLdcInsn(methodName);   //parameter 2 string
             mv.visitVarInsn(LLOAD, index); //parameter 3 long
             //parameter 4
-            if(returnType != Type.VOID_TYPE) {
+            if(returnType != Type.VOID_TYPE || opcode == ATHROW) {
                 int loadOpcode = Utils.getLoadOpcodeFromType(returnType);
+                if(opcode == ATHROW) {
+                    loadOpcode = ALOAD;
+                    returnDesc = "Ljava/lang/Object;";
+                }
                 mv.visitVarInsn(loadOpcode, resultTempValIndex);
                 String formatDesc = String.format("(Ljava/lang/String;Ljava/lang/String;J%s)V", returnDesc);
                 logger.info("formatDesc > " + formatDesc);
@@ -127,4 +132,5 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         }
         super.visitInsn(opcode);
     }
+
 }
