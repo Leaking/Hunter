@@ -16,20 +16,12 @@ import java.util.Map;
  */
 public final class DebugPreGoClassAdapter extends ClassVisitor{
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugPreGoClassAdapter.class);
     private Map<String, List<Parameter>> methodParametersMap = new HashMap<>();
     private DebugPreGoMethodAdapter debugPreGoMethodAdapter;
     private boolean needParameter = false;
-    private String className;
 
     public DebugPreGoClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
-    }
-
-    @Override
-    public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-        super.visit(version, access, name, signature, superName, interfaces);
-        this.className = name;
     }
 
     @Override

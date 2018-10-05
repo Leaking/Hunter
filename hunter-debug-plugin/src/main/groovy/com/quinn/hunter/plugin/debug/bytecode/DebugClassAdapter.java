@@ -15,7 +15,6 @@ import java.util.Map;
  */
 public final class DebugClassAdapter extends ClassVisitor{
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(DebugClassAdapter.class);
     private Map<String, List<Parameter>> methodParametersMap;
     private DebugMethodAdapter debugMethodAdapter;
     private String className;
@@ -38,12 +37,6 @@ public final class DebugClassAdapter extends ClassVisitor{
         String methodUniqueKey = name + desc;
         debugMethodAdapter = new DebugMethodAdapter(className, methodParametersMap.get(methodUniqueKey), name, access, desc, mv);
         return mv == null ? null : debugMethodAdapter;
-    }
-
-    @Override
-    public void visitEnd() {
-        super.visitEnd();
-
     }
 
 }

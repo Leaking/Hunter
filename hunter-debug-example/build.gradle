@@ -51,3 +51,6 @@ buildscript {
 
 apply plugin: 'hunter-debug'
 
+debugHunterExtension {
+    enable = true
+}
