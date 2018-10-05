@@ -48,6 +48,11 @@ public class MainActivity extends Activity {
         method_return_object_array();
         method_return_short();
         method_static("parameter value");
+        try {
+            method_throw_exception();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     };
 
     private List<String> paramNames = new ArrayList<>();
@@ -118,6 +123,15 @@ public class MainActivity extends Activity {
         return "object string" + str;
     }
 
-
+    @HunterDebug
+    private int method_throw_exception() throws Exception{
+        int a = 10;
+        int b = 0;
+        if(b == 0) {
+            throw new IllegalArgumentException("illagel argu");
+        }
+        int result = a / 0;
+        return result;
+    }
 
 }
