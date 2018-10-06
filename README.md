@@ -14,6 +14,44 @@ It provides a set of useful, salable plugins for android developers.
 ## Timing-Plugin
 
 
+```groovy
+
+
+dependencies {
+    implementation 'com.quinn.hunter:hunter-timing-library::1.0.0'
+}
+
+repositories {
+    maven {
+        url 'https://dl.bintray.com/leaking/maven'
+        }
+}
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+            }
+    }
+    dependencies {
+        classpath 'com.quinn.hunter:hunter-timing-plugin:1.0.0'
+    }
+}
+
+apply plugin: 'hunter-timing'
+    
+```
+
+The Hunter-Timing has a internal default BlockHandler to process
+the block messages, you can set your custom BlockHandler.
+
+```java
+
+BlockManager.installBlockManager(new RankingBlockHandler());
+
+```
+
+
 ## OkHttp-Plugin
 
 
