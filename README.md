@@ -4,9 +4,9 @@ Hunter is a framework to develop android gradle plugin based on
 [ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
 It provides a set of useful, salable plugins for android developers.
 
- + [Timing-Plugin](#timing-plugin): you can time all your ui-thread method, and dump the block traces
- + [OkHttp-Plugin](#okhttp-plugin): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) or [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
- for all your OkhttpClients(Okhttp does not provide interface to set a global Interceptor or a global EventListener)
+ + [Timing-Plugin](#timing-plugin): you can time all your ui-thread methods, and dump the block traces
+ + [OkHttp-Plugin](#okhttp-plugin): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
+ for all your OkhttpClients(Okhttp does not provide interface to set a global Interceptor/EventListener)
  + [LogLine-Plugin](#logline-plugin): you can add a line number into every lines of your logcat
  + [Debug-Plugin](#debug-plugin): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value(JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
  achieves it with AspectJ, I achieve it with ASM)
@@ -103,10 +103,59 @@ OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
 ```
 
 
+
+## Debug-Plugin
+
+It's a plugin similar to hugo but it's developed with ASM instead of AspectJ. Amd it has a
+quicker compile speed.
+
+Simply add @HunterDebug to your methods will print all parameters and costed time, return value.
+
+
+
+```groovy
+
+dependencies {
+    implementation 'com.quinn.hunter:hunter-debug-library::1.0.0'
+}
+
+repositories {
+    maven {
+        url 'https://dl.bintray.com/leaking/maven'
+        }
+}
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+            }
+    }
+    dependencies {
+        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
+    }
+}
+
+apply plugin: 'hunter-debug'
+    
+    
+
+
+```
+
+The logging only working in debug build apk, and you can disable it in debug build by adding following codes
+
+```groovy
+
+debugHunterExtension {
+    enable = false
+}
+
+``` 
+
 ## LogLine-Plugin
 
 
-## Debug-Plugin
 
 
 ## Developer API
