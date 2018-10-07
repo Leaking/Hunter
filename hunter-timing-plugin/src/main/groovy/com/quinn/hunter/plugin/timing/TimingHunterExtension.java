@@ -1,5 +1,7 @@
 package com.quinn.hunter.plugin.timing;
 
+import com.quinn.hunter.transform.RunVariant;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,14 +12,16 @@ import java.util.List;
  */
 public class TimingHunterExtension {
 
+    public RunVariant runVariant = RunVariant.ALWAYS;
     public List<String> whitelist = new ArrayList<>();
     public List<String> blacklist = new ArrayList<>();
 
     @Override
     public String toString() {
         return "TimingHunterExtension{" +
-                ", whitelist=" + Arrays.toString(whitelist.toArray()) +
-                ", blacklist=" + Arrays.toString(blacklist.toArray()) +
+                "runVariant=" + runVariant +
+                ", whitelist=" + whitelist +
+                ", blacklist=" + blacklist +
                 '}';
     }
 }

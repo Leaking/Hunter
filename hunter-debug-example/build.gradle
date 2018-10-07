@@ -27,7 +27,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.quinn.hunter:hunter-debug-library:0.8.3'
+    implementation 'com.quinn.hunter:hunter-debug-library:1.0.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
 
@@ -51,6 +51,6 @@ buildscript {
 
 apply plugin: 'hunter-debug'
 
-hunterExt {
+debugHunterExt {
     runVariant = 'DEBUG'
 }

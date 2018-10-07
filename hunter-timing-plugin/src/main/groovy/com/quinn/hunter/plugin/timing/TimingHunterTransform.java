@@ -7,6 +7,7 @@ import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.timing.bytecode.TimingWeaver;
 import com.quinn.hunter.transform.HunterTransform;
+import com.quinn.hunter.transform.RunVariant;
 
 import org.gradle.api.Project;
 
@@ -19,6 +20,7 @@ import java.util.Collection;
 public final class TimingHunterTransform extends HunterTransform {
 
     private Project project;
+    private TimingHunterExtension timingHunterExtension;
 
     public TimingHunterTransform(Project project) {
         super(project);
@@ -29,9 +31,13 @@ public final class TimingHunterTransform extends HunterTransform {
 
     @Override
     public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        TimingHunterExtension timingHunterExtension = (TimingHunterExtension) project.getExtensions().getByName("timingHunterExt");
+        timingHunterExtension = (TimingHunterExtension) project.getExtensions().getByName("timingHunterExt");
         bytecodeWeaver.setExtension(timingHunterExtension);
         super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
+    }
+
+    protected RunVariant getRunVariant() {
+        return timingHunterExtension.runVariant;
     }
 
 }
