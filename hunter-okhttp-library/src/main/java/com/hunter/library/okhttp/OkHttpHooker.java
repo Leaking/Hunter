@@ -15,7 +15,7 @@ public class OkHttpHooker {
 
     public static EventListener.Factory globalEventFactory = new EventListener.Factory() {
         public EventListener create(Call call) {
-            return new EventListener() {};
+            return EventListener.NONE;
         }
     };;
 
