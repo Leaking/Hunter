@@ -143,18 +143,71 @@ apply plugin: 'hunter-debug'
 
 ```
 
-The logging only working in debug build apk, and you can disable it in debug build by adding following codes
+Logging works in both debug and release build mode, but you can specify certain mode or disable it.
 
 ```groovy
 
-debugHunterExtension {
-    enable = false
+debugHunterExt {
+    runVariant = 'DEBUG'
 }
 
 ``` 
 
+There are four available runVariant, 'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', The 'ALWAYS' is default value.
+
+
 ## LogLine-Plugin
 
+This is a interesting tool/plugin, sometimes you may need line number to help you locate the logcat content,
+especially, same logcat print in different lines in the same one java class.
+
+This plugin can help you.
+
+
+```groovy
+
+dependencies {
+    implementation 'com.quinn.hunter:hunter-linelog-library::1.0.0'
+}
+
+repositories {
+    maven {
+        url 'https://dl.bintray.com/leaking/maven'
+        }
+}
+
+buildscript {
+    repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+            }
+    }
+    dependencies {
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.0.0'
+    }
+}
+
+apply plugin: 'hunter-linelog'
+    
+```
+
+You logcat will be inserted line number automatically.
+
+
+For example, the following line is which you write to try to print logcat
+
+```java
+
+Log.i("MainActivity", "onCreate");
+
+```
+The 'tranformed' logcat
+
+```xml
+
+I/MainActivity[21]: onCreate
+
+```  
 
 
 
