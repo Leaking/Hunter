@@ -23,13 +23,13 @@ public final class TimingHunterTransform extends HunterTransform {
     public TimingHunterTransform(Project project) {
         super(project);
         this.project = project;
-        project.getExtensions().create("timingHunterExtension", TimingHunterExtension.class);
+        project.getExtensions().create("timingHunterExt", TimingHunterExtension.class);
         this.bytecodeWeaver = new TimingWeaver();
     }
 
     @Override
     public void transform(Context context, Collection<TransformInput> inputs, Collection<TransformInput> referencedInputs, TransformOutputProvider outputProvider, boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        TimingHunterExtension timingHunterExtension = (TimingHunterExtension) project.getExtensions().getByName("timingHunterExtension");
+        TimingHunterExtension timingHunterExtension = (TimingHunterExtension) project.getExtensions().getByName("timingHunterExt");
         bytecodeWeaver.setExtension(timingHunterExtension);
         super.transform(context, inputs, referencedInputs, outputProvider, isIncremental);
     }
