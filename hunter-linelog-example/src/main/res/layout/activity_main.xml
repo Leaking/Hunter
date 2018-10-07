@@ -10,10 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.quinn.hunter.linelog.MainActivity">
 
-    <TextView
-        android:id="@+id/dump"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dump block data" />
+
 
 </RelativeLayout>
