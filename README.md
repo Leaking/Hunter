@@ -59,7 +59,7 @@ BlockManager.installBlockManager(new RankingBlockHandler());
 
 Maybe your project have serveral OkhttpClients，you need to add your custom Interceptor/EventListener/Dns 
 to every OkhttpClients one by one. But some OkhttpClients come from 3rd library, and you can't add
- your custom Interceptor/EventListener/Dns to them. I have filed a [issue](https://github.com/square/okhttp/issues/4228) to Okhttp team.
+ your custom Interceptor/EventListener/Dns to them. I have filed a [issue](https://github.com/square/okhttp/issues/4228) about this problem to Okhttp team.
  
 OkHttp-Plugin can help you to achieve it, you can set a global Interceptor/EventListener/Dns to your all
 OkhttpClients.
@@ -137,9 +137,6 @@ buildscript {
 }
 
 apply plugin: 'hunter-debug'
-    
-    
-
 
 ```
 
@@ -194,16 +191,16 @@ apply plugin: 'hunter-linelog'
 You logcat will be inserted line number automatically.
 
 
-For example, the following line is which you write to try to print logcat
+Origin logcat
 
 ```java
 
-Log.i("MainActivity", "onCreate");
+I/MainActivity: onCreate
 
 ```
-The 'tranformed' logcat
+Tranformed logcat
 
-```xml
+```java
 
 I/MainActivity[21]: onCreate
 
