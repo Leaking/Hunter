@@ -50,6 +50,7 @@ public class HunterTransform extends Transform {
     public HunterTransform(Project project){
         this.project = project;
         this.waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool();
+        project.getExtensions().create("hunterExt", HunterExtension.class);
     }
 
     @Override
@@ -80,13 +81,14 @@ public class HunterTransform extends Transform {
                    Collection<TransformInput> referencedInputs,
                    TransformOutputProvider outputProvider,
                    boolean isIncremental) throws IOException, TransformException, InterruptedException {
-        RunVariant runVariant = getRunVariant();
+        HunterExtension hunterExtension = (HunterExtension) project.getExtensions().getByName("hunterExt");
+        RunVariant runVariant = hunterExtension.runVariant;
         if("debug".equals(context.getVariantName())) {
-            emptyRun = runVariant == RunVariant.RELEASE || runVariant == RunVariant.NONE;
+            emptyRun = runVariant == RunVariant.RELEASE || runVariant == RunVariant.NEVER;
         } else if("release".equals(context.getVariantName())) {
-            emptyRun = runVariant == RunVariant.DEBUG || runVariant == RunVariant.NONE;
+            emptyRun = runVariant == RunVariant.DEBUG || runVariant == RunVariant.NEVER;
         }
-        logger.info(getName() + " is starting, isIncremental > " + isIncremental + " emptyRun > " + emptyRun);
+        logger.info(getName() + " isIncremental > " + isIncremental + " runVariant > " + runVariant + " emptyRun > " + emptyRun);
         long startTime = System.currentTimeMillis();
         if(!isIncremental) {
             outputProvider.deleteAll();
@@ -205,8 +207,5 @@ public class HunterTransform extends Transform {
         return true;
     }
 
-    protected RunVariant getRunVariant(){
-        return RunVariant.ALWAYS;
-    }
 
 }
