@@ -27,9 +27,6 @@ public class ExtendClassWriter extends ClassWriter {
 
     /**
      * https://github.com/Moniter123/pinpoint/blob/40106ffe6cc4d6aea9d59b4fb7324bcc009483ee/profiler/src/main/java/com/navercorp/pinpoint/profiler/instrument/ASMClassWriter.java
-     * @param type1
-     * @param type2
-     * @return
      */
     @Override
     protected String getCommonSuperClass(final String type1, final String type2) {

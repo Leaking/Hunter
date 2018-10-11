@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
 
 android {
     compileSdkVersion 28
@@ -28,16 +27,46 @@ dependencies {
 
 }
 
-group='com.quinn.hunter'
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'hunter-okhttp-library'
 
-version='1.0.0'
+    publishedGroupId = 'com.quinn.hunter'
+    libraryName = 'hunter-okhttp-library'
+    artifact = 'hunter-okhttp-library'
 
-def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+    libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: localRepoURL)
-        }
-    }
+    siteUrl = 'https://github.com/Leaking/Hunter'
+    gitUrl = 'https://github.com/Leaking/Hunter.git'
+
+    libraryVersion = '0.8.5'
+
+    developerId = 'Leaking'
+    developerName = 'QuinnChen'
+    developerEmail = 'chenhuazhaoao@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
 }
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
+//publish script for debug mode
+
+//apply plugin: 'maven'
+//
+//group='com.quinn.hunter'
+//version='1.0.0'
+//
+//def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: localRepoURL)
+//        }
+//    }
+//}
