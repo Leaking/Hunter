@@ -27,11 +27,14 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.quinn.hunter:hunter-debug-library:1.0.0'
+    implementation 'com.quinn.hunter:hunter-debug-library:0.8.5'
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
 
 repositories {
+    maven {
+        url 'https://dl.bintray.com/leaking/maven'
+    }
     mavenLocal()
     jcenter()
     google()
@@ -39,12 +42,15 @@ repositories {
 
 buildscript {
     repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+        }
         mavenLocal()
         jcenter()
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.8.5'
     }
 }
 
