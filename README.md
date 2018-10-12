@@ -1,4 +1,4 @@
-# Hunter (Unpublish)
+# Hunter
 
 Hunter is a framework to develop android gradle plugin based on 
 [ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
@@ -21,23 +21,19 @@ It provides a set of useful, salable plugins for android developers.
 
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-timing-library::1.0.0'
+    implementation 'com.quinn.hunter:hunter-timing-library::0.8.5'
 }
 
 repositories {
-    maven {
-        url 'https://dl.bintray.com/leaking/maven'
-        }
+    maven { url 'https://dl.bintray.com/leaking/maven' }
 }
 
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/leaking/maven'
-            }
+        maven { url 'https://dl.bintray.com/leaking/maven' }
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:0.8.5'
     }
 }
 
@@ -49,8 +45,16 @@ The Hunter-Timing has a internal default BlockHandler to process
 the block messages, you can set your custom BlockHandler.
 
 ```java
+IBlockHandler customBlockManager = new RankingBlockHandler();
+BlockManager.installBlockManager(customBlockManager);
 
-BlockManager.installBlockManager(new RankingBlockHandler());
+```
+
+You can dump the block trace
+
+```java
+
+customBlockManager.dump()
 
 ```
 
@@ -69,23 +73,20 @@ OkhttpClients.
 
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-okhttp-library::1.0.0'
+    implementation 'com.quinn.hunter:hunter-okhttp-library::0.8.5'
 }
 
 repositories {
-    maven {
-        url 'https://dl.bintray.com/leaking/maven'
-        }
+    maven { url 'https://dl.bintray.com/leaking/maven' }
+
 }
 
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/leaking/maven'
-            }
+        maven { url 'https://dl.bintray.com/leaking/maven' }
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
     }
 }
 
@@ -116,23 +117,19 @@ Simply add @HunterDebug to your methods will print all parameters and costed tim
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-debug-library::1.0.0'
+    implementation 'com.quinn.hunter:hunter-debug-library::0.8.5'
 }
 
 repositories {
-    maven {
-        url 'https://dl.bintray.com/leaking/maven'
-        }
+    maven { url 'https://dl.bintray.com/leaking/maven' }
 }
 
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/leaking/maven'
-            }
+        maven { url 'https://dl.bintray.com/leaking/maven' }
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.8.5'
     }
 }
 
@@ -164,23 +161,19 @@ This plugin can help you.
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-linelog-library::1.0.0'
+    implementation 'com.quinn.hunter:hunter-linelog-library::0.8.5'
 }
 
 repositories {
-    maven {
-        url 'https://dl.bintray.com/leaking/maven'
-        }
+    maven { url 'https://dl.bintray.com/leaking/maven' }
 }
 
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/leaking/maven'
-            }
+        maven { url 'https://dl.bintray.com/leaking/maven' }
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.8.5'
     }
 }
 
@@ -209,7 +202,8 @@ I/MainActivity[21]: onCreate
 
 
 ## Developer API
-
+    
+    Writing....
 
 
 ## License
