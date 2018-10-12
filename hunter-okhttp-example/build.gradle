@@ -28,10 +28,13 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation project(':hunter-okhttp-library')
+    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
 }
 
 repositories {
+    maven {
+        url 'https://dl.bintray.com/leaking/maven'
+    }
     jcenter()
     google()
     mavenLocal()
@@ -39,12 +42,15 @@ repositories {
 
 buildscript {
     repositories {
+        maven {
+            url 'https://dl.bintray.com/leaking/maven'
+        }
         jcenter()
         google()
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
     }
 }
 
