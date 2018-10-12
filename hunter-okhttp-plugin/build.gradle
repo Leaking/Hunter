@@ -24,11 +24,11 @@ repositories {
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'hunter-okhttp-library'
+    bintrayName = 'hunter-okhttp-plugin'
 
     publishedGroupId = 'com.quinn.hunter'
-    libraryName = 'hunter-okhttp-library'
-    artifact = 'hunter-okhttp-library'
+    libraryName = 'hunter-okhttp-plugin'
+    artifact = 'hunter-okhttp-plugin'
 
     libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
 
