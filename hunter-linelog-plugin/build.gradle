@@ -24,18 +24,18 @@ repositories {
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'hunter-debug-plugin'
+    bintrayName = 'hunter-linelog-plugin'
 
     publishedGroupId = 'com.quinn.hunter'
-    libraryName = 'hunter-debug-plugin'
-    artifact = 'hunter-debug-plugin'
+    libraryName = 'hunter-linelog-plugin'
+    artifact = 'hunter-linelog-plugin'
 
     libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
 
     siteUrl = 'https://github.com/Leaking/Hunter'
     gitUrl = 'https://github.com/Leaking/Hunter.git'
 
-    libraryVersion = '0.8.5'
+    libraryVersion = '0.8.6'
 
     developerId = 'Leaking'
     developerName = 'QuinnChen'
