@@ -57,7 +57,8 @@ buildscript {
 
 apply plugin: 'hunter-timing'
 
-//timingHunterExt {
-//    whitelist = ['com.quinn.hunter.timing.DataSource']
-//    blacklist = ['com.quinn.hunter.timing.black']
-//}
+timingHunterExt {
+    runVariant = 'DEBUG'
+    whitelist = ['com.quinn.hunter.timing.DataSource']
+    blacklist = ['com.quinn.hunter.timing.black']
+}

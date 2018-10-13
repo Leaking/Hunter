@@ -10,7 +10,7 @@ It provides a set of useful, salable plugins for android developers.
  + [LogLine-Plugin](#logline-plugin): you can add a line number into every lines of your logcat
  + [Debug-Plugin](#debug-plugin): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value(JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
  achieves it with AspectJ, I achieve it with ASM)
- + More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md), MeanWhile, your idea is welcome.
+ + More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md), MeanWhile, your idea is welcome
 
 ## Timing-Plugin
 
@@ -57,6 +57,29 @@ You can dump the block trace
 customBlockManager.dump()
 
 ```
+
+In addition, hunter-timing-plugin provides a extendsion
+
+```groovy
+
+timingHunterExt {
+    runVariant = 'DEBUG'
+    whitelist = ['com.quinn.hunter.timing.DataSource', 'com.foo.package2']
+    blacklist = ['com.quinn.hunter.timing.black', 'com.foo.package2']
+}
+
+```
+runVariant, its default value is 'ALWAYS', it means this plugin will perform 
+in both debug build and release build. There are four available runVariant, 
+'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER'. 
+
+whitelist, it means the plugin will only handle the classes in these packages, you can 
+provide package with prefix name.
+
+blacklist, it means the plugin will handle all classes except the classes in these packages, you can 
+provide package with prefix name.
+
+You'd better just provide whitelist or blacklist, if you provide both of them, blacklist is ignore.
 
 
 ## OkHttp-Plugin
@@ -142,12 +165,10 @@ Logging works in both debug and release build mode, but you can specify certain 
 ```groovy
 
 debugHunterExt {
-    runVariant = 'DEBUG'
+    runVariant = 'DEBUG'  //'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', The 'ALWAYS' is default value
 }
 
 ``` 
-
-There are four available runVariant, 'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', The 'ALWAYS' is default value.
 
 
 ## LogLine-Plugin
@@ -203,7 +224,7 @@ I/MainActivity[21]: onCreate
 
 ## Developer API
     
-    Writing....
+   
 
 
 ## License
