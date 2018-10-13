@@ -2,7 +2,9 @@
 
 Hunter is a framework to develop android gradle plugin based on 
 [ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
-It provides a set of useful, salable plugins for android developers.
+It provides a set of useful, salable plugins for android developers. You can use Hunter to develop more plugin 
+to monitor your app,  enhance 3rd-dependency, enhance android framework.
+
 
  + [Timing-Plugin](#timing-plugin): you can time all your ui-thread methods, and dump the block traces
  + [OkHttp-Plugin](#okhttp-plugin): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
@@ -69,9 +71,9 @@ timingHunterExt {
 }
 
 ```
-runVariant, its default value is 'ALWAYS', it means this plugin will perform 
+runVariant, its default value is ALWAYS, it means this plugin will perform 
 in both debug build and release build. There are four available runVariant, 
-'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER'. 
+DEBUG, RELEASE, ALWAYS, NEVER. 
 
 whitelist, it means the plugin will only handle the classes in these packages, you can 
 provide package with prefix name.
@@ -79,7 +81,7 @@ provide package with prefix name.
 blacklist, it means the plugin will handle all classes except the classes in these packages, you can 
 provide package with prefix name.
 
-You'd better just provide whitelist or blacklist, if you provide both of them, blacklist is ignore.
+You'd better just provide whitelist or blacklist, if you provide both of them, blacklist is ignored.
 
 
 ## OkHttp-Plugin
