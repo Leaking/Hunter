@@ -21,7 +21,7 @@ public final class LinelogWeaver extends BaseWeaver {
     public boolean isWeavableClass(String fullQualifiedClassName) {
         boolean superResult = super.isWeavableClass(fullQualifiedClassName);
         boolean isByteCodePlugin = fullQualifiedClassName.startsWith(PLUGIN_LIBRARY);
-        return superResult && !isByteCodePlugin && fullQualifiedClassName.contains("MainActivity");
+        return superResult && !isByteCodePlugin;
     }
 
     @Override
