@@ -21,7 +21,7 @@ It provides a set of useful, salable plugins for android developers.
 
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-timing-library::0.8.5'
+    implementation 'com.quinn.hunter:hunter-timing-library:0.8.5'
 }
 
 repositories {
@@ -73,7 +73,7 @@ OkhttpClients.
 
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-okhttp-library::0.8.5'
+    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
 }
 
 repositories {
@@ -117,7 +117,7 @@ Simply add @HunterDebug to your methods will print all parameters and costed tim
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-debug-library::0.8.5'
+    implementation 'com.quinn.hunter:hunter-debug-library:0.8.5'
 }
 
 repositories {
@@ -161,7 +161,7 @@ This plugin can help you.
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-linelog-library::0.8.5'
+    implementation 'com.quinn.hunter:hunter-linelog-library:0.8.5'
 }
 
 repositories {
