@@ -57,7 +57,3 @@ buildscript {
 
 apply plugin: 'hunter-okhttp'
 
-//hunterExt {
-//    on = 'true'
-//    global = 'true'
-//}
