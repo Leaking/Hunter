@@ -173,7 +173,7 @@ buildscript {
         maven { url 'https://dl.bintray.com/leaking/maven' }
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.8.5'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.8.6'
     }
 }
 
