@@ -32,9 +32,6 @@ dependencies {
 }
 
 repositories {
-    maven {
-        url 'https://dl.bintray.com/leaking/maven'
-    }
     mavenLocal()
     jcenter()
     google()
@@ -42,9 +39,6 @@ repositories {
 
 buildscript {
     repositories {
-        maven {
-            url 'https://dl.bintray.com/leaking/maven'
-        }
         mavenLocal()
         jcenter()
         google()
