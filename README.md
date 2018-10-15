@@ -10,14 +10,58 @@ to monitor your app, enhance 3rd-dependency, enhance android framework.
 Plugins based on Hunter support incremental and concurrent compile, so you don't need to
 afraid of extra build time.
 
- + [Timing-Plugin](#timing-plugin): you can time all your ui-thread methods, and dump the block traces
  + [OkHttp-Plugin](#okhttp-plugin): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
  for all your OkhttpClients(Even clients in 3rd-party library)
+ + [Timing-Plugin](#timing-plugin): you can time all your ui-thread methods, and dump the block traces
  + [LogLine-Plugin](#logline-plugin): you can add a line number into every lines of your logcat
  + [Debug-Plugin](#debug-plugin): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value(JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
  achieves it with AspectJ, I achieve it with ASM)
  + More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md), MeanWhile, your idea is welcome
 
+
+## OkHttp-Plugin
+
+Maybe your project have serveral OkhttpClients，you need to add your custom Interceptor/EventListener/Dns 
+to every OkhttpClients one by one. But some OkhttpClients come from 3rd library, and you can't add
+ your custom Interceptor/EventListener/Dns to them. I have filed a [issue](https://github.com/square/okhttp/issues/4228) about this problem to Okhttp team.
+ 
+OkHttp-Plugin can help you to achieve it, you can set a global Interceptor/EventListener/Dns to your all
+OkhttpClients.
+
+
+```groovy
+
+
+dependencies {
+    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
+}
+
+repositories {
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
+    }
+}
+
+apply plugin: 'hunter-okhttp'
+    
+```
+
+
+```java
+
+OkHttpHooker.installEventListenerFactory(CustomGlobalEventListener.FACTORY);
+OkHttpHooker.installDns(new CustomGlobalDns());
+OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
+        
+```
 
 ## Timing-Plugin
 
@@ -144,51 +188,6 @@ blacklist, it means the plugin will handle all classes except the classes in the
 provide package with prefix name.
 
 You'd better just provide whitelist or blacklist, if you provide both of them, blacklist is ignored.
-
-
-## OkHttp-Plugin
-
-Maybe your project have serveral OkhttpClients，you need to add your custom Interceptor/EventListener/Dns 
-to every OkhttpClients one by one. But some OkhttpClients come from 3rd library, and you can't add
- your custom Interceptor/EventListener/Dns to them. I have filed a [issue](https://github.com/square/okhttp/issues/4228) about this problem to Okhttp team.
- 
-OkHttp-Plugin can help you to achieve it, you can set a global Interceptor/EventListener/Dns to your all
-OkhttpClients.
-
-
-```groovy
-
-
-dependencies {
-    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
-}
-
-repositories {
-    jcenter()
-}
-
-buildscript {
-    repositories {
-        jcenter()
-        google()
-    }
-    dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
-    }
-}
-
-apply plugin: 'hunter-okhttp'
-    
-```
-
-
-```java
-
-OkHttpHooker.installEventListenerFactory(CustomGlobalEventListener.FACTORY);
-OkHttpHooker.installDns(new CustomGlobalDns());
-OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
-        
-```
 
 
 
