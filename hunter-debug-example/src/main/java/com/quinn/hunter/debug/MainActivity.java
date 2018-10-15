@@ -2,6 +2,7 @@ package com.quinn.hunter.debug;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.hunter.library.debug.HunterDebug;
@@ -47,12 +48,19 @@ public class MainActivity extends Activity {
         method_return_object_array();
         method_return_short();
         method_static("parameter value");
+        appendIntAndString(5, "billions");
         try {
             method_throw_exception();
         } catch (Exception e) {
             e.printStackTrace();
         }
     };
+
+    @HunterDebug
+    private String appendIntAndString(int a, String b) {
+        SystemClock.sleep(100);
+        return a + " " + b;
+    }
 
     private List<String> paramNames = new ArrayList<>();
 
