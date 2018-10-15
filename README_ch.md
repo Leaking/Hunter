@@ -1,18 +1,17 @@
 # Hunter
 
-Hunter是这么一个框架，帮你快速开发插件，在编译器件修改字节码，它底层基于[ASM](https://asm.ow2.io/) 和 [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
-实现。在这个框架基础上，我尝试开发了几款实用的插件。你也可以用Hunter开发自己的插件，诸如实现App性能监控（UI，网络等等），加强或修改第三方库
-以满足你的需求，甚至可以加强修改Android framework的接口。
+Hunter是这么一个框架，帮你快速开发插件，在编译过程中修改字节码，它底层基于[ASM](https://asm.ow2.io/) 和 [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api)
+实现。在这个框架基础上，我尝试开发了几款实用的插件。你也可以用Hunter开发自己的插件，诸如实现App性能监控（UI，网络等等），加强或修改第三方库以满足你的需求，甚至可以加强、修改Android framework的接口。
 
 Hunter本身支持增量、并发编译，所以不用担心使用这一系列插件会增加太多编译时间。
 
- + [Timing-Plugin](#timing-plugin): 帮你监控所有UI线程的执行耗时，并且提供了一个算法，帮你打印出一个带有每步耗时的堆栈。
+ + [Timing-Plugin](#timing-plugin): 帮你监控所有UI线程的执行耗时，并且提供了算法，帮你打印出一个带有每步耗时的堆栈，统计卡顿方法分布
  + [OkHttp-Plugin](#okhttp-plugin): 可以为你的应用所有的OkhttpClient设置全局 [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
 (包括第三方依赖里的OkhttpClient)
  + [LogLine-Plugin](#logline-plugin): 为你的日志加上行号
- + [Debug-Plugin](#debug-plugin): 你为指定方法加上一个annotation，就可以帮你打印出这个方法所有输入参数的值，以及返回返回值，执行时间(JakeWharton的 [hugo](https://github.com/JakeWharton/hugo)
-用AspectJ实现了类似功能, 而我的实现方式是基于ASM，处理字节码的速度更快)
- + 你可以在这里查看我想继续开发的一些插件 [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md), 另外，欢迎你提供你宝贵的idea
+ + [Debug-Plugin](#debug-plugin): 只要为指定方法加上某个annotation，就可以帮你打印出这个方法所有输入参数的值，以及返回值，执行时间(JakeWharton的[hugo](https://github.com/JakeWharton/hugo)
+用AspectJ实现了类似功能, 而我的实现方式是基于ASM，ASM处理字节码的速度更快)
+ + 你可以在这里查看我想继续开发的一些插件 [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md)，另外，欢迎你提供你宝贵的idea
 
 
 ## Timing-Plugin
@@ -45,8 +44,7 @@ apply plugin: 'hunter-timing'
     
 ```
 
-Hunter-Timing 提供内置了一个默认的BlockHandler帮你打印卡顿的方法，也提供了其他两种BlockHandler实现，比如以下的实现，
-可以帮你打印出所有卡顿堆栈，附带堆栈中每步调用的耗时
+Hunter-Timing 提供内置了一个默认的BlockHandler帮你打印卡顿的方法，也提供了其他两种BlockHandler实现
 
 ```java
 IBlockHandler customBlockManager = new RankingBlockHandler();
@@ -54,7 +52,7 @@ BlockManager.installBlockManager(customBlockManager);
 
 ```
 
-You can dump the block trace
+Dump卡顿分析结果
 
 ```java
 
@@ -116,9 +114,10 @@ customBlockManager.dump()
   
     
 ```
+你可以可以实现自己的IBlockHandler，按自己的需求分析卡顿情况
     
 
-另外，提供一个扩展，带有几个配置参数    
+另外，这个插件还提供一个扩展，带有几个配置参数    
 
 ```groovy
 
@@ -129,8 +128,8 @@ timingHunterExt {
 }
 
 ```
-runVariant, 这个值默认是ALWAYS，表示这个插件在debug和release下都会修改字节码，全部有四个可选值，DEBUG, RELEASE, ALWAYS, NEVER，
-每个值得含义，顾名思义，相信大家都懂。另外，基本每个基于Hunter的插件的Extension基本都提供了这个runVariant配置。
+runVariant, 这个值默认是ALWAYS，表示这个插件在debug和release下都会修改字节码，这个配置全部有四个可选值，DEBUG, RELEASE, ALWAYS, NEVER，
+每个值的含义，顾名思义，相信大家都懂。另外，每个基于Hunter的插件的Extension基本都提供了这个runVariant配置。
 
 whitelist, 白名单列表，只对这些包名下的class做监控，此处包名支持字符串前缀匹配
 
@@ -189,11 +188,7 @@ OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
 
 ## Debug-Plugin
 
-It's a plugin similar to hugo but it's developed with ASM instead of AspectJ. Amd it has a
-quicker compile speed.
-
-Simply add @HunterDebug to your methods will print all parameters and costed time, return value.
-
+只要为指定方法加上@HunterDebug注解，就可以帮你打印出这个方法所有输入参数的值，以及返回值，执行时间
 
 
 ```groovy
@@ -220,7 +215,7 @@ apply plugin: 'hunter-debug'
 
 ```
 
-Logging works in both debug and release build mode, but you can specify certain mode or disable it.
+支持指定某个编译模式下才使用该插件
 
 ```groovy
 
@@ -252,12 +247,11 @@ I/com/quinn/hunter/debug/MainActivity: ⇢ appendIntAndString[a="5", b="billions
 
 ```
 
+JakeWharton的[hugo](https://github.com/JakeWharton/hugo)用AspectJ实现了类似功能, 而我的实现方式是基于ASM，ASM处理字节码的速度更快
+
 ## LogLine-Plugin
 
-This is a interesting tool/plugin, sometimes you may need line number to help you locate the logcat content,
-especially, same logcat print in different lines in the same one java class.
-
-This plugin can help you.
+这个插件会为你每行日志添加行号，可以帮你更快定位日志，尤其有时候你在一个Java文件中不同地方，打印了一样的日志。
 
 
 ```groovy
@@ -284,17 +278,16 @@ apply plugin: 'hunter-linelog'
     
 ```
 
-You logcat will be inserted line number automatically.
 
 
-Origin logcat
+未使用这个插件时打印的日志
 
 ```java
 
 I/MainActivity: onCreate
 
 ```
-Tranformed logcat
+使用插件后的日志
 
 ```java
 
