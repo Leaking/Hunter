@@ -5,14 +5,60 @@ Hunter是这么一个框架，帮你快速开发插件，在编译过程中修�
 
 Hunter本身支持增量、并发编译，所以不用担心使用这一系列插件会增加太多编译时间。
 
- + [Timing-Plugin](#timing-plugin): 帮你监控所有UI线程的执行耗时，并且提供了算法，帮你打印出一个带有每步耗时的堆栈，统计卡顿方法分布
  + [OkHttp-Plugin](#okhttp-plugin): 可以为你的应用所有的OkhttpClient设置全局 [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
 (包括第三方依赖里的OkhttpClient)
+ + [Timing-Plugin](#timing-plugin): 帮你监控所有UI线程的执行耗时，并且提供了算法，帮你打印出一个带有每步耗时的堆栈，统计卡顿方法分布
  + [LogLine-Plugin](#logline-plugin): 为你的日志加上行号
  + [Debug-Plugin](#debug-plugin): 只要为指定方法加上某个annotation，就可以帮你打印出这个方法所有输入参数的值，以及返回值，执行时间(JakeWharton的[hugo](https://github.com/JakeWharton/hugo)
 用AspectJ实现了类似功能, 而我的实现方式是基于ASM，ASM处理字节码的速度更快)
  + 你可以在这里查看我想继续开发的一些插件 [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md)，另外，欢迎你提供你宝贵的idea
 
+
+## OkHttp-Plugin
+
+
+一个稍微上规模的项目，很大可能有很多个OkhttpClient散落在各个业务中，那么如果你想使用Interceptor/EventListener做网络监控，或者设置自定义Dns，
+那就很麻烦，需要一处处为所有OkhttpClient设置Interceptor/EventListener/Dns，而且有些第三方依赖库里的OkhttpClient你是无能为力的。当然，你可以
+反射去处理，但是这会遇到很多麻烦。
+
+我在Okhtp提过类似问题的[issue](https://github.com/square/okhttp/issues/4228) 
+ 
+OkHttp-Plugin 这个插件就可以帮忙你解决这个问题，让你两三句代码就可以为所有OkhttpClient设置统一的Interceptor/EventListener/Dns
+
+
+```groovy
+
+
+dependencies {
+    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
+}
+
+repositories {
+    jcenter()
+}
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
+    }
+}
+
+apply plugin: 'hunter-okhttp'
+    
+```
+
+
+```java
+
+OkHttpHooker.installEventListenerFactory(CustomGlobalEventListener.FACTORY);
+OkHttpHooker.installDns(new CustomGlobalDns());
+OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
+        
+```
 
 ## Timing-Plugin
 
@@ -136,53 +182,6 @@ whitelist, 白名单列表，只对这些包名下的class做监控，此处包�
 blacklist, 黑名单列表，对这些包名下的class之外的所有class做监控，此处包名支持字符串前缀匹配
 
 黑名单模式和白名单模式是互斥的，建议只是用黑名单配置，或者只是用白名单配置，如果两个都填了，则黑名单参数会被忽略
-
-
-## OkHttp-Plugin
-
-
-一个稍微上规模的项目，很大可能有很多个OkhttpClient散落在各个业务中，那么如果你想使用Interceptor/EventListener做网络监控，或者设置自定义Dns，
-那就很麻烦，需要一处处为所有OkhttpClient设置Interceptor/EventListener/Dns，而且有些第三方依赖库里的OkhttpClient你是无能为力的。当然，你可以
-反射去处理，但是这会遇到很多麻烦。
-
-我在Okhtp提过类似问题的[issue](https://github.com/square/okhttp/issues/4228) 
- 
-OkHttp-Plugin 这个插件就可以帮忙你解决这个问题，让你两三句代码就可以为所有OkhttpClient设置统一的Interceptor/EventListener/Dns
-
-
-```groovy
-
-
-dependencies {
-    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
-}
-
-repositories {
-    jcenter()
-}
-
-buildscript {
-    repositories {
-        jcenter()
-        google()
-    }
-    dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
-    }
-}
-
-apply plugin: 'hunter-okhttp'
-    
-```
-
-
-```java
-
-OkHttpHooker.installEventListenerFactory(CustomGlobalEventListener.FACTORY);
-OkHttpHooker.installDns(new CustomGlobalDns());
-OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
-        
-```
 
 
 
