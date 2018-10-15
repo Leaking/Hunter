@@ -10,7 +10,7 @@ afraid of extra build time.
 
  + [Timing-Plugin](#timing-plugin): you can time all your ui-thread methods, and dump the block traces
  + [OkHttp-Plugin](#okhttp-plugin): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
- for all your OkhttpClients(Okhttp does not provide interface to set a global Interceptor/EventListener)
+ for all your OkhttpClients(Even clients in 3rd-party library)
  + [LogLine-Plugin](#logline-plugin): you can add a line number into every lines of your logcat
  + [Debug-Plugin](#debug-plugin): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value(JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
  achieves it with AspectJ, I achieve it with ASM)
