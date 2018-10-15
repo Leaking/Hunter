@@ -1,5 +1,7 @@
 # Hunter
 
+[中文](https://github.com/Leaking/Hunter/blob/master/README_ch.md)
+
 Hunter is a framework to develop android gradle plugin based on 
 [ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
 It provides a set of useful, scalable plugins for android developers. You can use Hunter to develop more plugins
@@ -63,6 +65,62 @@ You can dump the block trace
 customBlockManager.dump()
 
 ```
+
+Dump result
+
+```xml
+
+
+    ------Average Block-Time Ranking----Top 6----
+    com.quinn.hunter.timing.DataSource.modifyAndMoveFile: 2403.0ms(Count : 1)
+    com.quinn.hunter.timing.DataSource.readFileContent: 1400.0ms(Count : 1)
+    com.quinn.hunter.timing.DataSource.saveHugeFileToDisk: 1000.0ms(Count : 2)
+    com.quinn.hunter.timing.DataSource.getUserName: 900.0ms(Count : 1)
+    com.quinn.hunter.timing.DataSource.<clinit>: 804.0ms(Count : 1)
+    com.quinn.hunter.timing.DataSource.<init>: 801.0ms(Count : 1)
+    ------Block Count Ranking----Top 6----
+    com.quinn.hunter.timing.DataSource.saveHugeFileToDisk: 2(Avg : 1000.0ms)
+    com.quinn.hunter.timing.DataSource.getUserName: 1(Avg : 900.0ms)
+    com.quinn.hunter.timing.DataSource.modifyAndMoveFile: 1(Avg : 2403.0ms)
+    com.quinn.hunter.timing.DataSource.readFileContent: 1(Avg : 1400.0ms)
+    com.quinn.hunter.timing.DataSource.<init>: 1(Avg : 801.0ms)
+    com.quinn.hunter.timing.DataSource.<clinit>: 1(Avg : 804.0ms)
+    
+   
+```
+
+If you use StacktraceBlockHandler
+
+```xml
+    
+    ----BlockStackTrace----Total 5----
+    Block StackTrace 0
+    com.quinn.hunter.timing.DataSource.readFileContent costed 1400ms
+    com.quinn.hunter.timing.DataSource.modifyAndMoveFile costed 2403ms
+    com.quinn.hunter.timing.MainActivity.onCreate is root
+    
+    Block StackTrace 1
+    com.quinn.hunter.timing.DataSource.saveHugeFileToDisk costed 1000ms
+    com.quinn.hunter.timing.DataSource.modifyAndMoveFile costed 2403ms
+    com.quinn.hunter.timing.MainActivity.onCreate is root
+    
+    Block StackTrace 2
+    com.quinn.hunter.timing.DataSource.<init> costed 800ms
+    com.quinn.hunter.timing.DataSource.<clinit> costed 801ms
+    com.quinn.hunter.timing.DataSource.getInstance is root
+    
+    Block StackTrace 3
+    com.quinn.hunter.timing.DataSource.getUserName costed 901ms
+    com.quinn.hunter.timing.MainActivity.onCreate is root
+    
+    Block StackTrace 4
+    com.quinn.hunter.timing.DataSource.saveHugeFileToDisk costed 1000ms
+    com.quinn.hunter.timing.MainActivity.onCreate is root
+  
+    
+```
+You can use your custom IBlockHandler to analyse the block detail.
+    
 
 In addition, hunter-timing-plugin provides a extendsion
 
@@ -166,6 +224,28 @@ buildscript {
 apply plugin: 'hunter-debug'
 
 ```
+
+For example:
+
+```java
+
+
+@HunterDebug
+private String appendIntAndString(int a, String b) {
+    SystemClock.sleep(100);
+    return a + " " + b;
+}
+
+```
+
+
+```xml 
+
+I/com/quinn/hunter/debug/MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
+                                       ⇠ appendIntAndString[0ms]="5 billions"
+
+```
+
 
 Logging works in both debug and release build mode, but you can specify certain mode or disable it.
 
