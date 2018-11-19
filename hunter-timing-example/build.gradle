@@ -44,7 +44,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:0.8.5'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:0.8.7'
     }
 }
 
@@ -53,6 +53,6 @@ apply plugin: 'hunter-timing'
 
 timingHunterExt {
     runVariant = 'DEBUG'
-    whitelist = ['com.quinn.hunter.timing.DataSource']
-    blacklist = ['com.quinn.hunter.timing.black']
+//    whitelist = ['com.quinn.hunter.timing.DataSource']
+//    blacklist = ['com.quinn.hunter.timing.black']
 }
