@@ -132,18 +132,19 @@ public class HunterTransform extends Transform {
                     for (Map.Entry<File, Status> changedFile : fileStatusMap.entrySet()) {
                         Status status = changedFile.getValue();
                         File inputFile = changedFile.getKey();
+                        String destFilePath = inputFile.getAbsolutePath().replace(srcDirPath, destDirPath);
+                        File destFile = new File(destFilePath);
                         switch (status) {
                             case NOTCHANGED:
                                 break;
                             case REMOVED:
-                                if(inputFile.exists()) {
-                                    FileUtils.forceDelete(inputFile);
+                                if(destFile.exists()) {
+                                    //noinspection ResultOfMethodCallIgnored
+                                    destFile.delete();
                                 }
                                 break;
                             case ADDED:
                             case CHANGED:
-                                String destFilePath = inputFile.getAbsolutePath().replace(srcDirPath, destDirPath);
-                                File destFile = new File(destFilePath);
                                 FileUtils.touch(destFile);
                                 transformSingleFile(inputFile, destFile, srcDirPath);
                                 break;
