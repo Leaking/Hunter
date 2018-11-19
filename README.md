@@ -85,7 +85,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:0.8.5'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:0.8.7'
     }
 }
 
