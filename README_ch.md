@@ -43,7 +43,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.8.5'
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.9.0'
     }
 }
 
@@ -82,7 +82,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:0.8.5'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:0.9.0'
     }
 }
 
@@ -206,7 +206,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.8.5'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.0'
     }
 }
 
@@ -269,7 +269,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.8.6'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.9.0'
     }
 }
 
