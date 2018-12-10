@@ -104,7 +104,7 @@ public class HunterTransform extends Transform {
                 if(isIncremental && !emptyRun) {
                     switch(status) {
                         case NOTCHANGED:
-                            continue;
+                            break;
                         case ADDED:
                         case CHANGED:
                             transformJar(jarInput.getFile(), dest, status);
