@@ -1,9 +1,9 @@
 package com.quinn.hunter.plugin.okhttp.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
 import java.io.File;
 
 /**
@@ -13,8 +13,11 @@ public final class OkHttpClassAdapter extends ClassVisitor{
 
     private String className;
 
-    OkHttpClassAdapter(final ClassVisitor cv) {
+    private boolean weaveEventListener;
+
+    OkHttpClassAdapter(final ClassVisitor cv, boolean weaveEventListener) {
         super(Opcodes.ASM5, cv);
+        this.weaveEventListener = weaveEventListener;
     }
 
     @Override
@@ -28,7 +31,7 @@ public final class OkHttpClassAdapter extends ClassVisitor{
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
         if(className.equals("okhttp3/OkHttpClient$Builder")) {
-            return mv == null ? null : new OkHttpMethodAdapter(className + File.separator + name, access, desc, mv);
+            return mv == null ? null : new OkHttpMethodAdapter(className + File.separator + name, access, desc, mv, weaveEventListener);
         } else {
             return mv;
         }
