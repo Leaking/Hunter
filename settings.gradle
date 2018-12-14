@@ -1,6 +1,8 @@
-include ':hunter-timing-example', ':hunter-debug-library', ':hunter-debug-example',
+include ':hunter-timing-example',
         ':hunter-timing-plugin',
         ':hunter-timing-library',
+        ':hunter-debug-example',
+        ':hunter-debug-library',
         ':hunter-debug-plugin',
         ':hunter-linelog-example',
         ':hunter-linelog-plugin',
@@ -8,4 +10,5 @@ include ':hunter-timing-example', ':hunter-debug-library', ':hunter-debug-exampl
         ':hunter-okhttp-example',
         ':hunter-okhttp-plugin',
         ':hunter-okhttp-library',
+        ':hunter-okhttp-library-compat',
         ':hunter-transform'
