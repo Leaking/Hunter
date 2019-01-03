@@ -33,7 +33,7 @@ ext {
 
     publishedGroupId = 'com.quinn.hunter'
     libraryName = 'hunter-okhttp-library-compat'
-    artifact = 'hunter-okhttp-library'
+    artifact = 'hunter-okhttp-library-compat'
 
     libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
 
