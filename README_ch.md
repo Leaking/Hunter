@@ -45,7 +45,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.9.0'
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:0.9.1'
     }
 }
 
@@ -84,7 +84,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:0.9.0'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:0.9.1'
     }
 }
 
@@ -208,7 +208,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.1'
     }
 }
 
@@ -243,7 +243,7 @@ private String appendIntAndString(int a, String b) {
 
 ```xml 
 
-I/com/quinn/hunter/debug/MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
+I MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
                                        ⇠ appendIntAndString[0ms]="5 billions"
 
 ```
@@ -271,7 +271,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.9.0'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.9.1'
     }
 }
 
