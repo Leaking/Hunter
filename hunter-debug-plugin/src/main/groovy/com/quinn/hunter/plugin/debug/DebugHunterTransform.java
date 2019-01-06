@@ -4,7 +4,6 @@ import com.android.build.api.transform.Context;
 import com.android.build.api.transform.TransformException;
 import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformOutputProvider;
-import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.debug.bytecode.DebugWeaver;
 import com.quinn.hunter.transform.HunterTransform;
 import com.quinn.hunter.transform.RunVariant;
@@ -40,4 +39,8 @@ public class DebugHunterTransform extends HunterTransform {
         return debugHunterExtension.runVariant;
     }
 
+    @Override
+    protected boolean inDuplcatedClassSafeMode() {
+        return debugHunterExtension.duplcatedClassSafeMode;
+    }
 }

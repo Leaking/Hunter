@@ -133,6 +133,8 @@ public class RankingBlockHandler implements IBlockHandler {
         return (float)sum / (float)costTimeList.size();
     }
 
-
-
+    @Override
+    public void clear() {
+        methodBlockDetails.clear();
+    }
 }

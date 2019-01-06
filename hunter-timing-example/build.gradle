@@ -44,7 +44,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:0.9.0'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:0.9.1'
     }
 }
 

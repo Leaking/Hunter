@@ -25,11 +25,17 @@ public interface IBlockHandler {
             return "";
         }
 
+        @Override
+        public void clear() {
+
+        }
     };
 
     public void timingMethod(String method, int cost);
 
     public String dump();
+
+    public void clear();
 
 
 }
