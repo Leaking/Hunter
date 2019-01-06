@@ -116,4 +116,9 @@ public class StacktraceBlockHandler implements IBlockHandler {
         }
     }
 
+    @Override
+    public void clear() {
+        blockTraces.clear();
+    }
+
 }

@@ -8,11 +8,13 @@ import com.quinn.hunter.transform.RunVariant;
 public class LinelogHunterExtension {
 
     public RunVariant runVariant = RunVariant.ALWAYS;
+    public boolean duplcatedClassSafeMode = false;
 
     @Override
     public String toString() {
         return "LinelogHunterExtension{" +
                 "runVariant=" + runVariant +
+                ", duplcatedClassSafeMode=" + duplcatedClassSafeMode +
                 '}';
     }
 }
