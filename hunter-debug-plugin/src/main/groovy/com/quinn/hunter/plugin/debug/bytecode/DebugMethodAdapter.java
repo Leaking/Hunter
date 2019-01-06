@@ -1,7 +1,5 @@
 package com.quinn.hunter.plugin.debug.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -27,7 +25,11 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
 
     public DebugMethodAdapter(String className, List<Parameter> parameters, String name, int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM5, access, desc, mv);
-        this.className = className;
+        if(!className.endsWith("/")) {
+            this.className = className.substring(className.lastIndexOf("/") + 1);
+        } else {
+            this.className = className;
+        }
         this.parameters = parameters;
         this.methodName = name;
         this.methodDesc = desc;
