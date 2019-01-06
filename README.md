@@ -54,9 +54,6 @@ apply plugin: 'hunter-okhttp'
     
 ```
 
-I recommend you to upgrade your okhttp to 3.11 or above, it almost costs nothing. If you want to use this plugin for okhttp below 3.11, please
-read this wiki page [Wiki for okhttp-below-3.11](https://github.com/Leaking/Hunter/wiki/Okhttp-below-3.11)
-
 
 ```java
 
@@ -65,6 +62,10 @@ OkHttpHooker.installDns(new CustomGlobalDns());
 OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
         
 ```
+
+I recommend you to upgrade your okhttp to 3.11 or above, it almost costs nothing. If you want to use this plugin for okhttp below 3.11, please
+read this wiki page: [wiki for okhttp-below-3.11](https://github.com/Leaking/Hunter/wiki/Okhttp-below-3.11)
+
 
 ## Timing-Plugin
 
