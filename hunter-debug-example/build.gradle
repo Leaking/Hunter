@@ -27,7 +27,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.quinn.hunter:hunter-debug-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-debug-library:1.0.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
 
@@ -44,7 +44,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.2'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
     }
 }
 
