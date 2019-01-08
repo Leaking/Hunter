@@ -18,7 +18,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     private String className;
     private String methodName;
     private boolean debugMethod = false;
-    private boolean stepByStep = false;
+    private boolean debugMethodWithCustomLogger = false;
     private int timingStartVarIndex;
     private String methodDesc;
 
@@ -40,8 +40,8 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
         if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
             debugMethod = true;
-        } else if("Lcom/hunter/library/debug/HunterStepTiming;".equals(desc)){
-            stepByStep = true;
+        } else if("Lcom/hunter/library/debug/HunterDebugImpl;".equals(desc)){
+            debugMethodWithCustomLogger = true;
         }
         return defaultAv;
     }
@@ -49,7 +49,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
     @Override
     public void visitCode() {
         super.visitCode();
-        if(!debugMethod) return;
+        if(!debugMethod && !debugMethodWithCustomLogger) return;
         int printUtilsVarIndex = newLocal(Type.getObjectType("com/hunter/library/debug/ParameterPrinter"));
         mv.visitTypeInsn(NEW, "com/hunter/library/debug/ParameterPrinter");
         mv.visitInsn(DUP);
@@ -67,7 +67,11 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             visitPrint(printUtilsVarIndex, index, opcode, name, fullyDesc);
         }
         mv.visitVarInsn(ALOAD, printUtilsVarIndex);
-        mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/ParameterPrinter", "print", "()V", false);
+        if(debugMethod) {
+            mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/ParameterPrinter", "print", "()V", false);
+        } else if(debugMethodWithCustomLogger) {
+            mv.visitMethodInsn(INVOKEVIRTUAL, "com/hunter/library/debug/ParameterPrinter", "printWithCustomLogger", "()V", false);
+        }
         //Timing
         timingStartVarIndex = newLocal(Type.LONG_TYPE);
         mv.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/System", "currentTimeMillis", "()J", false);
@@ -87,7 +91,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
 
     @Override
     public void visitInsn(int opcode) {
-        if (debugMethod && ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW)) {
+        if ((debugMethod || debugMethodWithCustomLogger) && ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW)) {
             Type returnType = Type.getReturnType(methodDesc);
             String returnDesc = methodDesc.substring(methodDesc.indexOf(")") + 1);
             if(returnDesc.startsWith("[") || returnDesc.startsWith("L")) {
@@ -119,11 +123,19 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
                 }
                 mv.visitVarInsn(loadOpcode, resultTempValIndex);
                 String formatDesc = String.format("(Ljava/lang/String;Ljava/lang/String;J%s)V", returnDesc);
-                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", formatDesc, false);
+                if(debugMethod) {
+                    mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", formatDesc, false);
+                } else {
+                    mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "printWithCustomLogger", formatDesc, false);
+                }
                 mv.visitVarInsn(loadOpcode, resultTempValIndex);
             } else {
-                mv.visitLdcInsn("VOID");
-                mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Object;)V", false);
+                mv.visitLdcInsn("void");
+                if(debugMethod) {
+                    mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "print", "(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Object;)V", false);
+                } else {
+                    mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/debug/ResultPrinter", "printWithCustomLogger", "(Ljava/lang/String;Ljava/lang/String;JLjava/lang/Object;)V", false);
+                }
             }
         }
         super.visitInsn(opcode);

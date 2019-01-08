@@ -109,6 +109,11 @@ public class ParameterPrinter {
         Log.i(tag, result.toString());
     }
 
+    public void printWithCustomLogger(){
+        result.append("]");
+        HunterLoggerHandler.CUSTOM_IMPL.log(tag, result.toString());
+    }
+
 
 }
 

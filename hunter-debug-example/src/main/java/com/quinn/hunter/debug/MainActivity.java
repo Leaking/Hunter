@@ -6,8 +6,8 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import com.hunter.library.debug.HunterDebug;
-import com.hunter.library.debug.ParameterPrinter;
-import com.hunter.library.debug.ResultPrinter;
+import com.hunter.library.debug.HunterDebugImpl;
+import com.hunter.library.debug.LoggerHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,12 @@ public class MainActivity extends Activity {
     @HunterDebug
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LoggerHandler.installDefaultLogImpl(new LoggerHandler(){
+            @Override
+            protected void log(String tag, String msg) {
+                Log.i("ggg>> " + tag, msg);
+            }
+        });
         setContentView(R.layout.activity_main);
         MainPresenter mainPresenter = new MainPresenter();
         mainPresenter.load("1212");
@@ -56,7 +62,7 @@ public class MainActivity extends Activity {
         }
     };
 
-    @HunterDebug
+    @HunterDebugImpl
     private String appendIntAndString(int a, String b) {
         SystemClock.sleep(100);
         return a + " " + b;
