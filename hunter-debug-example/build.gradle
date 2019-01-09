@@ -27,24 +27,24 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.quinn.hunter:hunter-debug-library:1.0.0'
+    implementation 'com.quinn.hunter:hunter-debug-library:0.9.4'
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
 
 repositories {
-    mavenLocal()
     jcenter()
     google()
+    mavenLocal()
 }
 
 buildscript {
     repositories {
-        mavenLocal()
         jcenter()
         google()
+        mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.3'
     }
 }
 
