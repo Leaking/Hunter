@@ -195,7 +195,7 @@ blacklist, 黑名单列表，对这些包名下的class之外的所有class做�
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-debug-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-debug-library:0.9.4'
 }
 
 repositories {
@@ -208,7 +208,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.1'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.3'
     }
 }
 
@@ -249,6 +249,25 @@ I MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
 ```
 
 JakeWharton的[hugo](https://github.com/JakeWharton/hugo)用AspectJ实现了类似功能, 而我的实现方式是基于ASM，ASM处理字节码的速度更快
+
+
+
+如果你想使用你的自定义logger打你日志，那你可以用`@HunterDebugImpl`，然后注册一个HunterLoggerHandler
+
+```groovy
+
+HunterLoggerHandler.installLogImpl(new HunterLoggerHandler(){
+    @Override
+    protected void log(String tag, String msg) {
+        //you can use your custom logger here
+        YourLog.i(tag, msg);
+    }
+});
+
+```
+
+使用`@HunterDebugImpl`的方法，打出来的日志就会走到这里面
+
 
 ## LogLine-Plugin
 
