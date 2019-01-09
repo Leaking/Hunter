@@ -207,7 +207,7 @@ Simply add @HunterDebug to your methods will print all parameters and costed tim
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-debug-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-debug-library:0.9.4'
 }
 
 repositories {
@@ -220,7 +220,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.1'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.3'
     }
 }
 
@@ -249,6 +249,20 @@ I MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
 
 ```
 
+If you want to print the debug log with your custom logger. You can use `@HunterDebugImpl` instead of `@HunterDebug`, and 
+install a custom HunterLoggerHandler to receive the log message, and send it to your custom logger.
+
+```groovy 
+
+HunterLoggerHandler.installLogImpl(new HunterLoggerHandler(){
+    @Override
+    protected void log(String tag, String msg) {
+        //you can use your custom logger here
+        YourLog.i(tag, msg);
+    }
+});
+        
+```
 
 Logging works in both debug and release build mode, but you can specify certain mode or disable it.
 
