@@ -22,7 +22,7 @@ public class HunterLoggerHandler {
 
     public static HunterLoggerHandler CUSTOM_IMPL = DEFAULT_IMPL;
 
-    public static void installDefaultLogImpl(HunterLoggerHandler loggerHandler) {
+    public static void installLogImpl(HunterLoggerHandler loggerHandler) {
         CUSTOM_IMPL = loggerHandler;
     }
 

@@ -7,7 +7,7 @@ import android.util.Log;
 
 import com.hunter.library.debug.HunterDebug;
 import com.hunter.library.debug.HunterDebugImpl;
-import com.hunter.library.debug.LoggerHandler;
+import com.hunter.library.debug.HunterLoggerHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,10 +20,11 @@ public class MainActivity extends Activity {
     @HunterDebug
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LoggerHandler.installDefaultLogImpl(new LoggerHandler(){
+        HunterLoggerHandler.installLogImpl(new HunterLoggerHandler(){
             @Override
             protected void log(String tag, String msg) {
-                Log.i("ggg>> " + tag, msg);
+                //you can use your custom logger here "
+                Log.i(tag, "[you can use your custom logger here \"]" + msg);
             }
         });
         setContentView(R.layout.activity_main);
