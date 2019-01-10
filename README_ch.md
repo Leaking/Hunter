@@ -243,8 +243,8 @@ private String appendIntAndString(int a, String b) {
 
 ```xml 
 
-I MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
-                                       ⇠ appendIntAndString[0ms]="5 billions"
+MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
+              ⇠ appendIntAndString[0ms]="5 billions"
 
 ```
 
