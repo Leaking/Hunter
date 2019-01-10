@@ -1,6 +1,5 @@
 package com.quinn.hunter.plugin.debug.bytecode.prego;
 
-import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.debug.bytecode.Parameter;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -33,7 +32,7 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
-        if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)) {
+        if("Lcom/hunter/library/debug/HunterDebug;".equals(desc) || "Lcom/hunter/library/debug/HunterDebugImpl;".equals(desc)) {
             needParameter = true;
         }
         return defaultAv;
