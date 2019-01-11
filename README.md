@@ -8,7 +8,7 @@ It provides a set of useful, scalable plugins for android developers. You can us
 to monitor your app, enhance 3rd-dependency, enhance android framework. Plugins based on Hunter support incremental and concurrent compile, so you don't need to
 afraid of extra build time.
 
-## Some Useful Plugins
+## Some useful plugins based on Hunter
 
  + [OkHttp-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_okhttp.md): Hack Okhttp to set a global Interceptor/Eventlistener/Dns
  for all your OkhttpClients, even clients in 3rd-party library.
@@ -24,9 +24,7 @@ More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter
 
 ## Developer API
     
-    If you want to use hunter to develop a gradle plugin to modify bytecode, please read
-   
-   [Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
+If you want to use hunter to develop a gradle plugin to modify bytecode, please read[Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
    
 
 ## License
