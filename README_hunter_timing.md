@@ -1,5 +1,7 @@
 # Timing-Plugin
 
+[中文](https://github.com/Leaking/Hunter/blob/master/README_hunter_timing_ch.md)
+
 You can use it to time all your ui-thread methods, and dump the block traces with costed-time of every step.
 You also can create a custom handler to consume the block detail in your way.  
 
