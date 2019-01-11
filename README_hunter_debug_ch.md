@@ -3,7 +3,7 @@
 [English](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md)
 
 
-Hunter-debug是基于[Hunter](https://github.com/Leaking/Hunter)开发的，灵感来自于JakeWharton's [hugo](https://github.com/JakeWharton/hugo)，不过相比之下，Hunter-debug有以下优点
+Hunter-debug是基于[Hunter](https://github.com/Leaking/Hunter)开发的，灵感来自于JakeWharton's [hugo](https://github.com/JakeWharton/hugo)，不过相比之下，Hunter-debug有以下优点
 
 |       | Hugo     | Hunter-Debug     |
 | ---------- | :-----------:  | :-----------: |
