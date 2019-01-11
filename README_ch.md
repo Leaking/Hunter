@@ -61,6 +61,7 @@ OkHttpHooker.installDns(new CustomGlobalDns());
 OkHttpHooker.installInterceptor(new CustomGlobalInterceptor());
         
 ```
+由于EventListener是okhttp 3.11才引入的，所以上面的使用方式需要okhttp3.11=及以上才行，如果你低于3.11，请查看这个wiki  [wiki for okhttp-below-3.11](https://github.com/Leaking/Hunter/wiki/Okhttp-below-3.11)。不过，升级okhttp的成本很低，建议还是把项目中的okhttp升级上来。
 
 ## Timing-Plugin
 

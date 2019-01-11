@@ -19,7 +19,7 @@ Hunter-Debug's developed with ASM instead of AspectJ so that it has a faster com
 
 ## How to use it
 
-Add something to your build.gradle
+Add some lines to your build.gradle
 
 ```groovy
 
