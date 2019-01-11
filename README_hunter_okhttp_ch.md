@@ -1,5 +1,6 @@
 ## OkHttp-Plugin
 
+[English](https://github.com/Leaking/Hunter/blob/master/README_hunter_okhttp.md)
 
 一个稍微上规模的项目，很大可能有很多个OkhttpClient散落在各个业务中，那么如果你想使用Interceptor/EventListener做网络监控，或者设置自定义Dns，
 那就很麻烦，需要一处处为所有OkhttpClient设置Interceptor/EventListener/Dns，而且有些第三方依赖库里的OkhttpClient你是无能为力的。当然，你可以
