@@ -1,4 +1,4 @@
-# Hunter
+# Hunter-Debug
 
 [English](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md)
 

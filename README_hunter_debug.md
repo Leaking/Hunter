@@ -1,9 +1,9 @@
-# Hunter
+# Hunter-Debug
 
 [中文](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug_ch.md)
 
 
-Hunter-debug is a gradle plugin based on Hunter, It's inspired by JakeWharton's [hugo](https://github.com/JakeWharton/hugo), But Hunter-debug
+Hunter-debug is a gradle plugin based on [Hunter](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md), It's inspired by JakeWharton's [hugo](https://github.com/JakeWharton/hugo), But Hunter-debug
 has some advantages over hugo.
 
 |       | Hugo     | Hunter-Debug     |
