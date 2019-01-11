@@ -1,5 +1,7 @@
 ## OkHttp-Plugin
 
+[中文](https://github.com/Leaking/Hunter/blob/master/README_hunter_okhttp_ch.md)
+
 Maybe your project have serveral OkhttpClients，you need to add your custom Interceptor/EventListener/Dns 
 to every OkhttpClients one by one. But some OkhttpClients come from 3rd library, and you can't add
  your custom Interceptor/EventListener/Dns to them. I have filed a [issue](https://github.com/square/okhttp/issues/4228) about this problem to Okhttp team.

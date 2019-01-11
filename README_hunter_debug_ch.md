@@ -15,9 +15,10 @@ Hunter-debug是基于[Hunter](https://github.com/Leaking/Hunter)开发的，灵�
 
 Hunter-Debug是用ASM修改字节码，而非使用AspectJ，所以自然会更快。
 
-## 使用
+## 快速引入
 
 在build.gradle中添加以下依赖
+
 
 ```groovy
 
