@@ -21,8 +21,7 @@ Hunter是这么一个框架，帮你快速开发插件，在编译过程中修�
 
 ## Developer API
     
-   如果想开发基于hunter的gradle插件来修改项目中的字节码，可以参考
-   [Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
+如果想开发基于hunter的gradle插件来修改项目中的字节码，可以参考[Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
    
 
 ## License
