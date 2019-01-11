@@ -5,16 +5,13 @@
 Hunter is a framework to develop android gradle plugin based on 
 [ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
 It provides a set of useful, scalable plugins for android developers. You can use Hunter to develop more plugins
-to monitor your app, enhance 3rd-dependency, enhance android framework.
-
-Plugins based on Hunter support incremental and concurrent compile, so you don't need to
+to monitor your app, enhance 3rd-dependency, enhance android framework. Plugins based on Hunter support incremental and concurrent compile, so you don't need to
 afraid of extra build time.
 
- + [OkHttp-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_okhttp.md): you can set a global [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
- for all your OkhttpClients(Even clients in 3rd-party library)
- + [Timing-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_timing.md): you can time all your ui-thread methods, and dump the block traces
- + [Debug-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value(JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
- achieves it with AspectJ, I achieve it with ASM)
+ + [OkHttp-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_okhttp.md): Hack Okhttp to set a global Interceptor/Eventlistener/Dns
+ for all your OkhttpClients, even clients in 3rd-party library.
+ + [Timing-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_timing.md): you can time all your ui-thread methods, and dump the block traces with costed-time of every step, you also can consume the block detail in your way.
+ + [Debug-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value. It has some advantages over JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
  + [LogLine-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_logline.md): you can add a line number into every lines of your logcat
  + More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md), MeanWhile, your idea is welcome
 
@@ -24,6 +21,7 @@ afraid of extra build time.
 
 ## Developer API
     
+    If you want to use hunter to develop a gradle plugin to modify bytecode, please read
    
    [Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
    
