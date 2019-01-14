@@ -23,7 +23,6 @@ import java.util.concurrent.Executors;
 public class RankingBlockHandler implements IBlockHandler {
 
     private final String TAG = "RankingBlockHandler";
-    public static int THRESHOLD = 100;
     private String newline = System.getProperty("line.separator");
     private String doubleNewline = newline + newline;
     private ConcurrentHashMap<String, ArrayList<Integer>> methodBlockDetails = new ConcurrentHashMap<>();
@@ -31,7 +30,7 @@ public class RankingBlockHandler implements IBlockHandler {
 
     @Override
     public void timingMethod(final String method, final int mills) {
-        if(mills < THRESHOLD) return;
+        if(mills < threshold()) return;
         Log.i(TAG, method + " costs " + mills);
         executorService.submit(new Runnable() {
             @Override
@@ -49,7 +48,7 @@ public class RankingBlockHandler implements IBlockHandler {
     @Override
     public String dump() {
         String rankingContent = getRankingDetail(20);
-        String summary = "Total count of found block method is " + methodBlockDetails.size() + " (Over " + THRESHOLD + "ms)";
+        String summary = "Total count of found block method is " + methodBlockDetails.size() + " (Over " + threshold() + "ms)";
         Log.i(TAG, summary);
         Log.i(TAG, rankingContent);
         return summary + rankingContent;
@@ -136,5 +135,10 @@ public class RankingBlockHandler implements IBlockHandler {
     @Override
     public void clear() {
         methodBlockDetails.clear();
+    }
+
+    @Override
+    public int threshold() {
+        return 50;
     }
 }

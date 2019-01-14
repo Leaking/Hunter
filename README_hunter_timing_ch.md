@@ -16,7 +16,7 @@ timing-plugin可以帮你监控UI线程的卡顿方法，并且提供了算法�
 
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-timing-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-timing-library:0.9.1'
 }
 
 repositories {

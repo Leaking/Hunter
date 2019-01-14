@@ -18,7 +18,6 @@ import java.util.concurrent.Executors;
 public class StacktraceBlockHandler implements IBlockHandler {
 
     private final String TAG = "StacktraceBlockImpl";
-    public static int THRESHOLD = 100;
     private String newline = System.getProperty("line.separator");
     private String doubleNewline = newline + newline;
     private List<StacktraceBlockHandler.BlockTrace> blockTraces = Collections.synchronizedList(new ArrayList<StacktraceBlockHandler.BlockTrace>());
@@ -26,7 +25,7 @@ public class StacktraceBlockHandler implements IBlockHandler {
 
     @Override
     public void timingMethod(final String method, final int mills) {
-        if(mills < THRESHOLD) return;
+        if(mills < threshold()) return;
         Log.i(TAG, method + " costs " + mills);
         StackTraceElement[] stackTraceElements = new Throwable().getStackTrace();
         final StackTraceElement currMethod = stackTraceElements[2];
@@ -121,4 +120,8 @@ public class StacktraceBlockHandler implements IBlockHandler {
         blockTraces.clear();
     }
 
+    @Override
+    public int threshold() {
+        return 50;
+    }
 }
