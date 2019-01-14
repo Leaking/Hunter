@@ -38,5 +38,9 @@
 1. Memory-Cache Method
 2. SharePreference-Cache Method
 
+## CGLIB in Android Platform
 
-Finally, your idea of AOP is welcome
+1、Dynamic proxy for any class
+
+
+Finally, your ideas is welcome.
