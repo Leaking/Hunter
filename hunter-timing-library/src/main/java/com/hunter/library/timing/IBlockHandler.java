@@ -15,7 +15,7 @@ public interface IBlockHandler {
 
         @Override
         public void timingMethod(String method, int cost) {
-            if(cost >= BLOCK_THRESHOLD) {
+            if(cost >= threshold()) {
                 Log.i(TAG, method + " costed " + cost);
             }
         }
@@ -29,6 +29,11 @@ public interface IBlockHandler {
         public void clear() {
 
         }
+
+        @Override
+        public int threshold() {
+            return BLOCK_THRESHOLD;
+        }
     };
 
     public void timingMethod(String method, int cost);
@@ -37,5 +42,6 @@ public interface IBlockHandler {
 
     public void clear();
 
+    public int threshold();
 
 }

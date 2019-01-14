@@ -12,7 +12,7 @@ Add some lines to your build.gradle
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-timing-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-timing-library:0.9.1'
 }
 
 repositories {
