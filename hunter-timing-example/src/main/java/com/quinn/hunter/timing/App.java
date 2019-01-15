@@ -12,7 +12,7 @@ import com.hunter.library.timing.impl.StacktraceBlockHandler;
  */
 public class App extends Application {
 
-    private IBlockHandler customBlockManager = new StacktraceBlockHandler();
+    private IBlockHandler customBlockManager = new StacktraceBlockHandler(50);
 
     @Override
     public void onCreate() {
