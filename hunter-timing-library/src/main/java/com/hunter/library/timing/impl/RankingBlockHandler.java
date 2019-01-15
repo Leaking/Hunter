@@ -27,6 +27,11 @@ public class RankingBlockHandler implements IBlockHandler {
     private String doubleNewline = newline + newline;
     private ConcurrentHashMap<String, ArrayList<Integer>> methodBlockDetails = new ConcurrentHashMap<>();
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final int threshold;
+
+    public RankingBlockHandler(int threshold) {
+        this.threshold = threshold;
+    }
 
     @Override
     public void timingMethod(final String method, final int mills) {
@@ -139,6 +144,6 @@ public class RankingBlockHandler implements IBlockHandler {
 
     @Override
     public int threshold() {
-        return 50;
+        return this.threshold;
     }
 }

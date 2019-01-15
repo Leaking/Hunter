@@ -22,6 +22,11 @@ public class StacktraceBlockHandler implements IBlockHandler {
     private String doubleNewline = newline + newline;
     private List<StacktraceBlockHandler.BlockTrace> blockTraces = Collections.synchronizedList(new ArrayList<StacktraceBlockHandler.BlockTrace>());
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final int threshold;
+
+    public StacktraceBlockHandler(int threshold) {
+        this.threshold = threshold;
+    }
 
     @Override
     public void timingMethod(final String method, final int mills) {
@@ -66,11 +71,26 @@ public class StacktraceBlockHandler implements IBlockHandler {
     @Override
     public String dump() {
         String stackTraceContent = getBlockStackTrace();
-        Log.i(TAG, stackTraceContent);
+        logHugeContent(TAG, stackTraceContent);
         return stackTraceContent;
     }
 
-    private String getBlockStackTrace() {
+    private void logHugeContent(String tag, String msg) {
+        int segmentSize = 3 * 1024;
+        int length = msg.length();
+        if (length <= segmentSize) {// 长度小于等于限制直接打印
+            Log.i(tag, msg);
+        } else {
+            while (msg.length() > segmentSize) {// 循环分段打印日志
+                String logContent = msg.substring(0, segmentSize);
+                msg = msg.replace(logContent, "");
+                Log.i(tag, logContent);
+            }
+            Log.i(tag, msg);// 打印剩余日志
+        }
+    }
+
+    protected String getBlockStackTrace() {
         List<StacktraceBlockHandler.BlockTrace> copyBlockTraces = new ArrayList<>(blockTraces);
         Collections.sort(copyBlockTraces, new Comparator<StacktraceBlockHandler.BlockTrace>() {
             @Override
@@ -122,6 +142,6 @@ public class StacktraceBlockHandler implements IBlockHandler {
 
     @Override
     public int threshold() {
-        return 50;
+        return threshold;
     }
 }
