@@ -27,6 +27,9 @@ import java.util.zip.ZipOutputStream;
 public abstract class BaseWeaver implements IWeaver{
 
     private static final FileTime ZERO = FileTime.fromMillis(0);
+
+    private static final String FILE_SEP = File.separator;
+
     protected ClassLoader classLoader;
 
     public BaseWeaver() {
@@ -43,7 +46,7 @@ public abstract class BaseWeaver implements IWeaver{
                     new BufferedInputStream(inputZip.getInputStream(entry));
             ZipEntry outEntry = new ZipEntry(entry.getName());
             byte[] newEntryContent;
-            if (!isWeavableClass(outEntry.getName().replace("/", "."))) {
+            if (!isWeavableClass(outEntry.getName().replace(FILE_SEP, "."))) {
                 newEntryContent = org.apache.commons.io.IOUtils.toByteArray(originalFile);
             } else {
                 newEntryContent = weaveSingleClassToByteArray(originalFile);
@@ -66,8 +69,8 @@ public abstract class BaseWeaver implements IWeaver{
     }
 
     public final void weaveSingleClassToFile(File inputFile, File outputFile, String inputBaseDir) throws IOException {
-        if(!inputBaseDir.endsWith("/")) inputBaseDir = inputBaseDir + "/";
-        if(isWeavableClass(inputFile.getAbsolutePath().replace(inputBaseDir, "").replace("/", "."))) {
+        if(!inputBaseDir.endsWith(FILE_SEP)) inputBaseDir = inputBaseDir + FILE_SEP;
+        if(isWeavableClass(inputFile.getAbsolutePath().replace(inputBaseDir, "").replace(FILE_SEP, "."))) {
             FileUtils.touch(outputFile);
             InputStream inputStream = new FileInputStream(inputFile);
             byte[] bytes = weaveSingleClassToByteArray(inputStream);
