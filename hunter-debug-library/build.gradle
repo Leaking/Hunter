@@ -50,22 +50,22 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 
 //publish script for debug mode
 
-//apply plugin: 'maven'
-//
-//group='com.quinn.hunter'
-//version='1.0.0'
-//
-//def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
-//
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: localRepoURL)
-//        }
-//    }
-//}
+apply plugin: 'maven'
+
+group='com.quinn.hunter'
+version='1.0.1'
+
+def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: localRepoURL)
+        }
+    }
+}

@@ -1,6 +1,5 @@
 package com.quinn.hunter.plugin.debug.bytecode.prego;
 
-import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.debug.bytecode.Parameter;
 
 import org.objectweb.asm.ClassVisitor;

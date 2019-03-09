@@ -17,13 +17,17 @@ import java.util.Map;
  */
 public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
+    private static final String LCOM_HUNTER_LIBRARY_DEBUG_HUNTER_DEBUG_NO_PARAMETER = "Lcom/hunter/library/debug/HunterDebugSimple;";
+    private static final String LCOM_HUNTER_LIBRARY_DEBUG_HUNTER_DEBUG_IMPL = "Lcom/hunter/library/debug/HunterDebugImpl;";
+    private static final String LCOM_HUNTER_LIBRARY_DEBUG_HUNTER_DEBUG = "Lcom/hunter/library/debug/HunterDebug;";
     private Map<String, List<Parameter>> methodParametersMap;
     private List<Parameter> parameters = new ArrayList<>();
     private String methodKey;
     private boolean needParameter = false;;
     private List<Label> labelList = new ArrayList<>();
 
-    public DebugPreGoMethodAdapter(String methodKey, Map<String, List<Parameter>> methodParametersMap, MethodVisitor mv) {
+    public DebugPreGoMethodAdapter(String methodKey, Map<String, List<Parameter>> methodParametersMap,
+            MethodVisitor mv) {
         super(Opcodes.ASM5, mv);
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
@@ -32,7 +36,9 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
-        if("Lcom/hunter/library/debug/HunterDebug;".equals(desc) || "Lcom/hunter/library/debug/HunterDebugImpl;".equals(desc)) {
+        if (LCOM_HUNTER_LIBRARY_DEBUG_HUNTER_DEBUG.equals(desc)
+                || LCOM_HUNTER_LIBRARY_DEBUG_HUNTER_DEBUG_IMPL.equals(desc)
+                || LCOM_HUNTER_LIBRARY_DEBUG_HUNTER_DEBUG_NO_PARAMETER.equals(desc)) {
             needParameter = true;
         }
         return defaultAv;
