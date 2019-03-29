@@ -11,4 +11,7 @@ include ':hunter-timing-example',
         ':hunter-okhttp-plugin',
         ':hunter-okhttp-library',
         ':hunter-okhttp-library-compat',
+        ':huntersingleclickplugin',
+        ':huntersingleclicklibrary',
+        ':huntersingleclickexample',
         ':hunter-transform'
