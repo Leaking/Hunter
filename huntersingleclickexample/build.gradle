@@ -34,7 +34,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.jun.hunter:huntersingleclickplugin:1.0.10'
+        classpath 'com.jun.hunter:huntersingleclickplugin:1.1.1'
     }
 }
 

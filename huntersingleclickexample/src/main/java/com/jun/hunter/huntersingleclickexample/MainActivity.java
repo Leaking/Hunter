@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         singleClick = findViewById(R.id.single_click);
-        fastClick = findViewById(R.id.single_click);
+        fastClick = findViewById(R.id.fast_click);
         initListener();
     }
 
@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
                 Log.i(TAG, "singleClick: "+v.getId());
             }
         });
+
 
         fastClick.setOnClickListener(new View.OnClickListener() {
             @Override

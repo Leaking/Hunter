@@ -9,7 +9,6 @@ public class SingleClickHunterExtension {
 
     public RunVariant runVariant = RunVariant.ALWAYS;
     public boolean duplcatedClassSafeMode = false;
-
     @Override
     public String toString() {
         return "SingleClickHunterExtension{" +

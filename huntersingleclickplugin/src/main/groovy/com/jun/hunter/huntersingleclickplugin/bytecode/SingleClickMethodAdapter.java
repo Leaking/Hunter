@@ -5,11 +5,12 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/**
- * Created by Quinn on 15/09/2018.
- */
+
 public final class SingleClickMethodAdapter extends MethodVisitor implements Opcodes {
 
+    /**
+     * 是否使用@NoSingleClick标记
+     */
     private boolean noSingleClick = false;
 
 
@@ -30,9 +31,13 @@ public final class SingleClickMethodAdapter extends MethodVisitor implements Opc
 
     @Override
     public void visitCode() {
-        if (noSingleClick) {
+        super.visitCode();
+
+        //没有使用@NoSingleClick标记的onclick方法插入快速点击显示
+        if (!noSingleClick) {
             mv.visitVarInsn(ALOAD, 1);
-            mv.visitMethodInsn(INVOKESTATIC, "com/jun/hunter/huntersingleclicklibrary/ClickUtils", "isFastDoubleClick", "(Landroid/view/View;)Z", false);
+            mv.visitMethodInsn(INVOKESTATIC, "com/jun/hunter/huntersingleclicklibrary/ClickUtils",
+                    "isFastDoubleClick", "(Landroid/view/View;)Z", false);
             mv.visitVarInsn(ISTORE, 2);
             Label l1 = new Label();
             mv.visitLabel(l1);
@@ -42,7 +47,6 @@ public final class SingleClickMethodAdapter extends MethodVisitor implements Opc
             mv.visitInsn(RETURN);
             mv.visitLabel(l2);
         }
-        super.visitCode();
     }
 
 }

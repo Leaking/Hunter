@@ -53,16 +53,4 @@ public final class ClickUtils {
             return false;
         }
     }
-
-
-
-    public void change(View view) {
-        boolean fastDoubleClick = ClickUtils.isFastDoubleClick(view);
-        if (fastDoubleClick){
-            return;
-        }
-    }
-
-    public void change1(View view) {
-    }
 }
