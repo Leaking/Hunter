@@ -1,0 +1,67 @@
+apply plugin: 'groovy'
+
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'com.android.tools.build:gradle:3.1.4'
+    implementation 'com.android.tools.build:gradle-api:3.1.4'
+    implementation 'commons-io:commons-io:2.6'
+    implementation 'commons-codec:commons-codec:1.10'
+    //noinspection GradleDependency
+    implementation 'org.ow2.asm:asm:5.1'
+    //noinspection GradleDependency
+    implementation 'org.ow2.asm:asm-util:5.1'
+    //noinspection GradleDependency
+    implementation 'org.ow2.asm:asm-commons:5.1'
+    implementation 'com.quinn.hunter:hunter-transform:0.9.0'
+}
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+}
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'hunter-linelog-plugin'
+
+    publishedGroupId = 'com.quinn.hunter'
+    libraryName = 'hunter-linelog-plugin'
+    artifact = 'hunter-linelog-plugin'
+
+    libraryDescription = 'A fast, incremental, cocurrent framework to develop compile plugin for android project'
+
+    siteUrl = 'https://github.com/Leaking/Hunter'
+    gitUrl = 'https://github.com/Leaking/Hunter.git'
+
+    libraryVersion = '0.9.1'
+
+    developerId = 'Leaking'
+    developerName = 'QuinnChen'
+    developerEmail = 'chenhuazhaoao@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+
+//publish script for debug mode
+
+//apply plugin: 'maven'
+
+group='com.jun.hunter'
+version='1.0.10'
+
+def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: localRepoURL)
+        }
+    }
+}

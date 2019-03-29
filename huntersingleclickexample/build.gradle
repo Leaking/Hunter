@@ -1,0 +1,42 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        applicationId "com.jun.hunter.huntersingleclickexampel"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(path: ':huntersingleclicklibrary')
+}
+
+
+buildscript {
+    repositories {
+        jcenter()
+        google()
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.jun.hunter:huntersingleclickplugin:1.0.10'
+    }
+}
+
+
+apply plugin: 'hunter-single-click'
