@@ -4,53 +4,48 @@ package com.jun.hunter.huntersingleclicklibrary;
 
 import android.view.View;
 
+import java.util.Map;
+import java.util.WeakHashMap;
+import java.util.concurrent.TimeUnit;
 
 
 public final class ClickUtils {
 
-    /**
-     * 最近一次点击的时间
-     */
-    private static long sLastClickTime;
-    /**
-     * 最近一次点击的控件ID
-     */
-    private static int sLastClickViewId;
 
-    /**
-     * Don't let anyone instantiate this class.
-     */
+    private static final Map<View, Long> viewWeakHashMap = new WeakHashMap<>();
+
+    private static long FROZEN_TIME_MILLIS = 500L;
+
     private ClickUtils() {
         throw new UnsupportedOperationException("Do not need instantiate!");
     }
 
-    /**
-     * 是否是快速点击
-     *
-     * @param v 点击的控件
-     * @return true:是，false:不是
-     */
-    public static boolean isFastDoubleClick(View v) {
-        return isFastDoubleClick(v, 1000);
-    }
 
-    /**
-     * 是否是快速点击
-     *
-     * @param v              点击的控件
-     * @param intervalMillis 时间间期（毫秒）
-     * @return true:是，false:不是
-     */
-    public static boolean isFastDoubleClick(View v, long intervalMillis) {
-        long time = System.currentTimeMillis();
-        int viewId = v.getId();
-        long timeD = time - sLastClickTime;
-        if (0 < timeD && timeD < intervalMillis && viewId == sLastClickViewId) {
-            return true;
-        } else {
-            sLastClickTime = time;
-            sLastClickViewId = viewId;
+    public static boolean isFastDoubleClick(View targetView) {
+        Long nextClickTime = viewWeakHashMap.get(targetView);
+        final long now = now();
+
+        if (nextClickTime == null) {
+            nextClickTime = now + FROZEN_TIME_MILLIS;
+            viewWeakHashMap.put(targetView, nextClickTime);
             return false;
         }
+
+        if (now >= nextClickTime) {
+            nextClickTime = now + FROZEN_TIME_MILLIS;
+            viewWeakHashMap.put(targetView, nextClickTime);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static long now() {
+        return TimeUnit.NANOSECONDS.toMillis(System.nanoTime());
+    }
+
+
+    public static void setFrozenTimeMillis(long frozenTimeMillis) {
+        FROZEN_TIME_MILLIS = frozenTimeMillis;
     }
 }

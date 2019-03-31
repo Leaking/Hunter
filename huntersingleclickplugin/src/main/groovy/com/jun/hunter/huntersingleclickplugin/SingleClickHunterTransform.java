@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.util.Collection;
 
 
-/**
- * Created by Quinn on 15/09/2018.
- */
 public final class SingleClickHunterTransform extends HunterTransform {
 
     private Project project;

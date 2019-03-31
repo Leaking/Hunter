@@ -7,9 +7,6 @@ import org.gradle.api.Project;
 
 import java.util.Collections;
 
-/**
- * Created by Quinn on 15/09/2018.
- */
 public class SingleClickHunterPlugin implements Plugin<Project> {
 
     @SuppressWarnings("NullableProblems")
