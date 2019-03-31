@@ -13,7 +13,7 @@ Hunter是这么一个框架，帮你快速开发插件，在编译过程中修�
  + [Timing-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_timing_ch.md): 帮你监控所有UI线程的执行耗时，并且提供了算法，帮你打印出一个带有每步耗时的堆栈，统计卡顿方法分布，并且提供接口让你选择自己的方式来处理卡顿信息。
  + [Debug-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug_ch.md): 只要为指定方法加上某个annotation，就可以帮你打印出这个方法所有输入参数的值，以及返回值，执行时间。这个插件相比JakeWharton的[hugo](https://github.com/JakeWharton/hugo)有很多优点：支持koltin，支持自定义logger，不影响断点调试，支持打印对象toString内容，编译速度更快
  + [LogLine-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_logline_ch.md): 为你的日志加上行号
- + [SinleClick-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_single_click_ch.md): 防止按钮快速点击
+ + [SinleClick-Plugin](https://github.com/zhaolijunstar/Hunter/blob/master/README_hunter_single_click_ch.md): 防止按钮快速点击
 
 
 ## TODO 
