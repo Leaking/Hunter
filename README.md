@@ -15,6 +15,8 @@ afraid of extra build time.
  + [Timing-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_timing.md): you can time all your ui-thread methods, and dump the block traces with costed-time of every step, you also can consume the block detail in your way.
  + [Debug-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md): you can simply add a annotation to a certain method, and the method will print all parameters and costed time, return value. It has many advantages over JakeWharton's [hugo](https://github.com/JakeWharton/hugo)
  + [LogLine-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_logline.md): you can add a line number into every lines of your logcat
+ + [SinleClick-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_single_click.md): Prevent Button from Clicking Quickly
+
 
 
 ## TODO

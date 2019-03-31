@@ -23,7 +23,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile project(path: ':huntersingleclicklibrary')
+    implementation project(path: ':hunter-single-click-library')
 }
 
 
@@ -34,7 +34,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.jun.hunter:huntersingleclickplugin:1.1.1'
+        classpath 'com.jun.hunter:hunter-single-click-plugin:1.1.1'
     }
 }
 
