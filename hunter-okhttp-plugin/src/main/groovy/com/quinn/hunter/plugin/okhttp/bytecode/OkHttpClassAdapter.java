@@ -30,8 +30,8 @@ public final class OkHttpClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(className.equals("okhttp3/OkHttpClient$Builder")) {
-            return mv == null ? null : new OkHttpMethodAdapter(className + File.separator + name, access, desc, mv, weaveEventListener);
+        if(className.equals("okhttp3/OkHttpClient$Builder") && name.equals("<init>")) {
+            return mv == null ? null : new OkHttpMethodAdapter(access, desc, mv, weaveEventListener);
         } else {
             return mv;
         }
