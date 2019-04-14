@@ -46,7 +46,8 @@ public abstract class BaseWeaver implements IWeaver{
                     new BufferedInputStream(inputZip.getInputStream(entry));
             ZipEntry outEntry = new ZipEntry(entry.getName());
             byte[] newEntryContent;
-            if (!isWeavableClass(outEntry.getName().replace(FILE_SEP, "."))) {
+            // seperator of entry name is always '/', even in windows
+            if (!isWeavableClass(outEntry.getName().replace("/", "."))) {
                 newEntryContent = org.apache.commons.io.IOUtils.toByteArray(originalFile);
             } else {
                 newEntryContent = weaveSingleClassToByteArray(originalFile);
