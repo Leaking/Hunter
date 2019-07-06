@@ -22,17 +22,29 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
     private String methodKey;
     private boolean needParameter = false;;
     private List<Label> labelList = new ArrayList<>();
+    private DebugPreGoClassAdapter.MethodCollector methodCollector;
+    private String methodName;
+    private boolean useImpl = false;
 
-    public DebugPreGoMethodAdapter(String methodKey, Map<String, List<Parameter>> methodParametersMap, MethodVisitor mv) {
+
+    public DebugPreGoMethodAdapter(String methodName,String methodKey, Map<String, List<Parameter>> methodParametersMap, MethodVisitor mv, boolean needParameter, DebugPreGoClassAdapter.MethodCollector methodCollector) {
         super(Opcodes.ASM5, mv);
+        this.methodName = methodName;
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
+        this.needParameter = needParameter;
+        this.methodCollector = methodCollector;
     }
 
     @Override
     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
         AnnotationVisitor defaultAv = super.visitAnnotation(desc, visible);
-        if("Lcom/hunter/library/debug/HunterDebug;".equals(desc) || "Lcom/hunter/library/debug/HunterDebugImpl;".equals(desc)) {
+        if("Lcom/hunter/library/debug/HunterDebugSkip;".equals(desc) ) {
+            needParameter = false;
+        }else if("Lcom/hunter/library/debug/HunterDebugImpl;".equals(desc)){
+            needParameter = true;
+            useImpl = true;
+        }else if("Lcom/hunter/library/debug/HunterDebug;".equals(desc)){
             needParameter = true;
         }
         return defaultAv;
@@ -53,6 +65,9 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
     @Override
     public void visitEnd() {
+        if(needParameter){
+            methodCollector.onIncludeMethod(methodName,useImpl);
+        }
         methodParametersMap.put(methodKey, parameters);
         super.visitEnd();
     }
@@ -63,8 +78,5 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
         super.visitLabel(label);
     }
 
-    public boolean getNeedParameter() {
-        return needParameter;
-    }
 
 }
