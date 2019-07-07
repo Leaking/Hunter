@@ -3,10 +3,12 @@ package com.quinn.hunter.plugin.debug.bytecode.prego;
 import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.debug.bytecode.Parameter;
 
+import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,19 +22,38 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     private DebugPreGoMethodAdapter debugPreGoMethodAdapter;
     private boolean needParameter = false;
 
+    private boolean classDebug = false;
+    private List<String> includes = new ArrayList<>();
+    private List<String> impls = new ArrayList<>();
+
     public DebugPreGoClassAdapter(final ClassVisitor cv) {
         super(Opcodes.ASM5, cv);
+    }
+
+    @Override
+    public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
+        AnnotationVisitor orgin = super.visitAnnotation(desc, visible);
+        if("Lcom/hunter/library/debug/HunterDebugClass;".equals(desc) ) {
+            classDebug = true;
+        }
+        return orgin;
     }
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
-            needParameter = true;
-        }
         String methodUniqueKey = name + desc;
-        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(methodUniqueKey, methodParametersMap, mv);
+        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(name, methodUniqueKey, methodParametersMap, mv, classDebug, new MethodCollector() {
+            @Override
+            public void onIncludeMethod(String methodName, boolean useImpl) {
+                if(useImpl){
+                    impls.add(methodName);
+                }
+                includes.add(methodName);
+                needParameter = true;
+            }
+        });
         return mv == null ? null : debugPreGoMethodAdapter;
     }
 
@@ -40,15 +61,20 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
         return this.methodParametersMap;
     }
 
+    public List<String> getIncludes(){
+        return includes;
+    }
+
+    public List<String> getImpls(){
+        return impls;
+    }
     public boolean isNeedParameter() {
         return needParameter;
     }
 
-    @Override
-    public void visitEnd() {
-        super.visitEnd();
-        if(debugPreGoMethodAdapter != null && debugPreGoMethodAdapter.getNeedParameter()) {
-            needParameter = true;
-        }
+
+
+    interface MethodCollector{
+        void onIncludeMethod(String methodName,boolean useImpl);
     }
 }
