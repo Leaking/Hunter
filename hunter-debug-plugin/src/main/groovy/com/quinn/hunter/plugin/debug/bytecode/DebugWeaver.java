@@ -33,6 +33,7 @@ public final class DebugWeaver extends BaseWeaver {
         if(debugPreGoClassAdapter.isNeedParameter()) {
             classWriter = new ExtendClassWriter(classLoader, ClassWriter.COMPUTE_MAXS);
             DebugClassAdapter debugClassAdapter = new DebugClassAdapter(classWriter, debugPreGoClassAdapter.getMethodParametersMap());
+            debugClassAdapter.attachIncludeMethodsAndImplMethods(debugPreGoClassAdapter.getIncludes(),debugPreGoClassAdapter.getImpls());
             classReader.accept(debugClassAdapter, ClassReader.EXPAND_FRAMES);
         }
         return classWriter.toByteArray();
