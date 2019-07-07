@@ -13,7 +13,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:5.1'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:5.1'
-    implementation 'com.quinn.hunter:hunter-transform:0.9.0'
+    implementation 'com.quinn.hunter:hunter-transform:0.9.3'
 }
 
 repositories {
@@ -36,7 +36,7 @@ ext {
     siteUrl = 'https://github.com/Leaking/Hunter'
     gitUrl = 'https://github.com/Leaking/Hunter.git'
 
-    libraryVersion = '0.9.5'
+    libraryVersion = '0.9.6'
 
     developerId = 'Leaking'
     developerName = 'QuinnChen'
@@ -47,22 +47,22 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-//apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 
 //publish script for debug mode
 
-apply plugin: 'maven'
-
-group='com.quinn.hunter'
-version='1.0.0'
-
-def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: localRepoURL)
-        }
-    }
-}
+//apply plugin: 'maven'
+//
+//group='com.quinn.hunter'
+//version='1.0.0'
+//
+//def localRepoURL = 'file://' + new File(System.getProperty('user.home'), '.m2/repository').absolutePath
+//
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: localRepoURL)
+//        }
+//    }
+//}

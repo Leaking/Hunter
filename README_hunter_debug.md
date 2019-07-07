@@ -24,7 +24,7 @@ Add some lines to your build.gradle
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-debug-library:0.9.4'
+    implementation 'com.quinn.hunter:hunter-debug-library:0.9.6'
 }
 
 repositories {
@@ -37,7 +37,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.5'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.6'
         classpath 'com.quinn.hunter:hunter-transform:0.9.3'
     }
 }
