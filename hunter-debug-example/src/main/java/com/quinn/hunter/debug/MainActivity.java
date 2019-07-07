@@ -148,4 +148,9 @@ public class MainActivity extends Activity {
         return result;
     }
 
+    @HunterDebug
+    private void testVoidMethodWithException(){
+        throw new RuntimeException("not impl");
+    }
+
 }
