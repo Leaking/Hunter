@@ -81,6 +81,13 @@ public final class LinelogMethodAdapter extends MethodVisitor implements Opcodes
                 } else {
                     super.visitMethodInsn(opcode, owner, name, desc, itf);
                 }
+            } else if("println".equals(name)) {
+                if("(ILjava/lang/String;Ljava/lang/String;)I".equals(desc)) {
+                    mv.visitLdcInsn(linenumberConst);
+                    mv.visitMethodInsn(INVOKESTATIC, "com/hunter/library/linelog/LineNumberLog", "println", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)I", false);
+                } else {
+                    super.visitMethodInsn(opcode, owner, name, desc, itf);
+                }
             } else {
                 super.visitMethodInsn(opcode, owner, name, desc, itf);
             }
