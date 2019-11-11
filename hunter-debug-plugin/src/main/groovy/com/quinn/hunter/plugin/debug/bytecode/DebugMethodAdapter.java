@@ -1,6 +1,5 @@
 package com.quinn.hunter.plugin.debug.bytecode;
 
-import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -106,7 +105,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
             int resultTempValIndex = -1;
             if(returnType != Type.VOID_TYPE || opcode == ATHROW) {
                 if(opcode == ATHROW){
-                    returnType = Type.getReturnType("Ljava/lang/Object;");
+                    returnType = Type.getType("Ljava/lang/Object;");
                 }
                 resultTempValIndex = newLocal(returnType);
                 int storeOpcocde = Utils.getStoreOpcodeFromType(returnType);
