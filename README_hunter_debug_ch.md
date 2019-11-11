@@ -36,7 +36,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.6'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:0.9.7'
         classpath 'com.quinn.hunter:hunter-transform:0.9.3'
     }
 }
