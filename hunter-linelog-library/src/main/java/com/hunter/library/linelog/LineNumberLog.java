@@ -53,4 +53,7 @@ public class LineNumberLog {
         return Log.w(tag + "[" + linenumber + "]", e);
     }
 
+    public static int println(int priority, String tag, String msg, String linenumber) {
+        return Log.println(priority, tag + "[" + linenumber + "]", msg);
+    }
 }
