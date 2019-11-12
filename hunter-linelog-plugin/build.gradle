@@ -35,7 +35,7 @@ ext {
     siteUrl = 'https://github.com/Leaking/Hunter'
     gitUrl = 'https://github.com/Leaking/Hunter.git'
 
-    libraryVersion = '0.9.1'
+    libraryVersion = '0.9.2'
 
     developerId = 'Leaking'
     developerName = 'QuinnChen'

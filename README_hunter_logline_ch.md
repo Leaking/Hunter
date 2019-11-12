@@ -11,7 +11,7 @@
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-linelog-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-linelog-library:0.8.6'
 }
 
 repositories {
@@ -24,7 +24,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.9.1'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.9.2'
         classpath 'com.quinn.hunter:hunter-transform:0.9.3'
     }
 }
