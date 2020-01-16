@@ -23,7 +23,7 @@ public final class DebugMethodAdapter extends LocalVariablesSorter implements Op
 
 
     public DebugMethodAdapter(String className, List<Parameter> parameters, String name, int access, String desc, MethodVisitor mv) {
-        super(Opcodes.ASM5, access, desc, mv);
+        super(Opcodes.ASM6, access, desc, mv);
         if(!className.endsWith("/")) {
             this.className = className.substring(className.lastIndexOf("/") + 1);
         } else {

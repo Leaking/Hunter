@@ -8,11 +8,11 @@ dependencies {
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.10'
     //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm:5.1'
+    implementation "org.ow2.asm:asm:${versions.asm}"
     //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm-util:5.1'
+    implementation "org.ow2.asm:asm-util:${versions.asm}"
     //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm-commons:5.1'
+    implementation "org.ow2.asm:asm-commons:${versions.asm}"
     implementation 'com.quinn.hunter:hunter-transform:0.9.0'
 }
 

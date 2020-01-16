@@ -24,7 +24,7 @@ public final class DebugClassAdapter extends ClassVisitor{
     private List<String> implMethods = new ArrayList<>();
 
     DebugClassAdapter(final ClassVisitor cv, final Map<String, List<Parameter>> methodParametersMap) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM6, cv);
         this.methodParametersMap = methodParametersMap;
     }
 

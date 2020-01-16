@@ -10,7 +10,7 @@ import org.objectweb.asm.Opcodes;
 public final class LinelogClassAdapter extends ClassVisitor{
 
     LinelogClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM6, cv);
     }
 
     @Override

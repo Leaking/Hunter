@@ -17,7 +17,7 @@ public final class OkHttpMethodAdapter extends LocalVariablesSorter implements O
     private boolean weaveEventListener;
 
     OkHttpMethodAdapter(int access, String desc, MethodVisitor mv, boolean weaveEventListener) {
-        super(Opcodes.ASM5, access, desc, mv);
+        super(Opcodes.ASM6, access, desc, mv);
         this.weaveEventListener = weaveEventListener;
     }
 

@@ -16,7 +16,7 @@ public final class OkHttpClassAdapter extends ClassVisitor{
     private boolean weaveEventListener;
 
     OkHttpClassAdapter(final ClassVisitor cv, boolean weaveEventListener) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM6, cv);
         this.weaveEventListener = weaveEventListener;
     }
 

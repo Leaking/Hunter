@@ -28,7 +28,7 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
 
     public DebugPreGoMethodAdapter(String methodName,String methodKey, Map<String, List<Parameter>> methodParametersMap, MethodVisitor mv, boolean needParameter, DebugPreGoClassAdapter.MethodCollector methodCollector) {
-        super(Opcodes.ASM5, mv);
+        super(Opcodes.ASM6, mv);
         this.methodName = methodName;
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;

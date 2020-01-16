@@ -15,7 +15,7 @@ public final class LinelogMethodAdapter extends MethodVisitor implements Opcodes
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogMethodAdapter.class);
 
     public LinelogMethodAdapter(MethodVisitor mv) {
-        super(Opcodes.ASM5, mv);
+        super(Opcodes.ASM6, mv);
     }
 
     @Override

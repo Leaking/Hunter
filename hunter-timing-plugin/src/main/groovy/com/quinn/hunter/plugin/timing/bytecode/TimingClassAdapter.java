@@ -14,7 +14,7 @@ public final class TimingClassAdapter extends ClassVisitor{
     private boolean isHeritedFromBlockHandler = false;
 
     TimingClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM6, cv);
     }
 
     @Override

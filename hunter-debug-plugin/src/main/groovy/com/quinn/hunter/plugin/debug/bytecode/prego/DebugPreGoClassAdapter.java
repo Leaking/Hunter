@@ -27,7 +27,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     private List<String> impls = new ArrayList<>();
 
     public DebugPreGoClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM6, cv);
     }
 
     @Override
