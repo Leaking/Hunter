@@ -7,9 +7,9 @@ dependencies {
     implementation 'com.android.tools.build:gradle-api:3.1.4'
     implementation 'commons-io:commons-io:2.6'
     implementation 'commons-codec:commons-codec:1.10'
-    implementation 'org.ow2.asm:asm:5.1'
-    implementation 'org.ow2.asm:asm-util:5.1'
-    implementation 'org.ow2.asm:asm-commons:5.1'
+    implementation 'org.ow2.asm:asm:6.0'
+    implementation 'org.ow2.asm:asm-util:6.0'
+    implementation 'org.ow2.asm:asm-commons:6.0'
 }
 
 repositories {
@@ -34,7 +34,7 @@ ext {
     siteUrl = 'https://github.com/Leaking/Hunter'
     gitUrl = 'https://github.com/Leaking/Hunter.git'
 
-    libraryVersion = '0.9.3'
+    libraryVersion = '1.0.0'
 
     developerId = 'Leaking'
     developerName = 'QuinnChen'
