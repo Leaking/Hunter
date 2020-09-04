@@ -32,6 +32,7 @@ If you want to use hunter to develop a gradle plugin to modify bytecode, please 
 Welcome to join
 Telegram group: https://t.me/joinchat/BalX-RxnM9ETca1iwgDaFQ
 WeChat group:
+
 <img src="https://github.com/Leaking/Hunter/blob/master/pics/wechat_group.jpg?raw=true" width="340" />
 
 

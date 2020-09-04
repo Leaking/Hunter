@@ -26,9 +26,12 @@ Hunter是这么一个框架，帮你快速开发插件，在编译过程中修�
 
 ## 社交工具
 
-欢迎加入
-Telegram 群组: https://t.me/joinchat/BalX-RxnM9ETca1iwgDaFQ
+Telegram 群组:
+
+https://t.me/joinchat/BalX-RxnM9ETca1iwgDaFQ
+
 微信群:
+
 <img src="https://github.com/Leaking/Hunter/blob/master/pics/wechat_group.jpg?raw=true" width="340" />
 
 
