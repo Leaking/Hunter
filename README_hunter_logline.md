@@ -27,8 +27,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:0.9.2'
-        classpath 'com.quinn.hunter:hunter-transform:0.9.3'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-transform:1.0.0'
     }
 }
 
