@@ -29,8 +29,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-timing-plugin:0.9.1'
-        classpath 'com.quinn.hunter:hunter-transform:0.9.3'
+        classpath 'com.quinn.hunter:hunter-timing-plugin:1.0.0'
+        classpath 'com.quinn.hunter:hunter-transform:1.0.0'
     }
 }
 
