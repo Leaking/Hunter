@@ -41,7 +41,7 @@ final class OkHttpHunterTransform extends HunterTransform {
     }
 
     @Override
-    protected boolean inDuplcatedClassSafeMode() {
-        return okHttpHunterExtension.duplcatedClassSafeMode;
+    protected boolean inDuplicatedClassSafeMode() {
+        return okHttpHunterExtension.duplicatedClassSafeMode;
     }
 }

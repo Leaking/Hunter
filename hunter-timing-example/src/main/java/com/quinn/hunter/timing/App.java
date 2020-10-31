@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.hunter.library.timing.BlockManager;
 import com.hunter.library.timing.IBlockHandler;
-import com.hunter.library.timing.impl.RankingBlockHandler;
 import com.hunter.library.timing.impl.StacktraceBlockHandler;
 
 /**

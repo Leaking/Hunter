@@ -14,7 +14,7 @@ public class TimingHunterExtension {
     public RunVariant runVariant = RunVariant.ALWAYS;
     public List<String> whitelist = new ArrayList<>();
     public List<String> blacklist = new ArrayList<>();
-    public boolean duplcatedClassSafeMode = false;
+    public boolean duplicatedClassSafeMode = false;
 
     @Override
     public String toString() {
@@ -22,7 +22,7 @@ public class TimingHunterExtension {
                 "runVariant=" + runVariant +
                 ", whitelist=" + whitelist +
                 ", blacklist=" + blacklist +
-                ", duplcatedClassSafeMode=" + duplcatedClassSafeMode +
+                ", duplicatedClassSafeMode=" + duplicatedClassSafeMode +
                 '}';
     }
 }

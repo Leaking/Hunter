@@ -42,7 +42,7 @@ public class ClassLoaderHelper {
             }
         }
         ImmutableList<URL> allUrls = urls.build();
-        URL[] classLoaderUrls = allUrls.toArray(new URL[allUrls.size()]);
+        URL[] classLoaderUrls = allUrls.toArray(new URL[0]);
         return new URLClassLoader(classLoaderUrls);
     }
 

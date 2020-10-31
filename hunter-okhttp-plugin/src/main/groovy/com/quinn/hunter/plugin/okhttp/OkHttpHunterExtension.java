@@ -9,14 +9,14 @@ public class OkHttpHunterExtension {
 
     public RunVariant runVariant = RunVariant.ALWAYS;
     public boolean weaveEventListener = true;
-    public boolean duplcatedClassSafeMode = false;
+    public boolean duplicatedClassSafeMode = false;
 
     @Override
     public String toString() {
         return "OkHttpHunterExtension{" +
                 "runVariant=" + runVariant +
                 ", weaveEventListener=" + weaveEventListener +
-                ", duplcatedClassSafeMode=" + duplcatedClassSafeMode +
+                ", duplicatedClassSafeMode=" + duplicatedClassSafeMode +
                 '}';
     }
 

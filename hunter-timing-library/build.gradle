@@ -22,7 +22,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'commons-io:commons-io:2.4'
 }
 
 ext {
