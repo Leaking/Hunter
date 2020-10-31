@@ -12,7 +12,6 @@ import com.android.build.api.transform.TransformInput;
 import com.android.build.api.transform.TransformOutputProvider;
 import com.android.build.gradle.internal.pipeline.TransformManager;
 import com.android.ide.common.internal.WaitableExecutor;
-import com.google.common.io.Files;
 import com.quinn.hunter.transform.asm.BaseWeaver;
 import com.quinn.hunter.transform.asm.ClassLoaderHelper;
 
@@ -89,7 +88,7 @@ public class HunterTransform extends Transform {
             emptyRun = runVariant == RunVariant.DEBUG || runVariant == RunVariant.NEVER;
         }
         logger.warn(getName() + " isIncremental = " + isIncremental + ", runVariant = "
-                + runVariant + ", emptyRun = " + emptyRun + ", inDuplcatedClassSafeMode = " + inDuplcatedClassSafeMode());
+                + runVariant + ", emptyRun = " + emptyRun + ", inDuplicatedClassSafeMode = " + inDuplicatedClassSafeMode());
         long startTime = System.currentTimeMillis();
         if(!isIncremental) {
             outputProvider.deleteAll();
@@ -121,7 +120,7 @@ public class HunterTransform extends Transform {
                     }
                 } else {
                     //Forgive me!, Some project will store 3rd-party aar for serveral copies in dexbuilder folder,,unknown issue.
-                    if(inDuplcatedClassSafeMode() & !isIncremental && !flagForCleanDexBuilderFolder) {
+                    if(inDuplicatedClassSafeMode() & !isIncremental && !flagForCleanDexBuilderFolder) {
                         cleanDexBuilderFolder(dest);
                         flagForCleanDexBuilderFolder = true;
                     }
@@ -158,7 +157,7 @@ public class HunterTransform extends Transform {
                                     FileUtils.touch(destFile);
                                 } catch (IOException e) {
                                     //maybe mkdirs fail for some strange reason, try again.
-                                    Files.createParentDirs(destFile);
+                                    FileUtils.forceMkdirParent(destFile);
                                 }
                                 transformSingleFile(inputFile, destFile, srcDirPath);
                                 break;
@@ -249,7 +248,7 @@ public class HunterTransform extends Transform {
         return RunVariant.ALWAYS;
     }
 
-    protected boolean inDuplcatedClassSafeMode(){
+    protected boolean inDuplicatedClassSafeMode(){
         return false;
     }
 }

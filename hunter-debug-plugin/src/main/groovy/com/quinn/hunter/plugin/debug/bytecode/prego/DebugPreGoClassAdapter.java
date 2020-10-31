@@ -1,6 +1,5 @@
 package com.quinn.hunter.plugin.debug.bytecode.prego;
 
-import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.plugin.debug.bytecode.Parameter;
 
 import org.objectweb.asm.AnnotationVisitor;
@@ -27,7 +26,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     private List<String> impls = new ArrayList<>();
 
     public DebugPreGoClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM7, cv);
     }
 
     @Override

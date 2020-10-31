@@ -1,7 +1,5 @@
 package com.quinn.hunter.transform.asm;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -46,7 +44,7 @@ public abstract class BaseWeaver implements IWeaver{
                     new BufferedInputStream(inputZip.getInputStream(entry));
             ZipEntry outEntry = new ZipEntry(entry.getName());
             byte[] newEntryContent;
-            // seperator of entry name is always '/', even in windows
+            // separator of entry name is always '/', even in windows
             if (!isWeavableClass(outEntry.getName().replace("/", "."))) {
                 newEntryContent = org.apache.commons.io.IOUtils.toByteArray(originalFile);
             } else {

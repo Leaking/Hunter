@@ -3,13 +3,12 @@ apply plugin: 'java-library'
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:3.1.4'
-    implementation 'com.android.tools.build:gradle-api:3.1.4'
+    implementation 'com.android.tools.build:gradle:4.1.0'
+    implementation 'com.android.tools.build:gradle-api:4.1.0'
     implementation 'commons-io:commons-io:2.6'
-    implementation 'commons-codec:commons-codec:1.10'
-    implementation 'org.ow2.asm:asm:6.0'
-    implementation 'org.ow2.asm:asm-util:6.0'
-    implementation 'org.ow2.asm:asm-commons:6.0'
+    implementation 'org.ow2.asm:asm:7.1'
+    implementation 'org.ow2.asm:asm-util:7.1'
+    implementation 'org.ow2.asm:asm-commons:7.1'
 }
 
 repositories {

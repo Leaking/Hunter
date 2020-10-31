@@ -1,13 +1,10 @@
 package com.quinn.hunter.plugin.debug.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +21,7 @@ public final class DebugClassAdapter extends ClassVisitor{
     private List<String> implMethods = new ArrayList<>();
 
     DebugClassAdapter(final ClassVisitor cv, final Map<String, List<Parameter>> methodParametersMap) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM7, cv);
         this.methodParametersMap = methodParametersMap;
     }
 

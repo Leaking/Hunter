@@ -12,7 +12,7 @@ public final class TimingMethodAdapter extends LocalVariablesSorter implements O
     private String methodName;
 
     public TimingMethodAdapter(String name, int access, String desc, MethodVisitor mv) {
-        super(Opcodes.ASM5, access, desc, mv);
+        super(Opcodes.ASM7, access, desc, mv);
         this.methodName = name.replace("/", ".");
     }
 
