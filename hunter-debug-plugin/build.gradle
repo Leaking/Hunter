@@ -11,7 +11,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:7.1'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:7.1'
-    implementation 'com.quinn.hunter:hunter-transform:1.0.0'
+    implementation 'com.quinn.hunter:hunter-transform:1.1.0'
 }
 
 repositories {
@@ -34,7 +34,7 @@ ext {
     siteUrl = 'https://github.com/Leaking/Hunter'
     gitUrl = 'https://github.com/Leaking/Hunter.git'
 
-    libraryVersion = '1.0.0'
+    libraryVersion = '1.1.0'
 
     developerId = 'Leaking'
     developerName = 'QuinnChen'

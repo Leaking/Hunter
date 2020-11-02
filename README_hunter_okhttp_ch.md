@@ -31,8 +31,8 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:1.0.0'
-        classpath 'com.quinn.hunter:hunter-transform:1.0.0'
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:1.1.0'
+        classpath 'com.quinn.hunter:hunter-transform:1.1.0'
     }
 }
 
