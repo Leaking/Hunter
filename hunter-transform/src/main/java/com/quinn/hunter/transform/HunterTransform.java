@@ -119,8 +119,8 @@ public class HunterTransform extends Transform {
                             break;
                     }
                 } else {
-                    //Forgive me!, Some project will store 3rd-party aar for serveral copies in dexbuilder folder,,unknown issue.
-                    if(inDuplicatedClassSafeMode() & !isIncremental && !flagForCleanDexBuilderFolder) {
+                    //Forgive me!, Some project will store 3rd-party aar for several copies in dexbuilder folder,unknown issue.
+                    if(inDuplicatedClassSafeMode() && !isIncremental && !flagForCleanDexBuilderFolder) {
                         cleanDexBuilderFolder(dest);
                         flagForCleanDexBuilderFolder = true;
                     }
