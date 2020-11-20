@@ -17,7 +17,7 @@ public class OkHttpHooker {
         public EventListener create(Call call) {
             return EventListener.NONE;
         }
-    };;
+    };
 
     public static Dns globalDns = Dns.SYSTEM;
 
