@@ -37,6 +37,7 @@ WeChat group:
 
 <img src="https://github.com/Leaking/Hunter/blob/master/pics/wechat_group.jpg?raw=true" width="340" />
 
+如果二维码过期了，加微信拉群 742223410
 
 
 
