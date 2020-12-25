@@ -6,7 +6,7 @@ Hunter is a framework to develop android gradle plugin based on
 [ASM](https://asm.ow2.io/) and [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api).
 It provides a set of useful, scalable plugins for android developers. You can use Hunter to develop more plugins
 to monitor your app, enhance 3rd-dependency, enhance android framework. Plugins based on Hunter support incremental and concurrent compile, so you don't need to
-afraid of extra build time.
+be afraid of extra build time.
 
 ## Some useful plugins based on Hunter
 
