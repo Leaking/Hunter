@@ -4,6 +4,7 @@
 
 [招人！Android](https://github.com/Leaking/Hunter/blob/master/pics/jd_02.jpeg)
 [招人！Electron优化](https://github.com/Leaking/Hunter/blob/master/pics/jd_01.jpeg)
+欢迎加微信私聊
 
 
 Hunter is a framework to develop android gradle plugin based on 
