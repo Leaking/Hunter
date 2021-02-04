@@ -3,7 +3,9 @@
 [中文](https://github.com/Leaking/Hunter/blob/master/README_ch.md)
 
 [招人！Android](https://github.com/Leaking/Hunter/blob/master/pics/jd_02.jpeg)
+
 [招人！Electron优化](https://github.com/Leaking/Hunter/blob/master/pics/jd_01.jpeg)
+
 欢迎加微信私聊
 
 
