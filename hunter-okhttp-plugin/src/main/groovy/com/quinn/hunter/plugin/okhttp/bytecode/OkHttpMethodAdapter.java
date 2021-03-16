@@ -14,23 +14,13 @@ public final class OkHttpMethodAdapter extends LocalVariablesSorter implements O
 
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpMethodAdapter.class);
 
-    private boolean weaveEventListener;
-
-    OkHttpMethodAdapter(int access, String desc, MethodVisitor mv, boolean weaveEventListener) {
+    OkHttpMethodAdapter(int access, String desc, MethodVisitor mv) {
         super(Opcodes.ASM7, access, desc, mv);
-        this.weaveEventListener = weaveEventListener;
     }
 
     @Override
     public void visitInsn(int opcode) {
         if ((opcode >= IRETURN && opcode <= RETURN) || opcode == ATHROW) {
-            //EventListenFactory
-            if(weaveEventListener) {
-                mv.visitVarInsn(ALOAD, 0);
-                mv.visitFieldInsn(GETSTATIC, "com/hunter/library/okhttp/OkHttpHooker", "globalEventFactory", "Lokhttp3/EventListener$Factory;");
-                mv.visitFieldInsn(PUTFIELD, "okhttp3/OkHttpClient$Builder", "eventListenerFactory", "Lokhttp3/EventListener$Factory;");
-            }
-
             //Dns
             mv.visitVarInsn(ALOAD, 0);
             mv.visitFieldInsn(GETSTATIC, "com/hunter/library/okhttp/OkHttpHooker", "globalDns", "Lokhttp3/Dns;");

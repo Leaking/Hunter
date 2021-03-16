@@ -7,7 +7,7 @@ import org.objectweb.asm.Opcodes;
 /**
  * Created by Quinn on 09/09/2018.
  */
-public final class OkHttpClassAdapter extends ClassVisitor{
+public final class OkHttpClassAdapter extends ClassVisitor {
 
     private String className;
 
@@ -28,8 +28,10 @@ public final class OkHttpClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(className.equals("okhttp3/OkHttpClient$Builder") && name.equals("<init>")) {
-            return mv == null ? null : new OkHttpMethodAdapter(access, desc, mv, weaveEventListener);
+        if (className.equals("okhttp3/OkHttpClient$Builder") && name.equals("<init>")) {
+            return mv == null ? null : new OkHttpMethodAdapter(access, desc, mv);
+        } else if (className.equals("okhttp3/OkHttpClient") && name.equals("<init>") && desc.equals("(Lokhttp3/OkHttpClient$Builder;)V")) {
+            return mv == null ? null : new OkHttpClientMethodAdapter(mv, weaveEventListener);
         } else {
             return mv;
         }

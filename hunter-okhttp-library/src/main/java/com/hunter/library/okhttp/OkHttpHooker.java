@@ -13,7 +13,7 @@ import okhttp3.Interceptor;
  */
 public class OkHttpHooker {
 
-    public static EventListener.Factory globalEventFactory = new EventListener.Factory() {
+    private static EventListener.Factory globalEventFactory = new EventListener.Factory() {
         public EventListener create(Call call) {
             return EventListener.NONE;
         }
@@ -25,6 +25,10 @@ public class OkHttpHooker {
 
     public static List<Interceptor> globalNetworkInterceptors = new ArrayList<>();
 
+    public static EventListener.Factory getGlobalEventFactory(EventListener.Factory factory) {
+        return new GlobalEventFactory(globalEventFactory, factory);
+    }
+
     public static void installEventListenerFactory(EventListener.Factory factory) {
         globalEventFactory = factory;
     }
@@ -34,12 +38,12 @@ public class OkHttpHooker {
     }
 
     public static void installInterceptor(Interceptor interceptor) {
-        if(interceptor != null)
+        if (interceptor != null)
             globalInterceptors.add(interceptor);
     }
 
     public static void installNetworkInterceptors(Interceptor networkInterceptor) {
-        if(networkInterceptor != null)
+        if (networkInterceptor != null)
             globalNetworkInterceptors.add(networkInterceptor);
     }
 
