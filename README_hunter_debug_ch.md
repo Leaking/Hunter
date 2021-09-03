@@ -23,21 +23,35 @@ Hunter-Debug是用ASM修改字节码，而非使用AspectJ，所以自然会更�
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-debug-library:0.9.6'
+    implementation 'com.quinn.hunter:hunter-debug-library:1.2.0'
 }
 
 repositories {
-    jcenter()
+    maven {
+        name = "GithubPackages"
+        url = uri("https://maven.pkg.github.com/Leaking/Hunter")
+        credentials {
+            username = 'Leaking'
+            password = '***REMOVED***'
+        }
+    }
 }
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/Leaking/Hunter")
+            credentials {
+                username = 'Leaking'
+                password = '***REMOVED***'
+            }
+        }
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:1.1.0'
-        classpath 'com.quinn.hunter:hunter-transform:1.1.0'
+        classpath 'com.quinn.hunter:hunter-debug-plugin:1.2.0'
+        classpath 'com.quinn.hunter:hunter-transform:1.2.0'
     }
 }
 

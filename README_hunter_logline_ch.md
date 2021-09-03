@@ -11,21 +11,35 @@
 ```groovy
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-linelog-library:0.8.6'
+    implementation 'com.quinn.hunter:hunter-linelog-library:1.2.0'
 }
 
 repositories {
-    jcenter()
+    maven {
+        name = "GithubPackages"
+        url = uri("https://maven.pkg.github.com/Leaking/Hunter")
+        credentials {
+            username = 'Leaking'
+            password = '***REMOVED***'
+        }
+    }
 }
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/Leaking/Hunter")
+            credentials {
+                username = 'Leaking'
+                password = '***REMOVED***'
+            }
+        }
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.1.0'
-        classpath 'com.quinn.hunter:hunter-transform:1.1.0'
+        classpath 'com.quinn.hunter:hunter-linelog-plugin:1.2.0'
+        classpath 'com.quinn.hunter:hunter-transform:1.2.0'
     }
 }
 
