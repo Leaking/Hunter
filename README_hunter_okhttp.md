@@ -18,21 +18,35 @@ Add some lines to your build.gradle
 
 
 dependencies {
-    implementation 'com.quinn.hunter:hunter-okhttp-library:0.8.5'
+    implementation 'com.quinn.hunter:hunter-okhttp-library:1.2.0'
 }
 
 repositories {
-    jcenter()
+    maven {
+        name = "GithubPackages"
+        url = uri("https://maven.pkg.github.com/Leaking/Hunter")
+        credentials {
+            username = 'Leaking'
+            password = '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'
+        }
+    }
 }
 
 buildscript {
     repositories {
-        jcenter()
+        maven {
+            name = "GithubPackages"
+            url = uri("https://maven.pkg.github.com/Leaking/Hunter")
+            credentials {
+                username = 'Leaking'
+                password = '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'
+            }
+        }
         google()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-okhttp-plugin:1.1.0'
-        classpath 'com.quinn.hunter:hunter-transform:1.1.0'
+        classpath 'com.quinn.hunter:hunter-okhttp-plugin:1.2.0'
+        classpath 'com.quinn.hunter:hunter-transform:1.2.0'
     }
 }
 
