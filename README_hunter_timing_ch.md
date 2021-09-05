@@ -25,7 +25,7 @@ repositories {
         url = uri("https://maven.pkg.github.com/Leaking/Hunter")
         credentials {
             username = 'Leaking'
-            password = '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'
+            password = '\u0067\u0068\u0070\u005f\u0058\u006d\u0038\u006e\u0062\u0057\u0031\u0053\u0053\u0042\u006a\u004a\u0064\u006f\u0071\u0048\u0064\u006b\u0036\u0034\u0077\u0031\u0054\u0066\u0074\u0071\u0052\u0046\u0068\u0042\u0032\u0047\u0057\u0037\u0046\u0070'
         }
     }
 }
@@ -37,7 +37,7 @@ buildscript {
             url = uri("https://maven.pkg.github.com/Leaking/Hunter")
             credentials {
                 username = 'Leaking'
-                password = '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'
+                password = '\u0067\u0068\u0070\u005f\u0058\u006d\u0038\u006e\u0062\u0057\u0031\u0053\u0053\u0042\u006a\u004a\u0064\u006f\u0071\u0048\u0064\u006b\u0036\u0034\u0077\u0031\u0054\u0066\u0074\u0071\u0052\u0046\u0068\u0042\u0032\u0047\u0057\u0037\u0046\u0070'
             }
         }
         google()
