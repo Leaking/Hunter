@@ -11,7 +11,7 @@ import org.objectweb.asm.Opcodes;
  */
 public final class LinelogMethodAdapter extends MethodVisitor implements Opcodes {
 
-    private int lineNunber;
+    private int lineNumber;
     private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogMethodAdapter.class);
 
     public LinelogMethodAdapter(MethodVisitor mv) {
@@ -20,14 +20,14 @@ public final class LinelogMethodAdapter extends MethodVisitor implements Opcodes
 
     @Override
     public void visitLineNumber(int line, Label start) {
-        this.lineNunber = line;
+        this.lineNumber = line;
         super.visitLineNumber(line, start);
     }
 
     @Override
     public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
         if("android/util/Log".equals(owner)) {
-            String linenumberConst = lineNunber + "";
+            String linenumberConst = lineNumber + "";
             if("i".equals(name)) {
                 if("(Ljava/lang/String;Ljava/lang/String;)I".equals(desc)) {
                     mv.visitLdcInsn(linenumberConst);
