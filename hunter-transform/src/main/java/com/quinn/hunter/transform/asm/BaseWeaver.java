@@ -65,6 +65,7 @@ public abstract class BaseWeaver implements IWeaver{
         }
         outputZip.flush();
         outputZip.close();
+        inputZip.close();
     }
 
     public final void weaveSingleClassToFile(File inputFile, File outputFile, String inputBaseDir) throws IOException {
