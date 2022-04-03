@@ -97,6 +97,11 @@ HunterLoggerHandler.installLogImpl(new HunterLoggerHandler(){
 });
         
 ```
+With standard logging you can filter Hunter logs in logcat with     
+```
+(\s|^)⇢(\s|$)|(\s|^)⇠(\s|$)
+Searches if character ⇢ or ⇠ exists
+```
 
 Logging works in both debug and release build mode, but you can specify certain mode or disable it.
 
