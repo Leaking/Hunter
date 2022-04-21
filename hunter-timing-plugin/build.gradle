@@ -12,7 +12,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:7.1'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:7.1'
-    implementation 'com.quinn.hunter:hunter-transform:1.2.0'
+    implementation 'com.quinn.hunter:hunter-transform:1.2.1'
 }
 
 repositories {
