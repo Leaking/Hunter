@@ -2,7 +2,7 @@ apply plugin: 'maven-publish'
 
 def LIB_GROUP_ID = 'com.quinn.hunter'
 def LIB_ARTIFACT_ID = 'hunter-transform'
-def LIB_VERSION = '1.2.0'
+def LIB_VERSION = '1.2.1'
 
 task sourceJar(type: Jar) {
     from sourceSets.main.java.srcDirs
