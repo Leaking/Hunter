@@ -30,7 +30,7 @@ jobs:
         settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      uses: ./gradlew build --no-daemon
       with:
         arguments: build
 
