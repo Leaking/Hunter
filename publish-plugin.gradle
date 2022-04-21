@@ -1,9 +1,5 @@
 apply plugin: 'maven-publish'
 
-def LIB_GROUP_ID = 'com.quinn.hunter'
-def LIB_ARTIFACT_ID = 'hunter-debug-plugin'
-def LIB_VERSION = '1.2.0'
-
 task sourceJar(type: Jar) {
     from sourceSets.main.java.srcDirs
     classifier "sources"
@@ -26,10 +22,10 @@ publishing {
     }
     publications {
         hunter_transform(MavenPublication) {
-            groupId LIB_GROUP_ID
-            artifactId LIB_ARTIFACT_ID
-            version LIB_VERSION
-            artifact("$buildDir/libs/${LIB_ARTIFACT_ID}.jar")
+            groupId rootProject.ext.LIB_GROUP_ID
+            artifactId rootProject.ext.LIB_ARTIFACT_ID
+            version rootProject.ext.LIB_VERSION
+            artifact("$buildDir/libs/${rootProject.ext.LIB_ARTIFACT_ID}.jar")
             artifact(sourceJar)
         }
     }

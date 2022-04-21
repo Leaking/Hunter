@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
-apply from: file('publish.gradle')
+rootProject.ext.LIB_GROUP_ID = 'com.quinn.hunter'
+rootProject.ext.LIB_ARTIFACT_ID = 'hunter-okhttp-library'
+rootProject.ext.LIB_VERSION = '1.3.0'
+apply from: file('../publish-aar.gradle')
 
 android {
     compileSdkVersion 28

@@ -1,5 +1,8 @@
 apply plugin: 'java-library'
-apply from: file('publish.gradle')
+rootProject.ext.LIB_GROUP_ID = 'com.quinn.hunter'
+rootProject.ext.LIB_ARTIFACT_ID = 'hunter-transform'
+rootProject.ext.LIB_VERSION = '1.2.1'
+apply from: file('../publish-plugin.gradle')
 
 dependencies {
     implementation gradleApi()
