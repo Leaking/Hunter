@@ -30,6 +30,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
 
+
+
+
+
 repositories {
     jcenter()
     google()
@@ -46,8 +50,18 @@ buildscript {
         classpath 'com.quinn.hunter:hunter-debug-plugin:1.2.0'
         classpath 'com.quinn.hunter:hunter-transform:1.2.1'
     }
+
 }
 
+//afterEvaluate {
+//    configurations.getByName("implementation") {
+//        resolutionStrategy {
+//            dependencySubstitution {
+//                substitute module( "com.quinn.hunter:hunter-debug-library") with project(':hunter-debug-library')
+//            }
+//        }
+//    }
+//}
 
 apply plugin: 'hunter-debug'
 
