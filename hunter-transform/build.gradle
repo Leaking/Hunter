@@ -7,12 +7,12 @@ apply from: file('../publish-plugin.gradle')
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:4.1.0'
-    implementation 'com.android.tools.build:gradle-api:4.1.0'
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'org.ow2.asm:asm:7.1'
-    implementation 'org.ow2.asm:asm-util:7.1'
-    implementation 'org.ow2.asm:asm-commons:7.1'
+    implementation Libs.AGP
+    implementation Libs.AGP_API
+    implementation Libs.common_io
+    implementation Libs.asm
+    implementation Libs.asm_util
+    implementation Libs.asm_commons
 }
 
 repositories {

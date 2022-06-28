@@ -13,6 +13,11 @@ object Versions {
 
     val timing_library = "1.2.0"
     val timing_plugin = "1.2.0"
+
+    val AGP = "4.1.3"
+    val AGP_API = "4.1.0"
+    val ASM = "7.1"
+    val common_io = "2.6"
 }
 
 object PublishVersions {
@@ -70,6 +75,12 @@ object Libs {
     val hunter_okhttp_library_compat = "${Group.commonGrouop}:${Artifacts.okhttp_library_compat}:${Versions.okhttp_library_compat}"
     val hunter_linelog_library = "${Group.commonGrouop}:${Artifacts.linelog_library}:${Versions.linelog_library}"
     val hunter_timing_library = "${Group.commonGrouop}:${Artifacts.timing_library}:${Versions.timing_library}"
+    val AGP = "com.android.tools.build:gradle:${Versions.AGP}"
+    val AGP_API = "com.android.tools.build:gradle-api:${Versions.AGP_API}"
+    val asm = "org.ow2.asm:asm:${Versions.ASM}"
+    val asm_util = "org.ow2.asm:asm-util:${Versions.ASM}"
+    val asm_commons = "org.ow2.asm:asm-commons:${Versions.ASM}"
+    val common_io = "commons-io:commons-io:${Versions.common_io}"
 }
 
 object Plugins {

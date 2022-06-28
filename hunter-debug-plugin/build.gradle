@@ -7,14 +7,11 @@ apply from: file('../publish-plugin.gradle')
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
-    implementation 'com.android.tools.build:gradle:4.1.0'
-    implementation 'com.android.tools.build:gradle-api:4.1.3'
-    //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm:7.1'
-    //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm-util:7.1'
-    //noinspection GradleDependency
-    implementation 'org.ow2.asm:asm-commons:7.1'
+    implementation Libs.AGP
+    implementation Libs.AGP_API
+    implementation Libs.asm
+    implementation Libs.asm_util
+    implementation Libs.asm_commons
     implementation Plugins.hunter_transform
 }
 
