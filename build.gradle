@@ -43,7 +43,7 @@ allprojects {
         configurations.all {
             if (name.equalsIgnoreCase('implementation') || name.equalsIgnoreCase("compileClasspath")) {
                 println "configurations name"
-                println name
+//                println name
                 resolutionStrategy {
                     dependencySubstitution {
                         substitute module( "com.quinn.hunter:hunter-debug-library") with project(':hunter-debug-library')
