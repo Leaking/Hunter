@@ -1,7 +1,7 @@
 apply plugin: 'java-library'
-rootProject.ext.LIB_GROUP_ID = 'com.quinn.hunter'
-rootProject.ext.LIB_ARTIFACT_ID = 'hunter-transform'
-rootProject.ext.LIB_VERSION = '1.2.1'
+rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
+rootProject.ext.LIB_ARTIFACT_ID = Artifacts.hunter_transform
+rootProject.ext.LIB_VERSION = PublishVersions.hunter_transform
 apply from: file('../publish-plugin.gradle')
 
 dependencies {

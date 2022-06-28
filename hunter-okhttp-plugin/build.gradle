@@ -1,7 +1,7 @@
 apply plugin: 'groovy'
-rootProject.ext.LIB_GROUP_ID = 'com.quinn.hunter'
-rootProject.ext.LIB_ARTIFACT_ID = 'hunter-okhttp-plugin'
-rootProject.ext.LIB_VERSION = '1.2.0'
+rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
+rootProject.ext.LIB_ARTIFACT_ID = Artifacts.okhttp_plugin
+rootProject.ext.LIB_VERSION = PublishVersions.okhttp_plugin
 apply from: file('../publish-plugin.gradle')
 
 dependencies {
@@ -15,7 +15,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-util:7.1'
     //noinspection GradleDependency
     implementation 'org.ow2.asm:asm-commons:7.1'
-    implementation 'com.quinn.hunter:hunter-transform:1.2.1'
+    implementation Plugins.hunter_transform
 }
 
 repositories {

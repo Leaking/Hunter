@@ -47,8 +47,8 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.quinn.hunter:hunter-debug-plugin:1.2.0'
-        classpath 'com.quinn.hunter:hunter-transform:1.2.1'
+        classpath Plugins.hunter_debug_plugin
+        classpath Plugins.hunter_transform
     }
 //    afterEvaluate {
 //        configurations.all {

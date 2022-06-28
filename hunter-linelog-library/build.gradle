@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-rootProject.ext.LIB_GROUP_ID = 'com.quinn.hunter'
-rootProject.ext.LIB_ARTIFACT_ID = 'hunter-linelog-library'
-rootProject.ext.LIB_VERSION = '1.2.0'
+rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
+rootProject.ext.LIB_ARTIFACT_ID = Artifacts.linelog_library
+rootProject.ext.LIB_VERSION = PublishVersions.linelog_library
 apply from: file('../publish-aar.gradle')
 
 android {

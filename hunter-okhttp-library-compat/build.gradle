@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
-rootProject.ext.LIB_GROUP_ID = 'com.quinn.hunter'
-rootProject.ext.LIB_ARTIFACT_ID = 'hunter-okhttp-library-compat'
-rootProject.ext.LIB_VERSION = '1.2.0'
+rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
+rootProject.ext.LIB_ARTIFACT_ID = Artifacts.okhttp_library_compat
+rootProject.ext.LIB_VERSION = PublishVersions.okhttp_library_compat
 apply from: file('../publish-aar.gradle')
 
 android {
