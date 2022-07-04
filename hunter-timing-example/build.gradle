@@ -31,18 +31,7 @@ dependencies {
     implementation Libs.hunter_timing_library
 }
 
-repositories {
-    jcenter()
-    google()
-    mavenLocal()
-}
-
 buildscript {
-    repositories {
-        jcenter()
-        google()
-        mavenLocal()
-    }
     dependencies {
         classpath Plugins.hunter_timing_plugin
         classpath Plugins.hunter_transform

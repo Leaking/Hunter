@@ -32,18 +32,7 @@ dependencies {
     implementation Libs.hunter_okhttp_library
 }
 
-repositories {
-    jcenter()
-    google()
-    mavenLocal()
-}
-
 buildscript {
-    repositories {
-        jcenter()
-        google()
-        mavenLocal()
-    }
     dependencies {
         classpath Plugins.hunter_okhttp_plugin
         classpath Plugins.hunter_transform

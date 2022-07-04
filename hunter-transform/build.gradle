@@ -10,8 +10,3 @@ dependencies {
     implementation Libs.asm_util
     implementation Libs.asm_commons
 }
-
-repositories {
-    google()
-    mavenCentral()
-}

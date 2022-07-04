@@ -11,8 +11,3 @@ dependencies {
     implementation Libs.asm_commons
     implementation Plugins.hunter_transform
 }
-
-repositories {
-    google()
-    mavenCentral()
-}

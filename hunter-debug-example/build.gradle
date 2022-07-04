@@ -23,7 +23,6 @@ android {
 
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -31,39 +30,11 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
 }
 
-
-
-
-
-repositories {
-    jcenter()
-    google()
-    mavenLocal()
-}
-
 buildscript {
-    repositories {
-        jcenter()
-        google()
-        mavenLocal()
-    }
     dependencies {
         classpath Plugins.hunter_debug_plugin
         classpath Plugins.hunter_transform
     }
-//    afterEvaluate {
-//        configurations.all {
-//            println "classpath name " + name
-//            if (name.equalsIgnoreCase('classpath')) {
-//                println "classpath name " + name
-//                resolutionStrategy {
-//                    dependencySubstitution {
-////                        substitute module( "com.quinn.hunter:hunter-debug-plugin") with project(':hunter-debug-plugin')
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 
 

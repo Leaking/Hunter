@@ -23,31 +23,18 @@ android {
 
 }
 
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation Libs.hunter_linelog_library
 }
 
-repositories {
-    jcenter()
-    google()
-    mavenLocal()
-}
-
 buildscript {
-    repositories {
-        jcenter()
-        google()
-        mavenLocal()
-    }
     dependencies {
         classpath Plugins.hunter_linelog_plugin
         classpath Plugins.hunter_transform
     }
 }
-
 
 apply plugin: 'hunter-linelog'
 

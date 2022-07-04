@@ -17,29 +17,6 @@ allprojects {
         mavenCentral()
         google()
     }
-    // 目前可以对implement生效，编译脚本的依赖不生效
-//    afterEvaluate {
-//        configurations.all {
-//            if (name.equalsIgnoreCase('implementation') || name.equalsIgnoreCase("compileClasspath")) {
-//                println "configurations name"
-////                println name
-//                resolutionStrategy {
-//                    dependencySubstitution {
-//                        substitute module( "com.quinn.hunter:hunter-debug-library") with project(':hunter-debug-library')
-//                        substitute module( "com.quinn.hunter:hunter-okhttp-library") with project(':hunter-okhttp-library')
-//                        substitute module( "com.quinn.hunter:hunter-linelog-library") with project(':hunter-linelog-library')
-//                        substitute module( "com.quinn.hunter:hunter-timing-library") with project(':hunter-timing-library')
-//                        substitute module( "com.quinn.hunter:hunter-debug-plugin") with project(':hunter-debug-plugin')
-//                        substitute module( "com.quinn.hunter:hunter-okhttp-plugin") with project(':hunter-okhttp-plugin')
-//                        substitute module( "com.quinn.hunter:hunter-linelog-plugin") with project(':hunter-linelog-plugin')
-//                        substitute module( "com.quinn.hunter:hunter-timing-plugin") with project(':hunter-timing-plugin')
-//                        substitute module( "com.quinn.hunter:hunter-transform") with project(':hunter-transform')
-//                        substitute module( "com.quinn.hunter:hunter-okhttp-library-compat") with project(':hunter-okhttp-library-compat')
-//                    }
-//                }
-//            }
-//        }
-//    }
 }
 allprojects {
     plugins.withId("com.vanniktech.maven.publish") {
