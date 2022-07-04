@@ -10,8 +10,12 @@ be afraid of extra build time.
 
 ## Latest Version
 
-```
+Every librraies / plugins use same latest version, replace LATEST_VERSION_IN_README in others README with this latest version
+
+```groovy
+
 1.2.1
+
 ```
 
 ## Some useful plugins based on Hunter

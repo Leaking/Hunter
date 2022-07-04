@@ -5,6 +5,15 @@
 Hunter是这么一个框架，帮你快速开发插件，在编译过程中修改字节码，它底层基于[ASM](https://asm.ow2.io/) 和 [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api)
 实现。在这个框架基础上，我尝试开发了几款实用的插件。你也可以用Hunter开发自己的插件，诸如实现App性能监控（UI，网络等等），加强或修改第三方库以满足你的需求，甚至可以加强、修改Android framework的接口。Hunter本身支持增量、并发编译，所以不用担心使用这一系列插件会增加编译时间。
 
+## 最新版本
+
+所有 librraies / plugins 都使用同样的最新版本号，可以使用这个版本号替代其他README文档中的LATEST_VERSION_IN_README变量
+
+```groovy
+
+1.2.1
+
+```
 
 ## 基于Hunter的插件
 
