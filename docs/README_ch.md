@@ -43,7 +43,7 @@ https://t.me/joinchat/BalX-RxnM9ETca1iwgDaFQ
 
 微信群:
 
-<img src="https://github.com/Leaking/Hunter/blob/master/pics/wechat_group.jpg?raw=true" width="340" />
+<img src="https://github.com/Leaking/Hunter/blob/master/pics/contact_me_qr.png?raw=true" width="340" />
 
 
 ## License
