@@ -1,18 +1,20 @@
 object Versions {
-    val hunter_transform = "1.2.1"
+    val hunter_common_version = "1.2.1"
 
-    val debug_library = "1.2.0"
-    val debug_plugin = "1.2.0"
+    val hunter_transform = hunter_common_version
 
-    val linelog_library = "1.2.0"
-    val linelog_plugin = "1.2.0"
+    val debug_library = hunter_common_version
+    val debug_plugin = hunter_common_version
 
-    val okhttp_library = "1.2.0"
-    val okhttp_library_compat = "1.2.0"
-    val okhttp_plugin = "1.2.0"
+    val linelog_library = hunter_common_version
+    val linelog_plugin = hunter_common_version
 
-    val timing_library = "1.2.0"
-    val timing_plugin = "1.2.0"
+    val okhttp_library = hunter_common_version
+    val okhttp_library_compat = hunter_common_version
+    val okhttp_plugin = hunter_common_version
+
+    val timing_library = hunter_common_version
+    val timing_plugin = hunter_common_version
 
     val AGP = "4.1.3"
     val AGP_API = "4.1.0"
@@ -21,20 +23,22 @@ object Versions {
 }
 
 object PublishVersions {
-    val hunter_transform = "1.2.1"
+    val hunter_common_publish_version = "1.2.1"
 
-    val debug_library = "1.2.0"
-    val debug_plugin = "1.2.0"
+    val hunter_transform = hunter_common_publish_version
 
-    val linelog_library = "1.2.0"
-    val linelog_plugin = "1.2.0"
+    val debug_library = hunter_common_publish_version
+    val debug_plugin = hunter_common_publish_version
 
-    val okhttp_library = "1.2.0"
-    val okhttp_library_compat = "1.2.0"
-    val okhttp_plugin = "1.2.0"
+    val linelog_library = hunter_common_publish_version
+    val linelog_plugin = hunter_common_publish_version
 
-    val timing_library = "1.2.0"
-    val timing_plugin = "1.2.0"
+    val okhttp_library = hunter_common_publish_version
+    val okhttp_library_compat = hunter_common_publish_version
+    val okhttp_plugin = hunter_common_publish_version
+
+    val timing_library = hunter_common_publish_version
+    val timing_plugin = hunter_common_publish_version
 }
 //object Libs {
 //    val hunter_debug_library = "com.quinn.hunter:hunter-debug-library:${Versions.hunter_debug_library}"
@@ -44,7 +48,7 @@ object PublishVersions {
 //}
 
 object Group {
-    val commonGrouop = "com.quinn.hunter"
+    val commonGrouop = "cn.quinnchen.hunter"
 }
 object Artifacts {
     val okhttp_library_compat = "hunter-debug-library-compat"
@@ -89,6 +93,15 @@ object Plugins {
     val hunter_okhttp_plugin = "${Group.commonGrouop}:${Artifacts.okhttp_plugin}:${Versions.okhttp_plugin}"
     val hunter_linelog_plugin = "${Group.commonGrouop}:${Artifacts.linelog_plugin}:${Versions.linelog_plugin}"
     val hunter_timing_plugin = "${Group.commonGrouop}:${Artifacts.timing_plugin}:${Versions.timing_plugin}"
+}
+
+object Android {
+    val compileSdkVersion = 29
+    val buildToolsVersion = "29.0.3"
+    val minSdkVersion = 15
+    val targetSdkVersion = 29
+    val versionCode = 1
+    val  versionName = "1.0"
 }
 
 

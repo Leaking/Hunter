@@ -1,9 +1,5 @@
 apply plugin: 'java-library'
-rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
-rootProject.ext.LIB_ARTIFACT_ID = Artifacts.hunter_transform
-rootProject.ext.LIB_VERSION = PublishVersions.hunter_transform
-apply from: file('../publish-plugin.gradle')
-
+apply plugin: "com.vanniktech.maven.publish"
 dependencies {
     implementation gradleApi()
     implementation localGroovy()
@@ -16,10 +12,6 @@ dependencies {
 }
 
 repositories {
-    maven {
-        url uri('../repo')
-    }
     google()
-    jcenter()
     mavenCentral()
 }

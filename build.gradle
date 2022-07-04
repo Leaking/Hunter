@@ -1,42 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 allprojects {
-
     buildscript {
         repositories {
-            maven {
-                name = "GithubPackages"
-                url = uri("https://maven.pkg.github.com/Leaking/Hunter")
-                credentials {
-                    username = 'Leaking'
-                    password = '\u0067\u0068\u0070\u005f\u0072\u006a\u0041\u004b\u0037\u006d\u0048\u0047\u006b\u0031\u0045\u0039\u0063\u0048\u0044\u0076\u004f\u0039\u0078\u006f\u0046\u0048\u004d\u0049\u0032\u006a\u0047\u0057\u0047\u0068\u0032\u0036\u0065\u0075\u0043\u006b'
-                }
-            }
-            maven { url 'https://maven.aliyun.com/repository/google' }
-            maven { url 'https://maven.aliyun.com/repository/jcenter' }
-            google()
             mavenLocal()
-            jcenter()
+            mavenCentral()
+            google()
         }
         dependencies {
             classpath Libs.AGP
-            classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+            classpath 'com.vanniktech:gradle-maven-publish-plugin:0.17.0'
         }
     }
     repositories {
-        maven {
-            name = "GithubPackages"
-            url = uri("https://maven.pkg.github.com/Leaking/Hunter")
-            credentials {
-                username = 'Leaking'
-                password = '\u0067\u0068\u0070\u005f\u0072\u006a\u0041\u004b\u0037\u006d\u0048\u0047\u006b\u0031\u0045\u0039\u0063\u0048\u0044\u0076\u004f\u0039\u0078\u006f\u0046\u0048\u004d\u0049\u0032\u006a\u0047\u0057\u0047\u0068\u0032\u0036\u0065\u0075\u0043\u006b'
-            }
-        }
-        maven { url 'https://maven.aliyun.com/repository/google' }
-        maven { url 'https://maven.aliyun.com/repository/jcenter' }
-        google()
         mavenLocal()
-        jcenter()
+        mavenCentral()
+        google()
     }
     // 目前可以对implement生效，编译脚本的依赖不生效
 //    afterEvaluate {
@@ -62,7 +41,13 @@ allprojects {
 //        }
 //    }
 }
-
+allprojects {
+    plugins.withId("com.vanniktech.maven.publish") {
+        mavenPublish {
+            sonatypeHost = "S01"
+        }
+    }
+}
 
 task clean(type: Delete) {
     delete rootProject.buildDir

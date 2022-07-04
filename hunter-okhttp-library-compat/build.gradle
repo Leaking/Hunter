@@ -1,31 +1,13 @@
 apply plugin: 'com.android.library'
-rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
-rootProject.ext.LIB_ARTIFACT_ID = Artifacts.okhttp_library_compat
-rootProject.ext.LIB_VERSION = PublishVersions.okhttp_library_compat
-apply from: file('../publish-aar.gradle')
+apply plugin: "com.vanniktech.maven.publish"
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "27.0.3"
-
-
-    defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
+    compileSdkVersion Android.compileSdkVersion
+    buildToolsVersion Android.buildToolsVersion
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'
 }

@@ -1,8 +1,5 @@
 apply plugin: 'groovy'
-rootProject.ext.LIB_GROUP_ID = Group.commonGrouop
-rootProject.ext.LIB_ARTIFACT_ID = Artifacts.timing_plugin
-rootProject.ext.LIB_VERSION = PublishVersions.timing_plugin
-apply from: file('../publish-plugin.gradle')
+apply plugin: "com.vanniktech.maven.publish"
 
 dependencies {
     implementation gradleApi()
@@ -16,10 +13,6 @@ dependencies {
 }
 
 repositories {
-    maven {
-        url uri('../repo')
-    }
     google()
-    jcenter()
     mavenCentral()
 }
