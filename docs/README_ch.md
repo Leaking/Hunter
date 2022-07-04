@@ -7,6 +7,8 @@ Hunter是这么一个框架，帮你快速开发插件，在编译过程中修�
 
 ## 最新版本
 
+Hunter最新版本已经发布到[MavenCentral](https://repo1.maven.org/maven2/cn/quinnchen/hunter/).
+
 所有 librraies / plugins 都使用同样的最新版本号，可以使用这个版本号替代其他README文档中的LATEST_VERSION_IN_README变量
 
 ```groovy
