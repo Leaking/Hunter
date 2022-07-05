@@ -13,7 +13,7 @@ Hunter最新版本已经发布到[MavenCentral](https://repo1.maven.org/maven2/c
 
 ```groovy
 
-1.2.1
+1.2.3
 
 ```
 

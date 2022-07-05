@@ -16,7 +16,7 @@ Every librraies / plugins use same latest version, replace LATEST_VERSION_IN_REA
 
 ```groovy
 
-1.2.1
+1.2.3
 
 ```
 
