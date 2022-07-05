@@ -35,7 +35,7 @@ More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter
 
 ## Developer API
     
-If you want to use hunter to develop a gradle plugin to modify bytecode, please read[Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
+If you want to use hunter to develop a gradle plugin to modify bytecode, please read [Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
 
 
 ## Social network

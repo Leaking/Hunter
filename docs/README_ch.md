@@ -32,7 +32,7 @@ Hunter最新版本已经发布到[MavenCentral](https://repo1.maven.org/maven2/c
 
 ## Developer API
     
-如果想开发基于hunter的gradle插件来修改项目中的字节码，可以参考[Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
+如果想开发基于hunter的gradle插件来修改项目中的字节码，可以参考 [Wiki](https://github.com/Leaking/Hunter/wiki/Developer-API)
    
 
 ## 社交工具
