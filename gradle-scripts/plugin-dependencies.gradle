@@ -1,0 +1,14 @@
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation Libs.AGP
+    implementation Libs.AGP_API
+    implementation Libs.common_io
+    implementation Libs.asm
+    implementation Libs.asm_util
+    implementation Libs.asm_commons
+}
+
+dependencies {
+    implementation Plugins.hunter_transform
+}

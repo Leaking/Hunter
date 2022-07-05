@@ -1,13 +1,4 @@
 apply plugin: 'groovy'
 apply plugin: "com.vanniktech.maven.publish"
+apply from: "../gradle-scripts/plugin-dependencies.gradle"
 
-dependencies {
-    implementation gradleApi()
-    implementation localGroovy()
-    implementation Libs.AGP
-    implementation Libs.AGP_API
-    implementation Libs.asm
-    implementation Libs.asm_util
-    implementation Libs.asm_commons
-    implementation Plugins.hunter_transform
-}

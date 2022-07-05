@@ -1,12 +1,3 @@
 apply plugin: 'java-library'
 apply plugin: "com.vanniktech.maven.publish"
-dependencies {
-    implementation gradleApi()
-    implementation localGroovy()
-    implementation Libs.AGP
-    implementation Libs.AGP_API
-    implementation Libs.common_io
-    implementation Libs.asm
-    implementation Libs.asm_util
-    implementation Libs.asm_commons
-}
+apply from: "../gradle-scripts/base-plugin-dependencies.gradle"

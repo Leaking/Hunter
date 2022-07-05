@@ -88,7 +88,7 @@ public class HunterTransform extends Transform {
         } else if("release".equals(context.getVariantName())) {
             emptyRun = runVariant == RunVariant.DEBUG || runVariant == RunVariant.NEVER;
         }
-        logger.warn(getName() + " i2222222sIncremental = " + isIncremental + ", runVariant = "
+        logger.warn(getName() + " isIncremental = " + isIncremental + ", runVariant = "
                 + runVariant + ", emptyRun = " + emptyRun + ", inDuplicatedClassSafeMode = " + inDuplicatedClassSafeMode());
         long startTime = System.currentTimeMillis();
         if(!isIncremental) {
