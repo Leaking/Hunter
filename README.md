@@ -30,7 +30,7 @@ Every librraies / plugins use same latest version, replace LATEST_VERSION_IN_REA
 
 ## TODO
 
-More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md), MeanWhile, your idea is welcome
+More developing plugins can be found in [TODO](https://github.com/Leaking/Hunter/blob/master/docs/TODO.md), MeanWhile, your idea is welcome
 
 
 ## Developer API

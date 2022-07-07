@@ -38,6 +38,14 @@
 1. Memory-Cache Method
 2. SharePreference-Cache Method
 
+## Proguard for string in Log module
+
+1. 包体大小；
+2. 日志大小；
+3. 内存大小；
+4. 日志写性能；
+5. 日志安全
+
 ## CGLIB in Android Platform
 
 1、Dynamic proxy for any class

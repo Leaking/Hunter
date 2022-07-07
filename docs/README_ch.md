@@ -28,7 +28,7 @@ Hunter最新版本已经发布到[MavenCentral](https://repo1.maven.org/maven2/c
 
 ## TODO 
 
-你可以在这里查看我想继续开发的一些插件 [TODO](https://github.com/Leaking/Hunter/blob/master/TODO.md)，另外，欢迎你提供你宝贵的idea
+你可以在这里查看我想继续开发的一些插件 [TODO](https://github.com/Leaking/Hunter/blob/master/docs/TODO.md)，另外，欢迎你提供你宝贵的idea
 
 ## Developer API
     
