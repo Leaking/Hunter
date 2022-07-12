@@ -12,7 +12,7 @@ be afraid of extra build time.
 
 Recently, Hunter is published to [MavenCentral](https://repo1.maven.org/maven2/cn/quinnchen/hunter/).
 
-Every librraies / plugins use same latest version, replace LATEST_VERSION_IN_README in others README with this latest version
+Every libraies / plugins use same latest version, replace LATEST_VERSION_IN_README in others README with this latest version
 
 ```groovy
 
