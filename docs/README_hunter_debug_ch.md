@@ -23,7 +23,7 @@ Hunter-Debug是用ASM修改字节码，而非使用AspectJ，所以自然会更�
 ```groovy
 
 dependencies {
-    implementation 'cn.quinn.hunter:hunter-debug-library:${LATEST_VERSION_IN_README}'
+    implementation 'cn.quinnchen.hunter:hunter-debug-library:${LATEST_VERSION_IN_README}'
 }
 
 repositories {
@@ -35,8 +35,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'cn.quinn.hunter:hunter-debug-plugin:${LATEST_VERSION_IN_README}'
-        classpath 'cn.quinn.hunter:hunter-transform:${LATEST_VERSION_IN_README}'
+        classpath 'cn.quinnchen.hunter:hunter-debug-plugin:${LATEST_VERSION_IN_README}'
+        classpath 'cn.quinnchen.hunter:hunter-transform:${LATEST_VERSION_IN_README}'
     }
 }
 
