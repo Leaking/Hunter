@@ -14,7 +14,7 @@ timing-plugin可以帮你监控UI线程的卡顿方法，并且提供了算法�
 ```groovy
 
 dependencies {
-    implementation 'cn.quinn.hunter:hunter-timing-library:${LATEST_VERSION_IN_README}'
+    implementation 'cn.quinnchen.hunter:hunter-timing-library:${LATEST_VERSION_IN_README}'
 }
 
 repositories {
@@ -26,8 +26,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'cn.quinn.hunter:hunter-timing-plugin:${LATEST_VERSION_IN_README}'
-        classpath 'cn.quinn.hunter:hunter-transform:${LATEST_VERSION_IN_README}'
+        classpath 'cn.quinnchen.hunter:hunter-timing-plugin:${LATEST_VERSION_IN_README}'
+        classpath 'cn.quinnchen.hunter:hunter-transform:${LATEST_VERSION_IN_README}'
     }
 }
 
