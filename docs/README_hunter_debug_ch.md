@@ -3,27 +3,27 @@
 [English](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug.md)
 
 
-Hunter-debug是基于[Hunter](https://github.com/Leaking/Hunter)开发的，灵感来自于JakeWharton's [hugo](https://github.com/JakeWharton/hugo)，不过相比之下，Hunter-debug有以下优点
+Hunter-Debug 是基于 [Hunter](https://github.com/Leaking/Hunter) 开发的，灵感来自于 Jake Wharton 的 [Hugo](https://github.com/JakeWharton/hugo)，不过相比之下，Hunter-Debug 有以下优点：
 
 |       | Hugo     | Hunter-Debug     |
 | ---------- | :-----------:  | :-----------: |
-| 支持kotlin     | no     | yes     |
-| 自定义logger     | no     | yes     |
-| 对象输出toString     | no     | yes     |
+| 支持 Kotlin     | no     | yes     |
+| 自定义 logger     | no     | yes     |
+| 对象输出 toString     | no     | yes     |
 | 编译速度     | 一般     | 快     |
 
 
-Hunter-Debug是用ASM修改字节码，而非使用AspectJ，所以自然会更快。
+Hunter-Debug 是用 ASM 修改字节码，而非使用 AspectJ，所以自然会更快。
 
 ## 快速引入
 
-在build.gradle中添加以下依赖
+在 build.gradle 中添加以下依赖：
 
 
 ```groovy
 
 dependencies {
-    implementation 'cn.quinnchen.hunter:hunter-debug-library:${LATEST_VERSION_IN_README}'
+    implementation 'cn.quinnchen.hunter:Hunter-Debug-library:${LATEST_VERSION_IN_README}'
 }
 
 repositories {
@@ -35,15 +35,15 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'cn.quinnchen.hunter:hunter-debug-plugin:${LATEST_VERSION_IN_README}'
+        classpath 'cn.quinnchen.hunter:Hunter-Debug-plugin:${LATEST_VERSION_IN_README}'
         classpath 'cn.quinnchen.hunter:hunter-transform:${LATEST_VERSION_IN_README}'
     }
 }
 
-apply plugin: 'hunter-debug'
+apply plugin: 'Hunter-Debug'
 
 ```
-在某个方法开头添加注解@HunterDebug，就会打印方法参数，以及方法返回值，还有方法耗时。
+在某个方法开头添加注解 `@HunterDebug`，就会打印方法参数，以及方法返回值，还有方法耗时。
 
 比如
 
@@ -59,38 +59,38 @@ private String appendIntAndString(int a, String b) {
 ```
 
 
-```xml 
+```xml
 
 MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
               ⇠ appendIntAndString[0ms]="5 billions"
 
 ```
-如果你想将输出结果使用你们项目中自定义的logger处理，可以使用
-`@HunterDebugImpl`，然后设置一个接受日志输出的`HunterLoggerHandler`
+如果你想将输出结果使用你们项目中自定义的 logger 处理，可以使用
+`@HunterDebugImpl`，然后设置一个接受日志输出的`HunterLoggerHandler`：
 
-```groovy 
+```groovy
 
 HunterLoggerHandler.installLogImpl(new HunterLoggerHandler(){
     @Override
     protected void log(String tag, String msg) {
-        //you can use your custom logger here
+        // 在这里使用你自己的日志输出方式
         YourLog.i(tag, msg);
     }
 });
-        
+
 ```
 
-如果你只想在debug模式下使用该插件，则可以这样设置，
+如果你只想在 debug 模式下使用该插件，则可以这样设置：
 
 ```groovy
 
 debugHunterExt {
-    runVariant = 'DEBUG'  //'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', The 'ALWAYS' is default value
+    runVariant = 'DEBUG'  // 'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', 默认为 'ALWAYS'
 }
 
-``` 
+```
 
-欢迎引入Hunter-Debug到你项目中使用，使用过程有遇到什么问题，或者有什么建议，都可以提issue或者邮件联系我，只要有空我会第一时间回应。
+欢迎引入 Hunter-Debug 到你项目中使用，使用过程有遇到什么问题，或者有什么建议，都可以提 issue 或者邮件联系我，只要有空我会第一时间回应。
 
 ## License
 
