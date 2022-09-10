@@ -3,8 +3,8 @@
 [中文](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug_ch.md)
 
 
-Hunter-debug is a gradle plugin based on [Hunter](https://github.com/Leaking/Hunter), It's inspired by JakeWharton's [hugo](https://github.com/JakeWharton/hugo), But Hunter-debug
-has some advantages over hugo.
+Hunter-Debug is a gradle plugin based on [Hunter](https://github.com/Leaking/Hunter), It's inspired by JakeWharton's [Hugo](https://github.com/JakeWharton/hugo), But Hunter-Debug
+has some advantages over Hugo.
 
 |       | Hugo     | Hunter-Debug     |
 | ---------- | :-----------:  | :-----------: |
@@ -24,7 +24,7 @@ Add some lines to your build.gradle
 ```groovy
 
 dependencies {
-    implementation 'cn.quinnchen.hunter:hunter-debug-library:${LATEST_VERSION_IN_README}'
+    implementation 'cn.quinnchen.hunter:Hunter-Debug-library:${LATEST_VERSION_IN_README}'
 }
 
 repositories {
@@ -36,12 +36,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'cn.quinnchen.hunter:hunter-debug-plugin:${LATEST_VERSION_IN_README}'
+        classpath 'cn.quinnchen.hunter:Hunter-Debug-plugin:${LATEST_VERSION_IN_README}'
         classpath 'cn.quinnchen.hunter:hunter-transform:${LATEST_VERSION_IN_README}'
     }
 }
 
-apply plugin: 'hunter-debug'
+apply plugin: 'Hunter-Debug'
 
 ```
 Simply add @HunterDebug to your methods will print all parameters and costed time, return value.
@@ -60,29 +60,29 @@ private String appendIntAndString(int a, String b) {
 ```
 
 
-```xml 
+```xml
 
 MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
               ⇠ appendIntAndString[0ms]="5 billions"
 
 ```
 
-If you want to print the debug log with your custom logger. You can use `@HunterDebugImpl` instead of `@HunterDebug`, and 
+If you want to print the debug log with your custom logger. You can use `@HunterDebugImpl` instead of `@HunterDebug`, and
 install a custom HunterLoggerHandler to receive the log message, and send it to your custom logger.
 (You can use both `@HunterDebug` and `@HunterDebugImpl` at the same time)
 
-```groovy 
+```groovy
 
 HunterLoggerHandler.installLogImpl(new HunterLoggerHandler(){
     @Override
     protected void log(String tag, String msg) {
-        //you can use your custom logger here
+        // you can use your custom logger here
         YourLog.i(tag, msg);
     }
 });
-        
+
 ```
-With standard logging you can filter Hunter logs in logcat with     
+With standard logging you can filter Hunter logs in logcat with
 ```
 (\s|^)⇢(\s|$)|(\s|^)⇠(\s|$)
 Searches if character ⇢ or ⇠ exists
@@ -93,10 +93,10 @@ Logging works in both debug and release build mode, but you can specify certain 
 ```groovy
 
 debugHunterExt {
-    runVariant = 'DEBUG'  //'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', The 'ALWAYS' is default value
+    runVariant = 'DEBUG'  // 'DEBUG', 'RELEASE', 'ALWAYS', 'NEVER', The 'ALWAYS' is default value
 }
 
-``` 
+```
 
 
 ## License
