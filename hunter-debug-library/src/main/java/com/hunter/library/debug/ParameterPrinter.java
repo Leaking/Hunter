@@ -17,7 +17,12 @@ public class ParameterPrinter {
 
     public ParameterPrinter(String tag, String methodName){
         this.tag = tag;
-        result.append("⇢ ").append(methodName).append("[");
+        String threadName = Thread.currentThread().getName();
+        result.append("⇢ ");
+        if (!"main".equals(threadName)) {
+            result.append("[").append(threadName).append("] ");
+        }
+        result.append(methodName).append("[");
     }
 
     public ParameterPrinter append(String name, int val) {

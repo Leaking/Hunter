@@ -21,7 +21,7 @@ All libraries and plugins share the same version number. Replace `LATEST_VERSION
 READMEs with the latest version shown in the badge above.
 
 ```groovy
-def hunterVersion = '1.3.0'
+def hunterVersion = '1.3.1'
 ```
 
 ## Compatibility

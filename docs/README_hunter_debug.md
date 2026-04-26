@@ -11,6 +11,7 @@ has some advantages over hugo.
 | support kotlin     | no     | yes     |
 | custom logger     | no     | yes     |
 | object toString     | no     | yes     |
+| thread name     | yes     | yes     |
 | compile speed     | normal     | fast     |
 
 
@@ -63,9 +64,36 @@ private String appendIntAndString(int a, String b) {
 ```xml 
 
 MainActivity: ⇢ appendIntAndString[a="5", b="billions"]
-              ⇠ appendIntAndString[0ms]="5 billions"
+              ⇠ appendIntAndString[100ms]="5 billions"
 
 ```
+
+When running on a non-main thread, the thread name is automatically included:
+
+```xml
+
+MainActivity: ⇢ [worker-1] appendIntAndString[a="5", b="billions"]
+              ⇠ [worker-1] appendIntAndString[100ms]="5 billions"
+
+```
+
+### Class-level annotations
+
+Use `@HunterDebugClass` to instrument all methods in a class (with standard `Log.i`), or `@HunterDebugClassImpl` to instrument all methods with your custom logger. You can use `@HunterDebugSkip` on individual methods to opt them out.
+
+```java
+@HunterDebugClassImpl
+public class MyRepository {
+    // All methods in this class will be instrumented with custom logger
+    
+    @HunterDebugSkip
+    public void frequentlyCalledMethod() {
+        // This method is excluded
+    }
+}
+```
+
+### Custom logger
 
 If you want to print the debug log with your custom logger. You can use `@HunterDebugImpl` instead of `@HunterDebug`, and 
 install a custom HunterLoggerHandler to receive the log message, and send it to your custom logger.

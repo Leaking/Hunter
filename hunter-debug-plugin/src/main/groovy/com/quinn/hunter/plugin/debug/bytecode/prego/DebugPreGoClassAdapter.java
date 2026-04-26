@@ -22,6 +22,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     private boolean needParameter = false;
 
     private boolean classDebug = false;
+    private boolean classDebugImpl = false;
     private List<String> includes = new ArrayList<>();
     private List<String> impls = new ArrayList<>();
 
@@ -34,6 +35,9 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
         AnnotationVisitor orgin = super.visitAnnotation(desc, visible);
         if("Lcom/hunter/library/debug/HunterDebugClass;".equals(desc) ) {
             classDebug = true;
+        } else if("Lcom/hunter/library/debug/HunterDebugClassImpl;".equals(desc) ) {
+            classDebug = true;
+            classDebugImpl = true;
         }
         return orgin;
     }
@@ -43,7 +47,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
                                      final String desc, final String signature, final String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         String methodUniqueKey = name + desc;
-        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(name, methodUniqueKey, methodParametersMap, mv, classDebug, new MethodCollector() {
+        debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(name, methodUniqueKey, methodParametersMap, mv, classDebug, classDebugImpl, new MethodCollector() {
             @Override
             public void onIncludeMethod(String methodName, boolean useImpl) {
                 if(useImpl){
