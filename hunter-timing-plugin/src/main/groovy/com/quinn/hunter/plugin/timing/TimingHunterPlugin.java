@@ -1,20 +1,37 @@
 package com.quinn.hunter.plugin.timing;
 
-import com.android.build.gradle.AppExtension;
-import org.gradle.api.Plugin;
+import com.android.build.api.variant.Variant;
+
+import com.quinn.hunter.plugin.timing.bytecode.TimingClassVisitorFactory;
+import com.quinn.hunter.transform.HunterPlugin;
+
 import org.gradle.api.Project;
-import java.util.Collections;
 
-/**
- * Created by Quinn on 25/02/2017.
- */
-public class TimingHunterPlugin implements Plugin<Project> {
+public class TimingHunterPlugin extends HunterPlugin<TimingHunterParameters, TimingClassVisitorFactory> {
 
-    @SuppressWarnings("NullableProblems")
     @Override
-    public void apply(Project project) {
-        AppExtension appExtension = (AppExtension)project.getProperties().get("android");
-        appExtension.registerTransform(new TimingHunterTransform(project), Collections.EMPTY_LIST);
+    protected void registerExtension(Project project) {
+        project.getExtensions().create("timingHunterExt", TimingHunterExtension.class);
     }
 
+    @Override
+    protected boolean skipVariant(Project project, Variant variant) {
+        TimingHunterExtension ext =
+                (TimingHunterExtension) project.getExtensions().getByName("timingHunterExt");
+        return ext.runVariant.shouldSkip(variant);
+    }
+
+    @Override
+    protected void configureParams(Project project, Variant variant, TimingHunterParameters params) {
+        super.configureParams(project, variant, params);
+        TimingHunterExtension ext =
+                (TimingHunterExtension) project.getExtensions().getByName("timingHunterExt");
+        params.getWhitelist().set(ext.whitelist);
+        params.getBlacklist().set(ext.blacklist);
+    }
+
+    @Override
+    protected Class<TimingClassVisitorFactory> getFactoryClass() {
+        return TimingClassVisitorFactory.class;
+    }
 }

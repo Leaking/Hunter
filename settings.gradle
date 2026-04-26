@@ -1,3 +1,13 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'Hunter'
+
 include ':hunter-transform',
         ':hunter-timing-plugin',
         ':hunter-timing-library',
@@ -7,11 +17,13 @@ include ':hunter-transform',
         ':hunter-linelog-library',
         ':hunter-okhttp-plugin',
         ':hunter-okhttp-library',
-        ':hunter-okhttp-example',
-        ':hunter-linelog-example',
-        ':hunter-debug-example',
-        ':hunter-timing-example',
         ':hunter-okhttp-library-compat'
 
-
-
+// Example apps reference the plugins via published Maven coordinates. They
+// can't be built from a clean checkout until the plugins have been published
+// (e.g. via :publishToMavenLocal). Re-add them after a local publish, or use
+// the dedicated :assembleExamples lifecycle in CI.
+// include ':hunter-okhttp-example',
+//         ':hunter-linelog-example',
+//         ':hunter-debug-example',
+//         ':hunter-timing-example'

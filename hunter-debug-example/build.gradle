@@ -1,7 +1,15 @@
+buildscript {
+    dependencies {
+        classpath Plugins.hunter_debug_plugin
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'hunter-debug'
 
 android {
-    compileSdkVersion Android.compileSdkVersion
+    namespace 'com.quinn.hunter.debug'
+    compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
     defaultConfig {
         applicationId "com.quinn.hunter.debug"
@@ -10,37 +18,28 @@ android {
         versionCode Android.versionCode
         versionName Android.versionName
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    lintOptions {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    lint {
         abortOnError false
     }
-
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     implementation Libs.hunter_debug_library
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
 }
-
-buildscript {
-    dependencies {
-        classpath Plugins.hunter_debug_plugin
-        classpath Plugins.hunter_transform
-    }
-}
-
-
-
-apply plugin: 'hunter-debug'
 
 debugHunterExt {
-    runVariant = 'DEBUG'
+    runVariant = com.quinn.hunter.transform.RunVariant.DEBUG
 }

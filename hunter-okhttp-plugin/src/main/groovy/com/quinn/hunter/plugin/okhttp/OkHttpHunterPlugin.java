@@ -1,20 +1,36 @@
 package com.quinn.hunter.plugin.okhttp;
 
-import com.android.build.gradle.AppExtension;
-import org.gradle.api.Plugin;
+import com.android.build.api.variant.Variant;
+
+import com.quinn.hunter.plugin.okhttp.bytecode.OkHttpClassVisitorFactory;
+import com.quinn.hunter.transform.HunterPlugin;
+
 import org.gradle.api.Project;
-import java.util.Collections;
 
-/**
- * Created by Quinn on 09/09/2018.
- */
-public final class OkHttpHunterPlugin implements Plugin<Project> {
+public final class OkHttpHunterPlugin extends HunterPlugin<OkHttpHunterParameters, OkHttpClassVisitorFactory> {
 
-    @SuppressWarnings("NullableProblems")
     @Override
-    public void apply(Project project) {
-        AppExtension appExtension = (AppExtension)project.getProperties().get("android");
-        appExtension.registerTransform(new OkHttpHunterTransform(project), Collections.EMPTY_LIST);
+    protected void registerExtension(Project project) {
+        project.getExtensions().create("okHttpHunterExt", OkHttpHunterExtension.class);
     }
 
+    @Override
+    protected boolean skipVariant(Project project, Variant variant) {
+        OkHttpHunterExtension ext =
+                (OkHttpHunterExtension) project.getExtensions().getByName("okHttpHunterExt");
+        return ext.runVariant.shouldSkip(variant);
+    }
+
+    @Override
+    protected void configureParams(Project project, Variant variant, OkHttpHunterParameters params) {
+        super.configureParams(project, variant, params);
+        OkHttpHunterExtension ext =
+                (OkHttpHunterExtension) project.getExtensions().getByName("okHttpHunterExt");
+        params.getWeaveEventListener().set(ext.weaveEventListener);
+    }
+
+    @Override
+    protected Class<OkHttpClassVisitorFactory> getFactoryClass() {
+        return OkHttpClassVisitorFactory.class;
+    }
 }

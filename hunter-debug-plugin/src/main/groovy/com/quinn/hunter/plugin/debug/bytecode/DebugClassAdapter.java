@@ -20,8 +20,8 @@ public final class DebugClassAdapter extends ClassVisitor{
     private List<String> includeMethods = new ArrayList<String>();
     private List<String> implMethods = new ArrayList<>();
 
-    DebugClassAdapter(final ClassVisitor cv, final Map<String, List<Parameter>> methodParametersMap) {
-        super(Opcodes.ASM7, cv);
+    public DebugClassAdapter(final ClassVisitor cv, final Map<String, List<Parameter>> methodParametersMap) {
+        super(Opcodes.ASM9, cv);
         this.methodParametersMap = methodParametersMap;
     }
 
@@ -39,7 +39,7 @@ public final class DebugClassAdapter extends ClassVisitor{
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
 
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         if(includeMethods.contains(name)){
             String methodUniqueKey = name + desc;
             debugMethodAdapter = new DebugMethodAdapter(className, methodParametersMap.get(methodUniqueKey), name, access, desc, mv);

@@ -1,23 +1,18 @@
 package com.quinn.hunter.plugin.okhttp.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
 /**
- * Only weave okhttp3/OkHttpClient's init method
- * Created by Quinn on 09/09/2018.
+ * Only weaves okhttp3/OkHttpClient$Builder's &lt;init&gt;.
  */
 public final class OkHttpMethodAdapter extends LocalVariablesSorter implements Opcodes {
 
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(OkHttpMethodAdapter.class);
+    private final boolean weaveEventListener;
 
-    private boolean weaveEventListener;
-
-    OkHttpMethodAdapter(int access, String desc, MethodVisitor mv, boolean weaveEventListener) {
-        super(Opcodes.ASM7, access, desc, mv);
+    public OkHttpMethodAdapter(int access, String desc, MethodVisitor mv, boolean weaveEventListener) {
+        super(Opcodes.ASM9, access, desc, mv);
         this.weaveEventListener = weaveEventListener;
     }
 

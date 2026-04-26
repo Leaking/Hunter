@@ -1,22 +1,29 @@
 package com.quinn.hunter.plugin.debug;
 
-import com.android.build.gradle.AppExtension;
+import com.android.build.api.variant.Variant;
 
-import org.gradle.api.Plugin;
+import com.quinn.hunter.plugin.debug.bytecode.DebugClassVisitorFactory;
+import com.quinn.hunter.transform.HunterParameters;
+import com.quinn.hunter.transform.HunterPlugin;
+
 import org.gradle.api.Project;
 
-import java.util.Collections;
+public class DebugHunterPlugin extends HunterPlugin<HunterParameters, DebugClassVisitorFactory> {
 
-/**
- * Created by Quinn on 16/09/2018.
- */
-public class DebugHunterPlugin implements Plugin<Project> {
-
-    @SuppressWarnings("NullableProblems")
     @Override
-    public void apply(Project project) {
-        AppExtension appExtension = (AppExtension)project.getProperties().get("android");
-        appExtension.registerTransform(new DebugHunterTransform(project), Collections.EMPTY_LIST);
+    protected void registerExtension(Project project) {
+        project.getExtensions().create("debugHunterExt", DebugHunterExtension.class);
     }
 
+    @Override
+    protected boolean skipVariant(Project project, Variant variant) {
+        DebugHunterExtension ext =
+                (DebugHunterExtension) project.getExtensions().getByName("debugHunterExt");
+        return ext.runVariant.shouldSkip(variant);
+    }
+
+    @Override
+    protected Class<DebugClassVisitorFactory> getFactoryClass() {
+        return DebugClassVisitorFactory.class;
+    }
 }

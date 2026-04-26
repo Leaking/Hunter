@@ -7,14 +7,13 @@ import org.objectweb.asm.Opcodes;
 import java.io.File;
 import java.util.Arrays;
 
-public final class TimingClassAdapter extends ClassVisitor{
+public final class TimingClassAdapter extends ClassVisitor {
 
     private String className;
-
     private boolean isHeritedFromBlockHandler = false;
 
-    TimingClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM7, cv);
+    public TimingClassAdapter(final ClassVisitor cv) {
+        super(Opcodes.ASM9, cv);
     }
 
     @Override
@@ -27,14 +26,17 @@ public final class TimingClassAdapter extends ClassVisitor{
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(isHeritedFromBlockHandler) {
+        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
+        if (mv == null || isHeritedFromBlockHandler) {
             return mv;
-        } else {
-            return mv == null ? null : new com.quinn.hunter.plugin.timing.bytecode.TimingMethodAdapter(className + File.separator + name, access, desc, mv);
         }
+        // Issue #48: constructors require deferring the timing-start probe until
+        // after the mandatory super()/this() call; abstract / native methods have
+        // no body so we leave them untouched.
+        if ((access & (Opcodes.ACC_ABSTRACT | Opcodes.ACC_NATIVE)) != 0) {
+            return mv;
+        }
+        boolean isConstructor = "<init>".equals(name);
+        return new TimingMethodAdapter(className + File.separator + name, access, desc, mv, isConstructor);
     }
-
-
-
 }

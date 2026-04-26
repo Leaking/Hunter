@@ -1,47 +1,75 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+# Publishes the Hunter artifacts to Maven Central via Sonatype Central Portal.
+#
+# Triggers:
+#   - manual dispatch (`workflow_dispatch`) for ad-hoc releases / dry-runs
+#   - tag push of the form `v*` (e.g. `v1.3.0`) for cut releases
+#
+# Required repository secrets (Settings → Secrets and variables → Actions):
+#   MAVEN_CENTRAL_USERNAME       — Sonatype Central Portal user token name
+#   MAVEN_CENTRAL_PASSWORD       — Sonatype Central Portal user token password
+#   SIGNING_IN_MEMORY_KEY        — ASCII-armored GPG private key (entire block,
+#                                  including BEGIN/END lines). Generate with
+#                                  `gpg --armor --export-secret-keys <KEY_ID>`.
+#   SIGNING_IN_MEMORY_KEY_ID     — last 8 hex chars of the GPG key (optional)
+#   SIGNING_IN_MEMORY_KEY_PASSWORD — passphrase for that GPG key
+#
+# The vanniktech maven-publish plugin reads these via the
+# `ORG_GRADLE_PROJECT_*` env-var convention.
 
-name: Gradle Package
+name: Publish to Maven Central
 
 on:
+  workflow_dispatch:
+    inputs:
+      dryRun:
+        description: 'Run :publishToMavenLocal only (skip Central upload)'
+        required: false
+        default: 'false'
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    tags:
+      - 'v*'
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  build:
-
+  publish:
+    name: Publish
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     permissions:
       contents: read
-      packages: write
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
+      - uses: actions/checkout@v4
 
-    - name: Build with Gradle
-      uses: ./gradlew build --no-daemon
-      with:
-        arguments: build
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      uses: ./gradlew build --no-daemon
-      with:
-        arguments: publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: false
+
+      - name: Validate Gradle wrapper
+        uses: gradle/actions/wrapper-validation@v3
+
+      - name: Verify build before publishing
+        run: ./gradlew assemble --stacktrace
+
+      - name: Publish to Maven Local (dry run)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.dryRun == 'true' }}
+        run: ./gradlew publishToMavenLocal --stacktrace
+
+      - name: Publish to Maven Central
+        if: ${{ !(github.event_name == 'workflow_dispatch' && inputs.dryRun == 'true') }}
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_IN_MEMORY_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_IN_MEMORY_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_IN_MEMORY_KEY_PASSWORD }}
+        run: ./gradlew publishAndReleaseToMavenCentral --no-configuration-cache --stacktrace
