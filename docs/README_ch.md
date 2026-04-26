@@ -1,29 +1,30 @@
 # Hunter
 
+[![Maven Central](https://img.shields.io/maven-central/v/cn.quinnchen.hunter/hunter-transform.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=cn.quinnchen.hunter&sort=name)
+[![Build](https://github.com/Leaking/Hunter/actions/workflows/build.yml/badge.svg)](https://github.com/Leaking/Hunter/actions/workflows/build.yml)
+
 相关技术文章： [一起玩转Android项目中的字节码](http://quinnchen.cn/2018/09/13/2018-09-13-asm-transform/)
 
-Hunter是这么一个框架，帮你快速开发插件，在编译过程中修改字节码，它底层基于[ASM](https://asm.ow2.io/) 和 [Gradle Transform API](http://tools.android.com/tech-docs/new-build-system/transform-api)
+Hunter是这么一个框架，帮你快速开发插件，在编译过程中修改字节码，它底层基于[ASM](https://asm.ow2.io/) 和 AGP [Instrumentation API](https://developer.android.com/reference/tools/gradle-api/8.7/com/android/build/api/instrumentation/AsmClassVisitorFactory)
 实现。在这个框架基础上，我尝试开发了几款实用的插件。你也可以用Hunter开发自己的插件，诸如实现App性能监控（UI，网络等等），加强或修改第三方库以满足你的需求，甚至可以加强、修改Android framework的接口。Hunter本身支持增量、并发编译，所以不用担心使用这一系列插件会增加编译时间。
 
 ## 最新版本
 
-Hunter最新版本已经发布到[MavenCentral](https://repo1.maven.org/maven2/cn/quinnchen/hunter/).
+Hunter最新版本已经发布到 [Maven Central](https://central.sonatype.com/search?q=cn.quinnchen.hunter&sort=name)。
 
-所有 librraies / plugins 都使用同样的最新版本号，可以使用这个版本号替代其他README文档中的LATEST_VERSION_IN_README变量
+所有 libraries / plugins 都使用同样的最新版本号，可以使用这个版本号替代其他README文档中的 `LATEST_VERSION_IN_README` 变量
 
 ```groovy
-
-1.2.3
-
+def hunterVersion = '1.3.0'
 ```
 
 ## 基于Hunter的插件
 
- + [OkHttp-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_okhttp_ch.md): 通过修改字节码的方式hack掉okhttp，为你的应用所有的OkhttpClient设置全局 [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
+ + [OkHttp-Plugin](https://github.com/Leaking/Hunter/blob/master/docs/README_hunter_okhttp_ch.md): 通过修改字节码的方式hack掉okhttp，为你的应用所有的OkhttpClient设置全局 [Interceptor](https://github.com/square/okhttp/wiki/Interceptors) / [Eventlistener](https://github.com/square/okhttp/wiki/Events) 
 (包括第三方依赖里的OkhttpClient)
- + [Timing-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_timing_ch.md): 帮你监控所有UI线程的执行耗时，并且提供了算法，帮你打印出一个带有每步耗时的堆栈，统计卡顿方法分布，并且提供接口让你选择自己的方式来处理卡顿信息。
- + [Debug-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_debug_ch.md): 只要为指定方法加上某个annotation，就可以帮你打印出这个方法所有输入参数的值，以及返回值，执行时间。这个插件相比JakeWharton的[hugo](https://github.com/JakeWharton/hugo)有很多优点：支持koltin，支持自定义logger，不影响断点调试，支持打印对象toString内容，编译速度更快
- + [LogLine-Plugin](https://github.com/Leaking/Hunter/blob/master/README_hunter_logline_ch.md): 为你的日志加上行号
+ + [Timing-Plugin](https://github.com/Leaking/Hunter/blob/master/docs/README_hunter_timing_ch.md): 帮你监控所有UI线程的执行耗时，并且提供了算法，帮你打印出一个带有每步耗时的堆栈，统计卡顿方法分布，并且提供接口让你选择自己的方式来处理卡顿信息。
+ + [Debug-Plugin](https://github.com/Leaking/Hunter/blob/master/docs/README_hunter_debug_ch.md): 只要为指定方法加上某个annotation，就可以帮你打印出这个方法所有输入参数的值，以及返回值，执行时间。这个插件相比JakeWharton的[hugo](https://github.com/JakeWharton/hugo)有很多优点：支持kotlin，支持自定义logger，不影响断点调试，支持打印对象toString内容，编译速度更快
+ + [LogLine-Plugin](https://github.com/Leaking/Hunter/blob/master/docs/README_hunter_logline_ch.md): 为你的日志加上行号
 
 
 ## TODO 

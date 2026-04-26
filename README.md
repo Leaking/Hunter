@@ -1,5 +1,9 @@
 # Hunter
 
+[![Maven Central](https://img.shields.io/maven-central/v/cn.quinnchen.hunter/hunter-transform.svg?label=Maven%20Central)](https://central.sonatype.com/search?q=cn.quinnchen.hunter&sort=name)
+[![Build](https://github.com/Leaking/Hunter/actions/workflows/build.yml/badge.svg)](https://github.com/Leaking/Hunter/actions/workflows/build.yml)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 [中文](https://github.com/Leaking/Hunter/blob/master/docs/README_ch.md)
 
 Hunter is a framework to develop android gradle plugins based on
@@ -11,15 +15,13 @@ AGP's incremental, parallel instrumentation pipeline, so you don't pay for extra
 
 ## Latest Version
 
-Recently, Hunter is published to [MavenCentral](https://repo1.maven.org/maven2/cn/quinnchen/hunter/).
+Hunter is published to [Maven Central](https://central.sonatype.com/search?q=cn.quinnchen.hunter&sort=name).
 
-Every library / plugin uses the same latest version. Replace `LATEST_VERSION_IN_README` in the per-plugin
-READMEs with this version.
+All libraries and plugins share the same version number. Replace `LATEST_VERSION_IN_README` in the per-plugin
+READMEs with the latest version shown in the badge above.
 
 ```groovy
-
-1.3.0
-
+def hunterVersion = '1.3.0'
 ```
 
 ## Compatibility
