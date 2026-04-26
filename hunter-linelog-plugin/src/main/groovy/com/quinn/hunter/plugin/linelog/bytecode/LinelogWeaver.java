@@ -1,32 +1,21 @@
 package com.quinn.hunter.plugin.linelog.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
 import com.quinn.hunter.transform.asm.BaseWeaver;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
 
-/**
- * Created by Quinn on 09/07/2017.
- */
+import org.objectweb.asm.ClassVisitor;
+
 public final class LinelogWeaver extends BaseWeaver {
 
-    private static final String PLUGIN_LIBRARY = "com.hunter.library.linelog";
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogWeaver.class);
+    private static final String PLUGIN_LIBRARY_PREFIX = "com.hunter.library.linelog";
 
     @Override
-    public void setExtension(Object extension) {
+    public boolean isWeavableClass(String fullyQualifiedClassName) {
+        return super.isWeavableClass(fullyQualifiedClassName)
+                && !fullyQualifiedClassName.startsWith(PLUGIN_LIBRARY_PREFIX);
     }
 
     @Override
-    public boolean isWeavableClass(String fullQualifiedClassName) {
-        boolean superResult = super.isWeavableClass(fullQualifiedClassName);
-        boolean isByteCodePlugin = fullQualifiedClassName.startsWith(PLUGIN_LIBRARY);
-        return superResult && !isByteCodePlugin;
+    public ClassVisitor wrap(ClassVisitor next) {
+        return new LinelogClassAdapter(next);
     }
-
-    @Override
-    protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
-        return new LinelogClassAdapter(classWriter);
-    }
-
 }

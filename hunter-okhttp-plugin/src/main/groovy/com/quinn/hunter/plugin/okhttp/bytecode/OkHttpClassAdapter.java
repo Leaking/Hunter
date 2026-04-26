@@ -4,17 +4,13 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/**
- * Created by Quinn on 09/09/2018.
- */
-public final class OkHttpClassAdapter extends ClassVisitor{
+public final class OkHttpClassAdapter extends ClassVisitor {
 
     private String className;
+    private final boolean weaveEventListener;
 
-    private boolean weaveEventListener;
-
-    OkHttpClassAdapter(final ClassVisitor cv, boolean weaveEventListener) {
-        super(Opcodes.ASM7, cv);
+    public OkHttpClassAdapter(final ClassVisitor cv, boolean weaveEventListener) {
+        super(Opcodes.ASM9, cv);
         this.weaveEventListener = weaveEventListener;
     }
 
@@ -27,12 +23,10 @@ public final class OkHttpClassAdapter extends ClassVisitor{
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
-        if(className.equals("okhttp3/OkHttpClient$Builder") && name.equals("<init>")) {
-            return mv == null ? null : new OkHttpMethodAdapter(access, desc, mv, weaveEventListener);
-        } else {
-            return mv;
+        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
+        if (mv != null && "okhttp3/OkHttpClient$Builder".equals(className) && "<init>".equals(name)) {
+            return new OkHttpMethodAdapter(access, desc, mv, weaveEventListener);
         }
+        return mv;
     }
-
 }

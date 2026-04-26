@@ -1,31 +1,49 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Top-level build file.
 
-allprojects {
-    buildscript {
-        repositories {
-            mavenLocal()
-            mavenCentral()
-            google()
-        }
-        dependencies {
-            classpath Libs.AGP
-            classpath 'com.vanniktech:gradle-maven-publish-plugin:0.17.0'
-        }
-    }
+buildscript {
     repositories {
         mavenLocal()
-        mavenCentral()
         google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath Libs.AGP
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.30.0'
     }
 }
+
 allprojects {
+    repositories {
+        mavenLocal()
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+import com.vanniktech.maven.publish.MavenPublishBaseExtension
+import com.vanniktech.maven.publish.SonatypeHost
+
+subprojects {
     plugins.withId("com.vanniktech.maven.publish") {
-        mavenPublish {
-            sonatypeHost = "S01"
+        extensions.configure(MavenPublishBaseExtension) { ext ->
+            // Sonatype Central Portal — replaces the deprecated OSSRH that was
+            // shut down on 2025-06-30.
+            ext.publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, true)
+            // Sign only when a GPG key is configured. Lets ./gradlew
+            // publishToMavenLocal run on a dev box that has no signing key set
+            // up, while CI (which exports ORG_GRADLE_PROJECT_signingInMemoryKey)
+            // still produces signed artifacts for Central.
+            boolean hasSigningKey = project.findProperty("signingInMemoryKey") != null \
+                    || System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey") != null
+            if (hasSigningKey) {
+                ext.signAllPublications()
+            }
         }
     }
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete rootProject.layout.buildDirectory
 }

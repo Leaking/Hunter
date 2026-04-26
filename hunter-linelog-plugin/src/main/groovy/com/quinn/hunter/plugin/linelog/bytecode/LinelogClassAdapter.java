@@ -9,16 +9,15 @@ import org.objectweb.asm.Opcodes;
  */
 public final class LinelogClassAdapter extends ClassVisitor{
 
-    LinelogClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM7, cv);
+    public LinelogClassAdapter(final ClassVisitor cv) {
+        super(Opcodes.ASM9, cv);
     }
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         return mv == null ? null : new LinelogMethodAdapter(mv);
-
     }
 
 }

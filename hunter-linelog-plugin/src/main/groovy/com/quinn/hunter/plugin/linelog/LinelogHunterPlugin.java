@@ -1,20 +1,29 @@
 package com.quinn.hunter.plugin.linelog;
 
-import com.android.build.gradle.AppExtension;
-import org.gradle.api.Plugin;
+import com.android.build.api.variant.Variant;
+
+import com.quinn.hunter.plugin.linelog.bytecode.LinelogClassVisitorFactory;
+import com.quinn.hunter.transform.HunterParameters;
+import com.quinn.hunter.transform.HunterPlugin;
+
 import org.gradle.api.Project;
-import java.util.Collections;
 
-/**
- * Created by Quinn on 15/09/2018.
- */
-public class LinelogHunterPlugin implements Plugin<Project> {
+public class LinelogHunterPlugin extends HunterPlugin<HunterParameters, LinelogClassVisitorFactory> {
 
-    @SuppressWarnings("NullableProblems")
     @Override
-    public void apply(Project project) {
-        AppExtension appExtension = (AppExtension)project.getProperties().get("android");
-        appExtension.registerTransform(new LinelogHunterTransform(project), Collections.EMPTY_LIST);
+    protected void registerExtension(Project project) {
+        project.getExtensions().create("linelogHunterExt", LinelogHunterExtension.class);
     }
 
+    @Override
+    protected boolean skipVariant(Project project, Variant variant) {
+        LinelogHunterExtension ext =
+                (LinelogHunterExtension) project.getExtensions().getByName("linelogHunterExt");
+        return ext.runVariant.shouldSkip(variant);
+    }
+
+    @Override
+    protected Class<LinelogClassVisitorFactory> getFactoryClass() {
+        return LinelogClassVisitorFactory.class;
+    }
 }

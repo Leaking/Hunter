@@ -1,10 +1,11 @@
 dependencies {
     implementation gradleApi()
-    implementation localGroovy()
-    implementation Libs.AGP
-    implementation Libs.AGP_API
-    implementation Libs.common_io
+    // Compile against the AGP public API only; AGP itself is provided by the
+    // consumer's classpath at apply-time. This stops accidentally pinning a
+    // specific AGP minor version into the published artifact.
+    compileOnly Libs.AGP_API
     implementation Libs.asm
-    implementation Libs.asm_util
     implementation Libs.asm_commons
+    implementation Libs.asm_tree
+    implementation Libs.asm_util
 }

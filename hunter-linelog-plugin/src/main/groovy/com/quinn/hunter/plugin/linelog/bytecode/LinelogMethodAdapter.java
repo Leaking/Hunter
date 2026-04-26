@@ -1,21 +1,15 @@
 package com.quinn.hunter.plugin.linelog.bytecode;
 
-import com.android.build.gradle.internal.LoggerWrapper;
-
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-/**
- * Created by Quinn on 15/09/2018.
- */
 public final class LinelogMethodAdapter extends MethodVisitor implements Opcodes {
 
     private int lineNumber;
-    private static final LoggerWrapper logger = LoggerWrapper.getLogger(LinelogMethodAdapter.class);
 
     public LinelogMethodAdapter(MethodVisitor mv) {
-        super(Opcodes.ASM7, mv);
+        super(Opcodes.ASM9, mv);
     }
 
     @Override

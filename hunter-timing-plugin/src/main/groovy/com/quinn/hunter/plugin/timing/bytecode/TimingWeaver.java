@@ -1,56 +1,44 @@
 package com.quinn.hunter.plugin.timing.bytecode;
 
-import com.quinn.hunter.plugin.timing.TimingHunterExtension;
 import com.quinn.hunter.transform.asm.BaseWeaver;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
 
-/**
- * Created by Quinn on 09/07/2017.
- */
+import org.objectweb.asm.ClassVisitor;
+
+import java.util.Collections;
+import java.util.List;
+
 public final class TimingWeaver extends BaseWeaver {
 
-    private static final String PLUGIN_LIBRARY = "com.hunter.library.timing";
+    private static final String PLUGIN_LIBRARY_PREFIX = "com.hunter.library.timing";
 
-    private TimingHunterExtension timingHunterExtension;
+    private final List<String> whitelist;
+    private final List<String> blacklist;
 
-    @Override
-    public void setExtension(Object extension) {
-        if(extension == null) return;
-        this.timingHunterExtension = (TimingHunterExtension) extension;
+    public TimingWeaver(List<String> whitelist, List<String> blacklist) {
+        this.whitelist = whitelist != null ? whitelist : Collections.emptyList();
+        this.blacklist = blacklist != null ? blacklist : Collections.emptyList();
     }
 
     @Override
-    public boolean isWeavableClass(String fullQualifiedClassName) {
-        boolean superResult = super.isWeavableClass(fullQualifiedClassName);
-        boolean isByteCodePlugin = fullQualifiedClassName.startsWith(PLUGIN_LIBRARY);
-        if(timingHunterExtension != null) {
-            //whitelist is prior to to blacklist
-            if(!timingHunterExtension.whitelist.isEmpty()) {
-                boolean inWhiteList = false;
-                for(String item : timingHunterExtension.whitelist) {
-                    if(fullQualifiedClassName.startsWith(item)) {
-                        inWhiteList = true;
-                    }
-                }
-                return superResult && !isByteCodePlugin && inWhiteList;
+    public boolean isWeavableClass(String fullyQualifiedClassName) {
+        if (!super.isWeavableClass(fullyQualifiedClassName)) return false;
+        if (fullyQualifiedClassName.startsWith(PLUGIN_LIBRARY_PREFIX)) return false;
+        if (!whitelist.isEmpty()) {
+            for (String item : whitelist) {
+                if (fullyQualifiedClassName.startsWith(item)) return true;
             }
-            if(!timingHunterExtension.blacklist.isEmpty()) {
-                boolean inBlackList = false;
-                for(String item : timingHunterExtension.blacklist) {
-                    if(fullQualifiedClassName.startsWith(item)) {
-                        inBlackList = true;
-                    }
-                }
-                return superResult && !isByteCodePlugin && !inBlackList;
+            return false;
+        }
+        if (!blacklist.isEmpty()) {
+            for (String item : blacklist) {
+                if (fullyQualifiedClassName.startsWith(item)) return false;
             }
         }
-        return superResult && !isByteCodePlugin;
+        return true;
     }
 
     @Override
-    protected ClassVisitor wrapClassWriter(ClassWriter classWriter) {
-        return new TimingClassAdapter(classWriter);
+    public ClassVisitor wrap(ClassVisitor next) {
+        return new TimingClassAdapter(next);
     }
-
 }

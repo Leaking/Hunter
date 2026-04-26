@@ -2,6 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: "com.vanniktech.maven.publish"
 
 android {
-    compileSdkVersion Android.compileSdkVersion
+    namespace 'com.hunter.library.linelog'
+    compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion Android.minSdkVersion
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }

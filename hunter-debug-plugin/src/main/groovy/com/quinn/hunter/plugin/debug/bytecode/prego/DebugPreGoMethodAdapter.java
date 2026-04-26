@@ -28,7 +28,7 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
 
     public DebugPreGoMethodAdapter(String methodName,String methodKey, Map<String, List<Parameter>> methodParametersMap, MethodVisitor mv, boolean needParameter, DebugPreGoClassAdapter.MethodCollector methodCollector) {
-        super(Opcodes.ASM7, mv);
+        super(Opcodes.ASM9, mv);
         this.methodName = methodName;
         this.methodKey = methodKey;
         this.methodParametersMap = methodParametersMap;
@@ -52,7 +52,8 @@ public class DebugPreGoMethodAdapter extends MethodVisitor implements Opcodes {
 
     @Override
     public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
-        if(!"this".equals(name) && start == labelList.get(0) && needParameter) {
+        if (!"this".equals(name) && needParameter
+                && !labelList.isEmpty() && start == labelList.get(0)) {
             Type type = Type.getType(desc);
             if(type.getSort() == Type.OBJECT || type.getSort() == Type.ARRAY) {
                 parameters.add(new Parameter(name, "Ljava/lang/Object;", index));

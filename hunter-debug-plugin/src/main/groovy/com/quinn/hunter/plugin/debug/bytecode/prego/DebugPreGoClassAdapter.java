@@ -26,7 +26,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     private List<String> impls = new ArrayList<>();
 
     public DebugPreGoClassAdapter(final ClassVisitor cv) {
-        super(Opcodes.ASM7, cv);
+        super(Opcodes.ASM9, cv);
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class DebugPreGoClassAdapter extends ClassVisitor{
     @Override
     public MethodVisitor visitMethod(final int access, final String name,
                                      final String desc, final String signature, final String[] exceptions) {
-        MethodVisitor mv = cv.visitMethod(access, name, desc, signature, exceptions);
+        MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         String methodUniqueKey = name + desc;
         debugPreGoMethodAdapter = new DebugPreGoMethodAdapter(name, methodUniqueKey, methodParametersMap, mv, classDebug, new MethodCollector() {
             @Override

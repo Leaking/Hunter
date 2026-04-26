@@ -2,12 +2,23 @@ apply plugin: 'com.android.library'
 apply plugin: "com.vanniktech.maven.publish"
 
 android {
-    compileSdkVersion Android.compileSdkVersion
+    namespace 'com.hunter.library.okhttp.compat'
+    compileSdk Android.compileSdkVersion
     buildToolsVersion Android.buildToolsVersion
+    defaultConfig {
+        minSdkVersion Android.minSdkVersion
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // The compat artifact targets okhttp < 3.11 (older field layout). Pinned
+    // to 3.6.0 on purpose to match the legacy bytecode layout the okhttp
+    // plugin instruments.
     //noinspection GradleDependency
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'
 }
